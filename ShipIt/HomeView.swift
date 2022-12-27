@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeView: View {
     @State private var searchText = String()
     @State private var showSettingsView = false
-    
     var body: some View {
         NavigationStack {
             List() {
