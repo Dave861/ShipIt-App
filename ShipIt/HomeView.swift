@@ -59,8 +59,6 @@ struct HomeView: View {
                 }
             }
             .padding(.bottom, 5)
-           
-            
             
             .navigationTitle("Tracking")
             .navigationBarBackButtonHidden(true)

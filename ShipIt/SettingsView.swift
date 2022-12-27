@@ -16,13 +16,40 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationStack {
-            List() {
-                Toggle("Detect clipboard", isOn: $detectClipboardSwitch)
-                Toggle("Notifications before delivery", isOn: $notificationsBeforeSwitch)
-                Toggle("Show packages in live activity", isOn: $liveActivitySwitch)
-            }
+            ZStack {
+                Color("SecondGrey")
+                    .ignoresSafeArea()
+                VStack {
+                    Toggle("Detect Clipboard", isOn: $detectClipboardSwitch)
+                        .tint(Color("oceanBlue"))
+                        .padding(.all)
+                        .padding([.leading, .trailing])
+                        .frame(height: 45)
+                        .background(RoundedRectangle(cornerRadius: 14)
+                            .padding([.leading, .trailing])
+                            .foregroundColor(Color("W&B")))
+                    Toggle("Notifications before Delivery", isOn: $notificationsBeforeSwitch)
+                        .tint(Color("blueNCS"))
+                        .padding(.all)
+                        .padding([.leading, .trailing])
+                        .frame(height: 45)
+                        .background(RoundedRectangle(cornerRadius: 14)
+                            .padding([.leading, .trailing])
+                            .foregroundColor(Color("W&B")))
+                    Toggle("Show packages in Live Activity", isOn: $liveActivitySwitch)
+                        .tint(Color("darkBlue"))
+                        .padding(.all)
+                        .padding([.leading, .trailing])
+                        .frame(height: 45)
+                        .background(RoundedRectangle(cornerRadius: 14)
+                            .padding([.leading, .trailing])
+                            .foregroundColor(Color("W&B")))
+                    Spacer()
+                }
                 .navigationTitle("Settings")
+            }
         }
+        
     }
 }
 
