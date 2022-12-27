@@ -11,7 +11,11 @@ import SwiftUI
 struct ShipItApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if UserDefaults.standard.bool(forKey: "com.ShipIt.launchToHome") == false {
+                WelcomeView()
+            } else {
+                HomeView()
+            }
         }
     }
 }
