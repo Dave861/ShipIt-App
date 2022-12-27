@@ -9,8 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var searchText = String()
-    
     @State private var showSettingsView = false
+    
     var body: some View {
         NavigationStack {
             List() {
@@ -26,6 +26,7 @@ struct HomeView: View {
                             .foregroundColor(Color("oceanBlue"))
                             .bold()
                             .font(.title2)
+                            .padding([.top, .bottom], 0.2)
                         Spacer()
                     }
                     HStack{
@@ -35,12 +36,15 @@ struct HomeView: View {
                             .foregroundColor(.gray)
                         Spacer()
                         Text("Tomorrow")
+                            .font(.system(size: 16, weight: .medium))
                             .foregroundColor(Color("oceanBlue"))
                     }
                 }
-                    .listRowBackground(Color.gray.opacity(0.2))
+                .listRowBackground(Color.gray.opacity(0.2)
+                               .clipped()
+                               .cornerRadius(18))
             }
-            
+            .scrollContentBackground(.hidden)
             
             Button {} label: {
                 ZStack{
@@ -50,9 +54,13 @@ struct HomeView: View {
                         .cornerRadius(25)
                     Label("Add Package", systemImage: "box.truck.fill")
                         .foregroundColor(Color("oceanBlue"))
+                        .font(.system(size: 17, weight: .medium))
                         .padding()
                 }
             }
+            .padding(.bottom, 5)
+           
+            
             
             .navigationTitle("Tracking")
             .navigationBarBackButtonHidden(true)
@@ -64,7 +72,7 @@ struct HomeView: View {
                     Button {
                         showSettingsView = true
                     } label : {
-                        Image(systemName: "wrench.and.screwdriver")
+                        Image(systemName: "wrench.and.screwdriver.fill")
                             .foregroundColor(Color("oceanBlue"))
                     }
                 }
@@ -74,6 +82,8 @@ struct HomeView: View {
             }
         }
         .searchable(text: $searchText, prompt: "Search or Add Package")
+        .tint(Color("oceanBlue"))
+        
     }
 }
 

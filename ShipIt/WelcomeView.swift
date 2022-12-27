@@ -16,25 +16,23 @@ struct WelcomeView: View {
                 Image(systemName: "box.truck.fill")
                     .font(.title)
                     .foregroundColor(Color("oceanBlue"))
-                    .padding()
+                    .padding(.top, 40)
+                    .padding(.bottom, 10)
                 
                 Text("Welcome to")
-                    .font(.title)
-                    .bold()
+                    .font(.system(size: 35, weight: .bold))
+                    .frame(height: 25)
                 
-                LinearGradient(gradient: Gradient(colors: [Color("oceanBlue"), Color("blueNCS")]), startPoint: .leading, endPoint: .trailing)
+                LinearGradient(gradient: Gradient(colors: [
+                                    Color("oceanBlue"),
+                                    Color("blueNCS")
+                                ]), startPoint: .leading, endPoint: .trailing)
                     .mask(
                         Text("ShipIt")
-                            .font(.title)
-                            .bold()
+                            .font(.system(size: 35, weight: .bold))
                     )
                     .frame(height: 45)
-                
-                Text("Your packages at a glance")
-                    .font(.title3)
-                    .bold()
-                    .foregroundColor(Color("blueNCS"))
-                    .padding([.bottom, .trailing, .trailing])
+                    .padding(.bottom, 15)
                 
                 ZStack{
                     Rectangle()
@@ -99,8 +97,9 @@ struct WelcomeView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: HomeView()) {
+                NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
                     Text("Let's Go")
+                        .font(.system(size: 17, weight: .medium))
                         .frame(maxWidth: UIScreen.main.bounds.width-75)
                         .padding()
                         .foregroundColor(.white)
