@@ -6,43 +6,61 @@
 //
 
 import SwiftUI
+import PopoverPresenter
 
 struct HomeView: View {
+    
     @State private var searchText = String()
     @State private var showSettingsView = false
+    @StateObject var popoverPresenter = PopoverPresenter()
+    
     var body: some View {
         NavigationStack {
             List() {
-                VStack{
-                    HStack{
-                        Image(systemName: "shoeprints.fill")
-                            .foregroundColor(Color("oceanBlue"))
-                            .font(.title2)
-                        Spacer()
-                    }
-                    HStack{
-                        Text("Shoes")
-                            .foregroundColor(Color("oceanBlue"))
-                            .bold()
-                            .font(.title2)
-                            .padding([.top, .bottom], 0.2)
-                        Spacer()
-                    }
-                    HStack{
-                        Image(systemName: "shippingbox.fill")
-                            .foregroundColor(.gray)
-                        Text("Out for Delivery")
-                            .foregroundColor(.gray)
-                        Spacer()
-                        Text("Tomorrow")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(Color("oceanBlue"))
+                NavigationLink(destination: PackageDetailView()) {
+                    VStack{
+                        HStack{
+                            Image(systemName: "shoeprints.fill")
+                                .foregroundColor(Color("oceanBlue"))
+                                .font(.title2)
+                            Spacer()
+                        }
+                        HStack{
+                            Text("Shoes")
+                                .foregroundColor(Color("oceanBlue"))
+                                .bold()
+                                .font(.title2)
+                                .padding([.top, .bottom], 0.2)
+                            Spacer()
+                        }
+                        HStack{
+                            Image(systemName: "shippingbox.fill")
+                                .foregroundColor(.gray)
+                            Text("Out for Delivery")
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text("Tomorrow")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(Color("oceanBlue"))
+                        }
                     }
                 }
+                .buttonStyle(.plain)
                 .listRowBackground(Color.gray.opacity(0.2)
                                .clipped()
                                .cornerRadius(18))
-                Button {} label: {
+                .listRowSeparator(.hidden)
+                Button {
+                    popoverPresenter.currentPopover = AnyView(
+                        VStack {
+                            Spacer()
+                            AddPackageView()
+                                .padding()
+                            Spacer()
+                        }
+                    )
+                    popoverPresenter.activePopover = .any
+                } label: {
                     HStack {
                         Spacer()
                         Label("Add Package", systemImage: "box.truck.fill")
@@ -53,6 +71,7 @@ struct HomeView: View {
                     }
                     .padding(.all)
                 }
+                .listRowSeparator(.hidden)
                 .listRowBackground(RoundedRectangle(cornerRadius: 25)
                     .foregroundColor(Color("oceanBlue").opacity(0.45))
                     .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: 50))
@@ -68,7 +87,7 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        showSettingsView = true
+                        showSettingsView.toggle()
                     } label : {
                         Image(systemName: "wrench.and.screwdriver.fill")
                             .foregroundColor(Color("oceanBlue"))
@@ -81,7 +100,13 @@ struct HomeView: View {
         }
         .searchable(text: $searchText, prompt: "Search or Add Package")
         .tint(Color("oceanBlue"))
-        
+        .environment(\.popoverPresenterKey, popoverPresenter)
+        .customPopover(item: $popoverPresenter.activePopover) { popover in
+            switch popover {
+            default:
+                popoverPresenter.currentPopover
+            }
+        }
     }
 }
 

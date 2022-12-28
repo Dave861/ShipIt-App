@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "popoverpresenter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/c-villain/PopoverPresenter",
+      "state" : {
+        "revision" : "2d7cf52fcbba4c86c41c8e24ffd98e0ab77a68bf",
+        "version" : "0.2.0"
+      }
+    }
+  ],
+  "version" : 2
+}
