@@ -23,9 +23,7 @@ struct PackageDetailView: View {
         DeliveryStatus(systemImage: "building.fill", statusText: "Arrived at Processing Hub", lastDate: "20.12.2022 19:55"),
         DeliveryStatus(systemImage: "mail.fill", statusText: "Picked from Sender", lastDate: "19.12.2022 12:04")
     ]
-    
-    
-    
+        
     var body: some View {
         let withIndex = deliveryStatus.enumerated().map({ $0 })
         
