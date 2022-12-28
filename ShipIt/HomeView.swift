@@ -14,42 +14,47 @@ struct HomeView: View {
     @State private var showSettingsView = false
     @State private var showAddPackageView = false
     
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var packages : FetchedResults<Package>
+    
     var body: some View {
         NavigationStack {
             List() {
-                NavigationLink(destination: PackageDetailView()) {
-                    VStack{
-                        HStack{
-                            Image(systemName: "shoeprints.fill")
-                                .foregroundColor(Color("oceanBlue"))
-                                .font(.title2)
-                            Spacer()
-                        }
-                        HStack{
-                            Text("Shoes")
-                                .foregroundColor(Color("oceanBlue"))
-                                .bold()
-                                .font(.title2)
-                                .padding([.top, .bottom], 0.2)
-                            Spacer()
-                        }
-                        HStack{
-                            Image(systemName: "shippingbox.fill")
-                                .foregroundColor(.gray)
-                            Text("Out for Delivery")
-                                .foregroundColor(.gray)
-                            Spacer()
-                            Text("Tomorrow")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(Color("oceanBlue"))
+                ForEach(packages, id:\.id){ package in
+                    NavigationLink(destination: PackageDetailView()) {
+                        VStack{
+                            HStack{
+                                Image(systemName: package.systemImage!)
+                                    .foregroundColor(Color("oceanBlue"))
+                                    .font(.title2)
+                                Spacer()
+                            }
+                            HStack{
+                                Text(package.name!)
+                                    .foregroundColor(Color("oceanBlue"))
+                                    .bold()
+                                    .font(.title2)
+                                    .padding([.top, .bottom], 0.2)
+                                Spacer()
+                            }
+                            HStack{
+                                Image(systemName: "shippingbox.fill")
+                                    .foregroundColor(.gray)
+                                Text(package.statusText ?? "Status unknown")
+                                    .foregroundColor(.gray)
+                                Spacer()
+                                Text(package.lastDate ?? "0")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(Color("oceanBlue"))
+                            }
                         }
                     }
+                    .buttonStyle(.plain)
+                    .listRowBackground(Color.gray.opacity(0.2)
+                        .clipped()
+                        .cornerRadius(18))
+                    .listRowSeparator(.hidden)
                 }
-                .buttonStyle(.plain)
-                .listRowBackground(Color.gray.opacity(0.2)
-                               .clipped()
-                               .cornerRadius(18))
-                .listRowSeparator(.hidden)
                 Button {
                     showAddPackageView.toggle()
                 } label: {
@@ -97,6 +102,7 @@ struct HomeView: View {
             )
         }) {
             AddPackageView(isPresented: $showAddPackageView)
+                .environment(\.managedObjectContext, self.moc)
         }
         .searchable(text: $searchText, prompt: "Search or Add Package")
         .tint(Color("oceanBlue"))

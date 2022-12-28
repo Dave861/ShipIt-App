@@ -1,4 +1,5 @@
 import Foundation
+import CoreData
 
 struct DeliveryStatus {
     var systemImage: String
@@ -7,6 +8,7 @@ struct DeliveryStatus {
 }
 
 struct Order {
+    var id = UUID()
     var awb : String
     var link : String
     var status : DeliveryStatus

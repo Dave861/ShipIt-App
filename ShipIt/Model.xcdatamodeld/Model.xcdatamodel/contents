@@ -2,8 +2,10 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Package" representedClassName="Package" syncable="YES" codeGenerationType="class">
         <attribute name="awb" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastDate" optional="YES" attributeType="String"/>
         <attribute name="link" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="statusText" optional="YES" attributeType="String"/>
         <attribute name="systemImage" optional="YES" attributeType="String"/>
     </entity>

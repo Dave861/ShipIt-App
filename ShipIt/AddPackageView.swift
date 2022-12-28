@@ -18,6 +18,13 @@ struct AddPackageView: View {
     @State var packageNameFieldText = ""
     @State var websiteLinkFieldText = ""
     
+    @FetchRequest(sortDescriptors: []) var orders : FetchedResults<Package>
+    @Environment(\.managedObjectContext) var moc
+    
+    
+    @FocusState var focusOnTrackingNumberField : Bool
+    @FocusState var focusOnPackageNameField : Bool
+    @FocusState var focusOnOrderLinkField : Bool
     var body: some View {
             VStack {
                 HStack {
@@ -47,11 +54,16 @@ struct AddPackageView: View {
                             TextField("Tracking Number", text: $trackingNumberFieldText)
                                 .font(.system(size: 17))
                                 .tint(Color("blueNCS"))
+                                .focused($focusOnTrackingNumberField)
+                                .onSubmit {
+//                                    trackingNumberFieldText = trackingNumberFieldText.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    focusOnPackageNameField = true
+                                }
                         }
                         .padding()
                     }
                 HStack {
-                    Text("Optional Details")
+                    Text("Details")
                         .font(.system(size: 20, weight: .medium))
                         .bold()
                         .padding([.leading, .trailing])
@@ -71,6 +83,11 @@ struct AddPackageView: View {
                             TextField("Package Name", text: $packageNameFieldText)
                                 .font(.system(size: 17))
                                 .tint(Color("blueNCS"))
+                                .focused($focusOnPackageNameField)
+                                .onSubmit {
+//                                    packageNameFieldText = packageNameFieldText.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    focusOnOrderLinkField = true
+                                }
                         }
                         .padding()
                     }
@@ -148,16 +165,20 @@ struct AddPackageView: View {
                                 .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(Color(uiColor: .systemGray2))
                                 .padding(.leading, 10)
-                            TextField("Order Link", text: $websiteLinkFieldText)
+                            TextField("Order Link (optional)", text: $websiteLinkFieldText)
                                 .font(.system(size: 17))
                                 .tint(Color("blueNCS"))
+                                .focused($focusOnOrderLinkField)
+                                .onSubmit{submitPackage()}
+                                
                         }
                         .padding()
                     }
-                    Button {} label: {
+                    Button {submitPackage()} label: {
                         HStack {
                             Spacer()
                             Text("Add")
+                                .disabled(trackingNumberFieldText == "" || packageNameFieldText == "")
                             Spacer()
                         }
                         .foregroundColor(Color("W&B"))
@@ -167,13 +188,37 @@ struct AddPackageView: View {
                             .foregroundColor(Color("blueNCS"))
                             .padding([.leading, .trailing]))
                     }
+                    .disabled(trackingNumberFieldText == "" || packageNameFieldText == "")
                 }
             }
             .frame(width: UIScreen.main.bounds.width-40, height: 385)
             .background(Color("BG2")
                 .cornerRadius(22.0)
                 .shadow(radius: 15))
-            
+            .onAppear() {
+                focusOnTrackingNumberField = true
+            }
     }
+    
+    private func submitPackage() {
+        if trackingNumberFieldText != "" && packageNameFieldText != "" {
+            let newPackage = Package(context: moc)
+            newPackage.awb = trackingNumberFieldText
+            newPackage.id = UUID()
+            newPackage.systemImage = pickedIconName
+            newPackage.link = websiteLinkFieldText
+            newPackage.name = packageNameFieldText
+            
+            let today = Date.now
+            let formatter1 = DateFormatter()
+            formatter1.dateStyle = .short
+            newPackage.lastDate = formatter1.string(from: today)
+            
+            try? moc.save()
+            
+            print(orders)
+        }
+        isPresented.toggle()
+   }
 }
 
