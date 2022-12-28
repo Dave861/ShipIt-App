@@ -10,21 +10,23 @@ import SwiftUI
 struct AddPackageView: View {
     
     @Binding var isPresented: Bool
-        
+    
     @State var trackingNumberFieldText = "Tracking Number"
     @State var packageNameFieldText = "Package Name"
     @State var websiteLinkFieldText = "Order Link"
     
     var body: some View {
-            VStack {
-                HStack {
-                    Text("Add Package")
-                        .font(.system(size: 24, weight: .bold))
-                        .padding(.leading)
-                    Spacer()
-                    Button {
-                        isPresented.toggle()
-                    } label: {
+        VStack {
+            HStack {
+                Text("Add Package")
+                    .font(.system(size: 24, weight: .bold))
+                    .padding(.leading)
+                Spacer()
+                Button {
+                    isPresented.toggle()
+                } label: {
+                    Button {} label: {
+                        
                         Text("Cancel")
                             .fontWeight(.medium)
                             .padding(.trailing)
@@ -82,7 +84,7 @@ struct AddPackageView: View {
                                 .foregroundColor(Color("blueNCS").opacity(0.45))
                                 .padding([.leading, .trailing]))
                         }
-
+                        
                     }
                     HStack(spacing: 4) {
                         Image(systemName: "link")
@@ -97,11 +99,12 @@ struct AddPackageView: View {
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 5))
                 }
-        }
+            }
             .frame(width: UIScreen.main.bounds.width-40, height: 350)
             .background(Color("W&B")
                 .cornerRadius(22.0)
                 .shadow(radius: 15))
+        }
     }
 }
 

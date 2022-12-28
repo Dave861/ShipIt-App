@@ -8,12 +8,6 @@
 import SwiftUI
 import MapKit
 
-struct DeliveryStatus {
-    var systemImage: String
-    var statusText: String
-    var lastDate: String
-}
-
 struct PackageDetailView: View {
     
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
