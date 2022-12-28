@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var detectClipboardSwitch = true
     @State private var notificationsBeforeSwitch = true
@@ -47,6 +48,19 @@ struct SettingsView: View {
                     Spacer()
                 }
                 .navigationTitle("Settings")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .frame(width: 10)
+                                .fontWeight(.medium)
+                            Text("Tracking")
+                        }
+                        .tint(Color("oceanBlue"))
+                    }
+                }
             }
         }
         

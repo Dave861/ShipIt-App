@@ -42,22 +42,23 @@ struct HomeView: View {
                 .listRowBackground(Color.gray.opacity(0.2)
                                .clipped()
                                .cornerRadius(18))
+                Button {} label: {
+                    HStack {
+                        Spacer()
+                        Label("Add Package", systemImage: "box.truck.fill")
+                            .foregroundColor(Color("oceanBlue"))
+                            .font(.system(size: 18, weight: .medium))
+                            .padding(.top, 5)
+                        Spacer()
+                    }
+                    .padding(.all)
+                }
+                .listRowBackground(RoundedRectangle(cornerRadius: 25)
+                    .foregroundColor(Color("oceanBlue").opacity(0.45))
+                    .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: 50))
+                .padding(.bottom, 5)
             }
             .scrollContentBackground(.hidden)
-            
-            Button {} label: {
-                ZStack{
-                    Rectangle()
-                        .fill(Color("oceanBlue").opacity(0.45))
-                        .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: 50)
-                        .cornerRadius(25)
-                    Label("Add Package", systemImage: "box.truck.fill")
-                        .foregroundColor(Color("oceanBlue"))
-                        .font(.system(size: 17, weight: .medium))
-                        .padding()
-                }
-            }
-            .padding(.bottom, 5)
             
             .navigationTitle("Tracking")
             .navigationBarBackButtonHidden(true)
