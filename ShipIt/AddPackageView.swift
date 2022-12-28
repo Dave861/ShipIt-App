@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import PopoverPresenter
 
 struct AddPackageView: View {
     
-    @Environment(\.popoverPresenterKey) var popoverPresenter
+    @Binding var isPresented: Bool
+        
     @State var trackingNumberFieldText = "Tracking Number"
     @State var packageNameFieldText = "Package Name"
     @State var websiteLinkFieldText = "Order Link"
@@ -23,7 +23,7 @@ struct AddPackageView: View {
                         .padding(.leading)
                     Spacer()
                     Button {
-                        
+                        isPresented.toggle()
                     } label: {
                         Text("Cancel")
                             .fontWeight(.medium)
@@ -105,8 +105,3 @@ struct AddPackageView: View {
     }
 }
 
-struct AddPackageView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPackageView()
-    }
-}

@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
-import PopoverPresenter
+import Popovers
 
 struct HomeView: View {
     
     @State private var searchText = String()
     @State private var showSettingsView = false
-    @StateObject var popoverPresenter = PopoverPresenter()
+    @State private var showAddPackageView = false
     
     var body: some View {
         NavigationStack {
@@ -51,15 +51,7 @@ struct HomeView: View {
                                .cornerRadius(18))
                 .listRowSeparator(.hidden)
                 Button {
-                    popoverPresenter.currentPopover = AnyView(
-                        VStack {
-                            Spacer()
-                            AddPackageView()
-                                .padding()
-                            Spacer()
-                        }
-                    )
-                    popoverPresenter.activePopover = .any
+                    showAddPackageView.toggle()
                 } label: {
                     HStack {
                         Spacer()
@@ -98,15 +90,16 @@ struct HomeView: View {
                 SettingsView()
             }
         }
+        .popover(present: $showAddPackageView, attributes: {
+            $0.position = .absolute(
+                originAnchor: .top,
+                popoverAnchor: .top
+            )
+        }) {
+            AddPackageView(isPresented: $showAddPackageView)
+        }
         .searchable(text: $searchText, prompt: "Search or Add Package")
         .tint(Color("oceanBlue"))
-        .environment(\.popoverPresenterKey, popoverPresenter)
-        .customPopover(item: $popoverPresenter.activePopover) { popover in
-            switch popover {
-            default:
-                popoverPresenter.currentPopover
-            }
-        }
     }
 }
 

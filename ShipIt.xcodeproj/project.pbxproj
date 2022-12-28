@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A8A893E295C2CAC00291C9F /* AddPackageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8A893D295C2CAC00291C9F /* AddPackageView.swift */; };
-		9A8A8947295C410700291C9F /* PopoverPresenter in Frameworks */ = {isa = PBXBuildFile; productRef = 9A8A8946295C410700291C9F /* PopoverPresenter */; };
+		9AA90198295C926800947CF2 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA90197295C926800947CF2 /* Popovers */; };
 		9AC0831E295AFB8500C0B1E0 /* ShipItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0831D295AFB8500C0B1E0 /* ShipItApp.swift */; };
 		9AC08322295AFB8600C0B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AC08321295AFB8600C0B1E0 /* Assets.xcassets */; };
 		9AC08326295AFB8600C0B1E0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AC08325295AFB8600C0B1E0 /* Preview Assets.xcassets */; };
@@ -36,7 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A8A8947295C410700291C9F /* PopoverPresenter in Frameworks */,
+				9AA90198295C926800947CF2 /* Popovers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +100,7 @@
 			);
 			name = ShipIt;
 			packageProductDependencies = (
-				9A8A8946295C410700291C9F /* PopoverPresenter */,
+				9AA90197295C926800947CF2 /* Popovers */,
 			);
 			productName = ShipIt;
 			productReference = 9AC0831A295AFB8500C0B1E0 /* ShipIt.app */;
@@ -131,7 +131,7 @@
 			);
 			mainGroup = 9AC08311295AFB8500C0B1E0;
 			packageReferences = (
-				9A8A8945295C410700291C9F /* XCRemoteSwiftPackageReference "PopoverPresenter" */,
+				9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */,
 			);
 			productRefGroup = 9AC0831B295AFB8500C0B1E0 /* Products */;
 			projectDirPath = "";
@@ -376,21 +376,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9A8A8945295C410700291C9F /* XCRemoteSwiftPackageReference "PopoverPresenter" */ = {
+		9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/c-villain/PopoverPresenter";
+			repositoryURL = "https://github.com/aheze/Popovers";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9A8A8946295C410700291C9F /* PopoverPresenter */ = {
+		9AA90197295C926800947CF2 /* Popovers */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9A8A8945295C410700291C9F /* XCRemoteSwiftPackageReference "PopoverPresenter" */;
-			productName = PopoverPresenter;
+			package = 9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */;
+			productName = Popovers;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
