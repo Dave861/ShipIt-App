@@ -11,15 +11,10 @@ import MapKit
 struct PackageDetailView: View {
     
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    @State var package : Package
     
-    var deliveryStatus = [
-        DeliveryStatus(systemImage: "figure.stand", statusText: "Handed to Courier", lastDate: "21.12.2022 14:53"),
-        DeliveryStatus(systemImage: "building.fill", statusText: "Arrived at Processing Hub", lastDate: "20.12.2022 19:55"),
-        DeliveryStatus(systemImage: "mail.fill", statusText: "Picked from Sender", lastDate: "19.12.2022 12:04")
-    ]
-        
     var body: some View {
-        let withIndex = deliveryStatus.enumerated().map({ $0 })
+        let withIndex = package.eventsArray.enumerated().map({ $0 })
         
         NavigationStack{
             VStack {
@@ -30,9 +25,10 @@ struct PackageDetailView: View {
                         .padding([.top, .leading, .trailing])
                     Spacer()
                 }
+                
                 Map(coordinateRegion: $region)
                     .frame(height: UIScreen.main.bounds.height/4)
-                    .navigationTitle("Shoes")
+                    .navigationTitle(package.name!)
                     .cornerRadius(20)
                     .padding([.trailing, .leading])
                 
@@ -43,15 +39,36 @@ struct PackageDetailView: View {
                         .padding([.top, .leading, .trailing])
                     Spacer()
                 }
-                List(withIndex, id: \.element.statusText) { index, deliveryStatus in
+                
+                //                List(withIndex, id: \.self) { index, deliveryStatus in
+                //                    HStack {
+                //                        Image(systemName: deliveryStatus.systemImage)
+                //                            .font(.system(size: 25))
+                //                            .frame(width: 40)
+                //                            .foregroundColor((Color("oceanBlue")))
+                //                        VStack(alignment: .leading, spacing: 3) {
+                //                            Text(deliveryStatus.statusText)
+                //                            Text(deliveryStatus.lastDate)
+                //                                .foregroundColor((Color("oceanBlue")))
+                //                                .font(.system(size: 17))
+                //                        }
+                //                    }
+                //                    .listRowSeparator(.hidden)
+                //                    .listRowBackground(RoundedRectangle(cornerRadius: 16)
+                //                        .padding([.leading, .trailing])
+                //                        .foregroundColor(index%2 == 0 ? Color.gray.opacity(0.2) : Color.clear))
+                //
+                //                }
+                
+                List(package.eventsArray, id: \.id) {event in
                     HStack {
-                        Image(systemName: deliveryStatus.systemImage)
+                        Image(systemName: event.systemImage!)
                             .font(.system(size: 25))
                             .frame(width: 40)
                             .foregroundColor((Color("oceanBlue")))
                         VStack(alignment: .leading, spacing: 3) {
-                            Text(deliveryStatus.statusText)
-                            Text(deliveryStatus.lastDate)
+                            Text(event.text!)
+                            Text(event.timestamp!)
                                 .foregroundColor((Color("oceanBlue")))
                                 .font(.system(size: 17))
                         }
@@ -59,34 +76,50 @@ struct PackageDetailView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(RoundedRectangle(cornerRadius: 16)
                         .padding([.leading, .trailing])
-                        .foregroundColor(index%2 == 0 ? Color.gray.opacity(0.2) : Color.clear))
+                        .foregroundColor(Color.gray.opacity(0.2)))
                     
                 }
-                .listStyle(.plain)
-                Button {} label: {
-                    HStack {
-                        Spacer()
-                        Label("Open on Website", systemImage: "link")
-                            .foregroundColor(Color("oceanBlue"))
-                            .font(.system(size: 18, weight: .medium))
-                            .padding([.bottom, .top], 12)
-                        Spacer()
-                    }
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .foregroundColor(Color("oceanBlue").opacity(0.45)))
-                    .padding([.top, .leading, .trailing])
-                }
-                Text("Tracking Number 4385722438")
-                    .font(.system(size: 16))
-                    .foregroundColor(.gray)
-                Spacer()
             }
         }
+        .listStyle(.plain)
+        Button {} label: {
+            HStack {
+                Spacer()
+                Label("Open on Website", systemImage: "link")
+                    .foregroundColor(Color("oceanBlue"))
+                    .font(.system(size: 18, weight: .medium))
+                    .padding([.bottom, .top], 12)
+                Spacer()
+            }
+            .background(RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(Color("oceanBlue").opacity(0.45)))
+            .padding([.top, .leading, .trailing])
+        }
+        Text("Tracking Number 4385722438")
+            .font(.system(size: 16))
+            .foregroundColor(.gray)
+        Spacer()
+            .onAppear() {
+                let geoCoder = CLGeocoder()
+                geoCoder.geocodeAddressString(package.address ?? "") { (placemarks, error) in
+                    guard
+                        let placemarks = placemarks,
+                        let location = placemarks.first?.location
+                    else {
+                        return
+                    }
+                    
+                    print(location.coordinate.longitude)
+                    print(location.coordinate.latitude)
+                    region.center.longitude = location.coordinate.longitude
+                    region.center.latitude = location.coordinate.latitude
+                }
+            }
     }
 }
 
-struct PackageDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        PackageDetailView()
-    }
-}
+//struct PackageDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PackageDetailView()
+//    }
+//}

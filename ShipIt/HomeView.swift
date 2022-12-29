@@ -21,7 +21,7 @@ struct HomeView: View {
         NavigationStack {
             List() {
                 ForEach(packages, id:\.id){ package in
-                    NavigationLink(destination: PackageDetailView()) {
+                    NavigationLink(destination: PackageDetailView(package: package)) {
                         VStack{
                             HStack{
                                 Image(systemName: package.systemImage!)
@@ -51,7 +51,6 @@ struct HomeView: View {
                     }
                     .buttonStyle(.plain)
                     .listRowBackground(Color.gray.opacity(0.2)
-                        .clipped()
                         .cornerRadius(18))
                     .listRowSeparator(.hidden)
                 }
