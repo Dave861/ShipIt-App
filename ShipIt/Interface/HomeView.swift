@@ -17,37 +17,55 @@ struct HomeView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var packages : FetchedResults<Package>
     
+    func decideAccentOnIndex(index: Int) -> Color {
+        switch index%3 {
+            case 0:
+                return Color("oceanBlue")
+            case 1:
+                return Color("blueNCS")
+            case 2:
+                return Color("darkBlue")
+            default:
+                return Color("oceanBlue")
+        }
+    }
+    
     var body: some View {
         NavigationStack {
-            List() {
-                ForEach(packages, id:\.id){ package in
-                    NavigationLink(destination: PackageDetailView(package: package)) {
-                        VStack{
-                            HStack{
-                                Image(systemName: package.systemImage ?? "questionmark")
-                                    .foregroundColor(Color("oceanBlue"))
-                                    .font(.title2)
-                                Spacer()
-                            }
-                            HStack{
-                                Text(package.name ?? "ShipIt")
-                                    .foregroundColor(Color("oceanBlue"))
-                                    .bold()
-                                    .font(.title2)
-                                    .padding([.top, .bottom], 0.2)
-                                Spacer()
-                            }
-                            HStack{
-                                Image(systemName: "shippingbox.fill")
-                                    .foregroundColor(.gray)
-                                Text(package.statusText ?? "Status unknown")
-                                    .foregroundColor(.gray)
-                                Spacer()
-                                Text(package.lastDate ?? "0")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(Color("oceanBlue"))
+            List {
+                ForEach(packages.indexed(), id: \.1.self) { index, package in
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 18)
+                            .foregroundColor(Color.gray.opacity(0.2))
+                        NavigationLink(destination: PackageDetailView(package: package)) {
+                            VStack {
+                                HStack {
+                                    Image(systemName: package.systemImage ?? "questionmark")
+                                        .foregroundColor(decideAccentOnIndex(index: index))
+                                        .font(.title2)
+                                    Spacer()
+                                }
+                                HStack{
+                                    Text(package.name ?? "ShipIt")
+                                        .foregroundColor(decideAccentOnIndex(index: index))
+                                        .bold()
+                                        .font(.title2)
+                                        .padding([.top, .bottom], 0.2)
+                                    Spacer()
+                                }
+                                HStack{
+                                    Image(systemName: "shippingbox.fill")
+                                        .foregroundColor(.gray)
+                                    Text(package.statusText ?? "Status unknown")
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                    Text(package.lastDate ?? "0")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(decideAccentOnIndex(index: index))
+                                }
                             }
                         }
+                        .padding([.leading, .trailing])
                     }
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
@@ -58,8 +76,7 @@ struct HomeView: View {
                         }
                     }
                     .buttonStyle(.plain)
-                    .listRowBackground(Color.gray.opacity(0.2)
-                        .cornerRadius(18))
+                    .listRowBackground(Color("W&B"))
                     .listRowSeparator(.hidden)
                 }
                 Button {
@@ -81,6 +98,7 @@ struct HomeView: View {
                     .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: 50))
                 .padding(.bottom, 5)
             }
+            .listStyle(.plain)
             .scrollContentBackground(.hidden)
             
             .navigationTitle("Tracking")
@@ -112,6 +130,27 @@ struct HomeView: View {
                 .environment(\.managedObjectContext, self.moc)
         }
         .searchable(text: $searchText, prompt: "Search or Add Package")
+        .onChange(of: searchText) { search in
+            packages.nsPredicate = search.isEmpty ? nil : NSPredicate(format: "name CONTAINS %@" , search)
+        }
+        .refreshable {
+            for package in packages {
+                if package.courier == "DHL" {
+                    Task(priority: .high) {
+                        do {
+                            try await OrderManager(contextMOC: moc).getDHLOrderAsync(package: package)
+                            do {
+                                try moc.save()
+                            } catch let err {
+                                print(err)
+                            }
+                        } catch let err {
+                            print(err)
+                        }
+                    }
+                }
+            }
+        }
         .tint(Color("oceanBlue"))
     }
 }

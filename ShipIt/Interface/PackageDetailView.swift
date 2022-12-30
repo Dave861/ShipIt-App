@@ -13,9 +13,7 @@ struct PackageDetailView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     @State var package : Package
     
-    var body: some View {
-        let withIndex = zip(package.eventsArray.indices, package.eventsArray)
-        
+    var body: some View {        
         NavigationStack{
             VStack {
                 HStack{
@@ -39,28 +37,7 @@ struct PackageDetailView: View {
                         .padding([.top, .leading, .trailing])
                     Spacer()
                 }
-                
-                //                List(withIndex, id: \.self) { index, deliveryStatus in
-                //                    HStack {
-                //                        Image(systemName: deliveryStatus.systemImage)
-                //                            .font(.system(size: 25))
-                //                            .frame(width: 40)
-                //                            .foregroundColor((Color("oceanBlue")))
-                //                        VStack(alignment: .leading, spacing: 3) {
-                //                            Text(deliveryStatus.statusText)
-                //                            Text(deliveryStatus.lastDate)
-                //                                .foregroundColor((Color("oceanBlue")))
-                //                                .font(.system(size: 17))
-                //                        }
-                //                    }
-                //                    .listRowSeparator(.hidden)
-                //                    .listRowBackground(RoundedRectangle(cornerRadius: 16)
-                //                        .padding([.leading, .trailing])
-                //                        .foregroundColor(index%2 == 0 ? Color.gray.opacity(0.2) : Color.clear))
-                //
-                //                }
-                
-                List(package.eventsArray, id: \.self) {event in
+                List(package.eventsArray.indexed(), id: \.1.self) { index, event in
                     HStack {
                         Image(systemName: event.systemImage!)
                             .font(.system(size: 25))
@@ -76,7 +53,7 @@ struct PackageDetailView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(RoundedRectangle(cornerRadius: 16)
                         .padding([.leading, .trailing])
-                        .foregroundColor(Color.gray.opacity(0.2)))
+                        .foregroundColor(index%2 == 0 ? Color.gray.opacity(0.2) : Color.clear))
 
                 }
                 
