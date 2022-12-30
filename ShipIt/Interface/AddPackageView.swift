@@ -218,13 +218,18 @@ struct AddPackageView: View {
                         }
                     } catch let err {
                         print(err)
+                        print("Core Data Fail")
                     }
                 } catch let err {
-                    print(err)
+                    if err as! OrderManager.OrderErrors == .AWBNotFound {
+                        print("Wrong AWB")
+                    } else {
+                        print("JSON Fail")
+                    }
                 }
             }
         } else {
-            //Alert User
+            print("Please fill in fields")
         }
        
     }

@@ -28,13 +28,14 @@ class OrderManager: NSObject {
         case DBFail
         case JSONFail
         case UnknownFail
+        case AWBNotFound
     }
     
     func getDHLOrderAsync(package: Package) async throws {
-        let _headers : HTTPHeaders = ["DHL-API-Key": "DEZTyGaGjnvpqmJDcmRhG0Y23QqCfAFA"]
+        let _headers : HTTPHeaders = ["DHL-API-Key": "demo-key"]//"DEZTyGaGjnvpqmJDcmRhG0Y23QqCfAFA"
         let params : Parameters = ["trackingNumber" : package.awb!]
         
-        let getRequest = AF.request("https://api-eu.dhl.com/track/shipments", method: .get, parameters: params, encoding: URLEncoding.default, headers: _headers)
+        let getRequest = AF.request("https://api-test.dhl.com/track/shipments", method: .get, parameters: params, encoding: URLEncoding.default, headers: _headers)
                 
         var responseJson: String!
         do {
@@ -47,7 +48,17 @@ class OrderManager: NSObject {
         do {
             shipment = try DecodingManager.sharedInstance.decodeDHLJson(jsonString: responseJson!).first
         } catch {
-            throw OrderErrors.JSONFail
+            //Error Management
+            var errorResponse: [String: Any]!
+            let jsonData = responseJson.data(using: .utf8)!
+            do {
+                errorResponse = try JSONSerialization.jsonObject(with: jsonData, options : .allowFragments) as? [String:Any]
+            }
+            if errorResponse.isEmpty == false {
+                throw OrderErrors.AWBNotFound
+            } else {
+                throw OrderErrors.JSONFail
+            }
         }
         
         package.lastDate = String(shipment.status.timestamp.split(separator: "T")[0])
@@ -75,6 +86,30 @@ class OrderManager: NSObject {
             
             package.addToEvents(newEvent)
         }
-        
     }
+    
+    func getCargusOrderAsync(/*package: Package*/) async throws {
+        let params : Parameters = ["t" : "1001651153"]//package.awb!]
+        
+        let getRequest = AF.request("https://www.cargus.ro/tracking-romanian", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
+        
+        var responseHtml: String!
+        do {
+            responseHtml = try await getRequest.serializingString().value
+        } catch {
+            throw OrderErrors.DBFail
+        }
+        
+        var cargusShipment: CargusShipment!
+        do {
+            cargusShipment = try DecodingManager.sharedInstance.decodeCargusHTML(htmlString: responseHtml)
+        } catch {
+            throw OrderErrors.AWBNotFound
+        }
+        print(cargusShipment.status)
+        print(cargusShipment.date)
+        print(cargusShipment.location)
+        print(cargusShipment.lastEvent)
+    }
+    
 }

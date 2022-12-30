@@ -12,6 +12,7 @@ struct PackageDetailView: View {
     
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     @State var package : Package
+    @State var accentColor : Color
     
     @State private var markerLocations = [Marker]()
     
@@ -20,8 +21,8 @@ struct PackageDetailView: View {
     @State private var minLat = 1000.0
     @State private var maxLat = 0.0
     
-    var body: some View {        
-        NavigationStack{
+    var body: some View {
+        NavigationStack {
             VStack {
                 HStack{
                     Text("Where is My Package?")
@@ -32,20 +33,21 @@ struct PackageDetailView: View {
                 }
                 
                 Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
-                    MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? Color.indigo : Color.red)
+                    MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? accentColor : Color.gray)
+                        
                 }
                     .frame(height: UIScreen.main.bounds.height/4)
                     .navigationTitle(package.name!)
                     .cornerRadius(20)
                     .padding([.trailing, .leading])
                     .onAppear() {
-                        DispatchQueue.main.asyncAfter(deadline: .now()+1){
-                            region.center.latitude = (minLat + maxLat)/2
-                            region.center.longitude = (minLong + maxLong)/2
-                            
-                            region.span.latitudeDelta = (maxLat - minLat) * 1.27
-                            region.span.longitudeDelta = (maxLong - minLong) * 1.37
-                        }
+//                        DispatchQueue.main.asyncAfter(deadline: .now()+1.5){
+//                            region.center.latitude = (minLat + maxLat)/2
+//                            region.center.longitude = (minLong + maxLong)/2
+//
+//                            region.span.latitudeDelta = (maxLat - minLat) * 1.27
+//                            region.span.longitudeDelta = (maxLong - minLong) * 1.37
+//                        }
                     }
                 
                 HStack {
@@ -60,11 +62,11 @@ struct PackageDetailView: View {
                         Image(systemName: event.systemImage!)
                             .font(.system(size: 25))
                             .frame(width: 40)
-                            .foregroundColor((Color("oceanBlue")))
+                            .foregroundColor((accentColor))
                         VStack(alignment: .leading, spacing: 3) {
                             Text(event.text!)
-                            Text("\(event.timestamp!) - \(event.address!)")
-                                .foregroundColor((Color("oceanBlue")))
+                            Text("\(event.timestamp!) - \(event.address!.replacingOccurrences(of: " - ", with: ", "))")
+                                .foregroundColor((accentColor))
                                 .font(.system(size: 17))
                         }
                     }
@@ -82,13 +84,13 @@ struct PackageDetailView: View {
             HStack {
                 Spacer()
                 Label("Open on Website", systemImage: "link")
-                    .foregroundColor(Color("oceanBlue"))
+                    .foregroundColor(accentColor)
                     .font(.system(size: 18, weight: .medium))
                     .padding([.bottom, .top], 12)
                 Spacer()
             }
             .background(RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(Color("oceanBlue").opacity(0.45)))
+                .foregroundColor(accentColor.opacity(0.45)))
             .padding([.top, .leading, .trailing])
         }
         Text("Tracking Number 4385722438")
@@ -97,39 +99,49 @@ struct PackageDetailView: View {
         Spacer()
         .onAppear() {
             let geoCoder = CLGeocoder()
-            geoCoder.geocodeAddressString(package.address ?? "") { (placemarks, error) in
-                guard
-                    let placemarks = placemarks,
-                    let location = placemarks.first?.location
-                else {
-                    return
+            var lastLocation: CLLocation!
+            Task {
+                do {
+                    let placemarks = try await geoCoder.geocodeAddressString(package.address ?? "")
+                    lastLocation = placemarks.first?.location
+                    DispatchQueue.main.async {
+                        self.region.center.longitude = lastLocation.coordinate.longitude
+                        self.region.center.latitude = lastLocation.coordinate.latitude
+                    }
+                } catch let err {
+                    print(err)
                 }
-                region.center.longitude = location.coordinate.longitude
-                region.center.latitude = location.coordinate.latitude
+                
+                for event in package.eventsArray {
+                    let address = event.address?.replacingOccurrences(of: "-", with: "")
+                    let geoCoder = CLGeocoder()
+                    var markerLocation: CLLocation!
+                    
+                        do {
+                            let placemarks = try await geoCoder.geocodeAddressString(address ?? "")
+                            markerLocation = placemarks.first?.location
+                            let marker = Marker(latitude: markerLocation.coordinate.latitude, longitude: markerLocation.coordinate.longitude, systemImage: event.systemImage!, address: event.address!)
+                            if markerLocations.filter({$0.address == marker.address}).count == 0 {
+                                markerLocations.append(marker)
+                                
+                                minLat = min(minLat, marker.latitude)
+                                minLong = min(minLong, marker.longitude)
+                                maxLong = max(maxLong, marker.longitude)
+                                maxLat = max(maxLat, marker.latitude)
+                            }
+                        } catch let err {
+                            print(err)
+                        }
+                    }
+                DispatchQueue.main.async {
+                    self.region.center.latitude = (minLat + maxLat)/2
+                    self.region.center.longitude = (minLong + maxLong)/2
+                    
+                    self.region.span.latitudeDelta = (maxLat - minLat) * 1.27
+                    self.region.span.longitudeDelta = (maxLong - minLong) * 1.37
+                }
             }
             
-            for event in package.eventsArray {
-                let address = event.address?.replacingOccurrences(of: "-", with: "")
-                let geoCoder = CLGeocoder()
-                geoCoder.geocodeAddressString(address ?? "") { (placemarks, error) in
-                    guard
-                        let placemarks = placemarks,
-                        let location = placemarks.first?.location
-                    else {
-                        return
-                    }
-                    let marker = Marker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, systemImage: event.systemImage!, address: event.address!)
-                    
-                    if markerLocations.filter({$0.address == marker.address}).count == 0 {
-                        markerLocations.append(marker)
-                        
-                        minLat = min(minLat, marker.latitude)
-                        minLong = min(minLong, marker.longitude)
-                        maxLong = max(maxLong, marker.longitude)
-                        maxLat = max(maxLat, marker.latitude)
-                    }
-                }
-            }
         }
     }
 }

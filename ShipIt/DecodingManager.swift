@@ -63,6 +63,13 @@ struct DHLEvent: Decodable {
     let description: String
 }
 
+//MARK: -Cargus Structs-
+struct CargusShipment: Decodable {
+    var status: String
+    var date: Date
+    var location: String
+    var lastEvent: String
+}
 
 //MARK: -Class-
 class DecodingManager {
@@ -83,6 +90,39 @@ class DecodingManager {
         }
 
         return shipments.shipments
+    }
+    
+    func decodeCargusHTML(htmlString: String) throws -> CargusShipment {
+        var shipment = CargusShipment(status: "", date: Date(), location: "", lastEvent: "")
+        
+        var rows = htmlString.split(separator: "</td>")
+        rows.remove(at: 0)
+        rows.removeLast()
+        
+        if rows.count == 4 {
+            //Decode Status
+            shipment.status = String(rows[0].split(separator: ">").last ?? "Unknown")
+            if shipment.status.contains("data-column") {
+                shipment.status = "Unknown"
+            }
+            //Decode Date
+            let fullDate = String(rows[1].split(separator: ">").last ?? "Unknown")
+            shipment.date = String(fullDate.split(separator: " ").first ?? "1978-30-02").turnToDate()
+            //Decode Location
+            shipment.location = String(rows[2].split(separator: ">").last ?? "Unknown")
+            if shipment.location.contains("data-column") {
+                shipment.location = "Unknown"
+            }
+            //Decode Last Event
+            shipment.lastEvent = String(rows[3].split(separator: ">").last ?? "Unknown")
+            if shipment.lastEvent.contains("data-column") {
+                shipment.lastEvent = "Unknown"
+            }
+        } else {
+            throw OrderManager.OrderErrors.AWBNotFound
+        }
+        
+        return shipment
     }
     
 }

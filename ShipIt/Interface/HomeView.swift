@@ -37,7 +37,7 @@ struct HomeView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 18)
                             .foregroundColor(Color.gray.opacity(0.2))
-                        NavigationLink(destination: PackageDetailView(package: package)) {
+                        NavigationLink(destination: PackageDetailView(package: package, accentColor: decideAccentOnIndex(index: index))) {
                             VStack {
                                 HStack {
                                     Image(systemName: package.systemImage ?? "questionmark")
@@ -100,7 +100,6 @@ struct HomeView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            
             .navigationTitle("Tracking")
             .navigationBarBackButtonHidden(true)
             .onAppear {
@@ -151,6 +150,15 @@ struct HomeView: View {
                 }
             }
         }
+//        .onAppear {
+//            Task {
+//                do {
+//                    try await OrderManager(contextMOC: moc).getCargusOrderAsync()
+//                } catch let err{
+//                    print(err)
+//                }
+//            }
+//        }
         .tint(Color("oceanBlue"))
     }
 }
