@@ -13,6 +13,7 @@ struct PackageDetailView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     @State var package : Package
     
+    @State private var markerLocations = [Marker]()
     var body: some View {        
         NavigationStack{
             VStack {
@@ -24,7 +25,9 @@ struct PackageDetailView: View {
                     Spacer()
                 }
                 
-                Map(coordinateRegion: $region)
+                Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
+                    MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? Color.indigo : Color.red)
+                }
                     .frame(height: UIScreen.main.bounds.height/4)
                     .navigationTitle(package.name!)
                     .cornerRadius(20)
@@ -45,7 +48,7 @@ struct PackageDetailView: View {
                             .foregroundColor((Color("oceanBlue")))
                         VStack(alignment: .leading, spacing: 3) {
                             Text(event.text!)
-                            Text(event.timestamp!)
+                            Text("\(event.timestamp!) - \(event.address!)")
                                 .foregroundColor((Color("oceanBlue")))
                                 .font(.system(size: 17))
                         }
@@ -88,6 +91,24 @@ struct PackageDetailView: View {
                 }
                 region.center.longitude = location.coordinate.longitude
                 region.center.latitude = location.coordinate.latitude
+            }
+            
+            for event in package.eventsArray {
+                let address = event.address?.replacingOccurrences(of: "-", with: "")
+                let geoCoder = CLGeocoder()
+                geoCoder.geocodeAddressString(address ?? "") { (placemarks, error) in
+                    guard
+                        let placemarks = placemarks,
+                        let location = placemarks.first?.location
+                    else {
+                        return
+                    }
+                    let marker = Marker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, systemImage: event.systemImage!, address: event.address!)
+                    
+                    if markerLocations.filter({$0.address == marker.address}).count == 0 {
+                        markerLocations.append(marker)
+                    }
+                }
             }
         }
     }
