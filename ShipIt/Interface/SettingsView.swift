@@ -46,6 +46,32 @@ struct SettingsView: View {
                             .padding([.leading, .trailing])
                             .foregroundColor(Color("W&B")))
                     Spacer()
+                    Button(action: {}) {
+                        HStack {
+                            Spacer()
+                            Text("Delete all my data")
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundColor(.red)
+                            Spacer()
+                        }
+                        .padding([.top, .bottom], 13)
+                        .background(RoundedRectangle(cornerRadius: 14)
+                            .foregroundColor(Color.red.opacity(0.4))
+                                    .padding([.leading, .trailing]))
+                    }
+                    Button(action: {}) {
+                        HStack {
+                            Spacer()
+                            Text("Privacy Policy & Legal")
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundColor(Color("darkBlue"))
+                            Spacer()
+                        }
+                        .padding([.top, .bottom], 13)
+                        .background(RoundedRectangle(cornerRadius: 14)
+                            .foregroundColor(Color("darkBlue").opacity(0.4))
+                                    .padding([.leading, .trailing]))
+                    }
                 }
                 .navigationTitle("Settings")
                 .toolbar {

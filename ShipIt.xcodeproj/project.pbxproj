@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9A8A893E295C2CAC00291C9F /* AddPackageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8A893D295C2CAC00291C9F /* AddPackageView.swift */; };
+		9A8FE4DD295ECAC900C81E77 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9A8FE4DC295ECAC900C81E77 /* Alamofire */; };
+		9A8FE4E1295ECD8500C81E77 /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FE4E0295ECD8500C81E77 /* DecodingManager.swift */; };
 		9AA90198295C926800947CF2 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA90197295C926800947CF2 /* Popovers */; };
 		9AC0831E295AFB8500C0B1E0 /* ShipItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0831D295AFB8500C0B1E0 /* ShipItApp.swift */; };
 		9AC08322295AFB8600C0B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AC08321295AFB8600C0B1E0 /* Assets.xcassets */; };
@@ -29,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		9A8A893D295C2CAC00291C9F /* AddPackageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPackageView.swift; sourceTree = "<group>"; };
+		9A8FE4E0295ECD8500C81E77 /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
 		9AC0831A295AFB8500C0B1E0 /* ShipIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShipIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AC0831D295AFB8500C0B1E0 /* ShipItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipItApp.swift; sourceTree = "<group>"; };
 		9AC08321295AFB8600C0B1E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,12 +58,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AA90198295C926800947CF2 /* Popovers in Frameworks */,
+				9A8FE4DD295ECAC900C81E77 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A8FE4DE295ECD5D00C81E77 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				D7AF5CDA295B17A200F2364E /* HomeView.swift */,
+				9A8A893D295C2CAC00291C9F /* AddPackageView.swift */,
+				D7D5CB22295B8A6D00FBDA44 /* PackageDetailView.swift */,
+				D7FE384A295B243F0034BC25 /* SettingsView.swift */,
+				D7AF5CD8295B038C00F2364E /* WelcomeView.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		9A8FE4DF295ECD7200C81E77 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */,
+				D74A6276295E22FB004B6629 /* Package+CoreDataProperties.swift */,
+				D74A6277295E22FB004B6629 /* Events+CoreDataClass.swift */,
+				D74A6278295E22FB004B6629 /* Events+CoreDataProperties.swift */,
+				D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		9AC08311295AFB8500C0B1E0 = {
 			isa = PBXGroup;
 			children = (
@@ -80,21 +108,14 @@
 		9AC0831C295AFB8500C0B1E0 /* ShipIt */ = {
 			isa = PBXGroup;
 			children = (
-				D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */,
-				D74A6276295E22FB004B6629 /* Package+CoreDataProperties.swift */,
-				D74A6277295E22FB004B6629 /* Events+CoreDataClass.swift */,
-				D74A6278295E22FB004B6629 /* Events+CoreDataProperties.swift */,
 				9AC0831D295AFB8500C0B1E0 /* ShipItApp.swift */,
-				D7AF5CDA295B17A200F2364E /* HomeView.swift */,
+				9A8FE4DE295ECD5D00C81E77 /* Interface */,
+				9A8FE4DF295ECD7200C81E77 /* CoreData */,
 				D74A6271295DE4CB004B6629 /* OrderManager.swift */,
+				9A8FE4E0295ECD8500C81E77 /* DecodingManager.swift */,
 				D74A6273295DF229004B6629 /* Extensions.swift */,
-				9A8A893D295C2CAC00291C9F /* AddPackageView.swift */,
 				D7CB4C23295C9602002E2032 /* Declarations.swift */,
-				D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */,
 				D7CB4C28295C9D1D002E2032 /* DataController.swift */,
-				D7D5CB22295B8A6D00FBDA44 /* PackageDetailView.swift */,
-				D7FE384A295B243F0034BC25 /* SettingsView.swift */,
-				D7AF5CD8295B038C00F2364E /* WelcomeView.swift */,
 				9AC08321295AFB8600C0B1E0 /* Assets.xcassets */,
 				9AC08323295AFB8600C0B1E0 /* ShipIt.entitlements */,
 				9AC08324295AFB8600C0B1E0 /* Preview Content */,
@@ -128,6 +149,7 @@
 			name = ShipIt;
 			packageProductDependencies = (
 				9AA90197295C926800947CF2 /* Popovers */,
+				9A8FE4DC295ECAC900C81E77 /* Alamofire */,
 			);
 			productName = ShipIt;
 			productReference = 9AC0831A295AFB8500C0B1E0 /* ShipIt.app */;
@@ -159,6 +181,7 @@
 			mainGroup = 9AC08311295AFB8500C0B1E0;
 			packageReferences = (
 				9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */,
+				9A8FE4DB295ECAC900C81E77 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 9AC0831B295AFB8500C0B1E0 /* Products */;
 			projectDirPath = "";
@@ -194,6 +217,7 @@
 				D74A6272295DE4CB004B6629 /* OrderManager.swift in Sources */,
 				D74A627B295E22FB004B6629 /* Events+CoreDataClass.swift in Sources */,
 				D7D5CB23295B8A6D00FBDA44 /* PackageDetailView.swift in Sources */,
+				9A8FE4E1295ECD8500C81E77 /* DecodingManager.swift in Sources */,
 				D7FE384B295B243F0034BC25 /* SettingsView.swift in Sources */,
 				D7AF5CD9295B038C00F2364E /* WelcomeView.swift in Sources */,
 				D7CB4C29295C9D1D002E2032 /* DataController.swift in Sources */,
@@ -416,6 +440,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9A8FE4DB295ECAC900C81E77 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aheze/Popovers";
@@ -427,6 +459,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9A8FE4DC295ECAC900C81E77 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A8FE4DB295ECAC900C81E77 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		9AA90197295C926800947CF2 /* Popovers */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */;

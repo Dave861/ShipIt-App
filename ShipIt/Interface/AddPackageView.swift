@@ -205,7 +205,7 @@ struct AddPackageView: View {
             let newPackage = Package(context: moc)
             newPackage.awb = trackingNumberFieldText
             
-            OrderManager().getDHLOrder(package: newPackage)
+            OrderManager.sharedInstance.getDHLOrder(package: newPackage)
             newPackage.id = UUID()
             newPackage.systemImage = pickedIconName
             newPackage.link = websiteLinkFieldText

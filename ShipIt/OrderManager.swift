@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import UIKit
+import Alamofire
 
 struct OrderProcessingResults {
     let status : String
@@ -17,7 +18,42 @@ struct OrderProcessingResults {
 
 class OrderManager {
     
-    public func getDHLOrder(package : Package) {
+    static let sharedInstance = OrderManager()
+    
+    private init() {}
+    
+    enum OrderErrors: Error {
+        case DBFail
+        case JSONFail
+        case UnknownFail
+    }
+    
+    func getDHLOrderAsync(package: Package) async throws {
+        let _headers : HTTPHeaders = ["Content-Type":"application/json", "DHL-API-Key": "demo-key"]
+        let params : Parameters = [:]
+        
+        let getRequest = AF.request("https://api-test.dhl.com/track/shipments?trackingNumber=" + package.awb!, method: .get, parameters: params, encoding: JSONEncoding.default, headers: _headers)
+        
+        var responseJson: String!
+        do {
+            responseJson = try await getRequest.serializingString().value
+        } catch {
+            throw OrderErrors.DBFail
+        }
+        
+        var shipment: DHLShipment!
+        do {
+            shipment = try DecodingManager.sharedInstance.decodeDHLJson(jsonString: responseJson!).first
+        } catch {
+            throw OrderErrors.JSONFail
+        }
+        
+        print(shipment.status.statusCode.capitalized)
+        print(shipment.status.timestamp.split(separator: "T").first!)
+        print(shipment.status.location.address.addressLocality.lowercased().capitalized)
+    }
+    
+    func getDHLOrder(package : Package) {
         var status = ""
         var timestamp = ""
         var address = ""
@@ -36,8 +72,7 @@ class OrderManager {
                 print(error!)
             } else {
                 let printData = String(bytes: data!, encoding: String.Encoding.utf8)
-                print(printData!)
-                
+                            
                 status = printData!.slice(from: "statusCode", to: ",") ?? ""
                 
                 status = status.replacingOccurrences(of: "\"", with: "")
