@@ -112,7 +112,12 @@ struct PackageDetailView: View {
                     print(err)
                 }
                 
-                for event in package.eventsArray {
+                var events = package.eventsArray
+                if package.eventsArray.count > 5 {
+                    events = Array(package.eventsArray[..<5])
+                }
+                
+                for event in events {
                     let address = event.address?.replacingOccurrences(of: "-", with: "")
                     let geoCoder = CLGeocoder()
                     var markerLocation: CLLocation!
