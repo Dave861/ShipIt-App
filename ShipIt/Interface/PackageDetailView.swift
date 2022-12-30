@@ -14,6 +14,12 @@ struct PackageDetailView: View {
     @State var package : Package
     
     @State private var markerLocations = [Marker]()
+    
+    @State private var minLong = 1000.0
+    @State private var maxLong = 0.0
+    @State private var minLat = 1000.0
+    @State private var maxLat = 0.0
+    
     var body: some View {        
         NavigationStack{
             VStack {
@@ -32,6 +38,15 @@ struct PackageDetailView: View {
                     .navigationTitle(package.name!)
                     .cornerRadius(20)
                     .padding([.trailing, .leading])
+                    .onAppear() {
+                        DispatchQueue.main.asyncAfter(deadline: .now()+1){
+                            region.center.latitude = (minLat + maxLat)/2
+                            region.center.longitude = (minLong + maxLong)/2
+                            
+                            region.span.latitudeDelta = (maxLat - minLat) * 1.27
+                            region.span.longitudeDelta = (maxLong - minLong) * 1.37
+                        }
+                    }
                 
                 HStack {
                     Text("Delivery Status")
@@ -107,6 +122,11 @@ struct PackageDetailView: View {
                     
                     if markerLocations.filter({$0.address == marker.address}).count == 0 {
                         markerLocations.append(marker)
+                        
+                        minLat = min(minLat, marker.latitude)
+                        minLong = min(minLong, marker.longitude)
+                        maxLong = max(maxLong, marker.longitude)
+                        maxLat = max(maxLat, marker.latitude)
                     }
                 }
             }
