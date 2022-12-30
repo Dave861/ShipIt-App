@@ -14,7 +14,7 @@ struct PackageDetailView: View {
     @State var package : Package
     
     var body: some View {
-        let withIndex = package.eventsArray.enumerated().map({ $0 })
+        let withIndex = zip(package.eventsArray.indices, package.eventsArray)
         
         NavigationStack{
             VStack {
@@ -60,7 +60,7 @@ struct PackageDetailView: View {
                 //
                 //                }
                 
-                List(package.eventsArray, id: \.id) {event in
+                List(package.eventsArray, id: \.self) {event in
                     HStack {
                         Image(systemName: event.systemImage!)
                             .font(.system(size: 25))
@@ -77,8 +77,9 @@ struct PackageDetailView: View {
                     .listRowBackground(RoundedRectangle(cornerRadius: 16)
                         .padding([.leading, .trailing])
                         .foregroundColor(Color.gray.opacity(0.2)))
-                    
+
                 }
+                
             }
         }
         .listStyle(.plain)
@@ -99,27 +100,18 @@ struct PackageDetailView: View {
             .font(.system(size: 16))
             .foregroundColor(.gray)
         Spacer()
-            .onAppear() {
-                let geoCoder = CLGeocoder()
-                geoCoder.geocodeAddressString(package.address ?? "") { (placemarks, error) in
-                    guard
-                        let placemarks = placemarks,
-                        let location = placemarks.first?.location
-                    else {
-                        return
-                    }
-                    
-                    print(location.coordinate.longitude)
-                    print(location.coordinate.latitude)
-                    region.center.longitude = location.coordinate.longitude
-                    region.center.latitude = location.coordinate.latitude
+        .onAppear() {
+            let geoCoder = CLGeocoder()
+            geoCoder.geocodeAddressString(package.address ?? "") { (placemarks, error) in
+                guard
+                    let placemarks = placemarks,
+                    let location = placemarks.first?.location
+                else {
+                    return
                 }
+                region.center.longitude = location.coordinate.longitude
+                region.center.latitude = location.coordinate.latitude
             }
+        }
     }
 }
-
-//struct PackageDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PackageDetailView()
-//    }
-//}

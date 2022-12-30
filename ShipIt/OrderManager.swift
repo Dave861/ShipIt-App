@@ -16,11 +16,13 @@ struct OrderProcessingResults {
     let address : String
 }
 
-class OrderManager {
+class OrderManager: NSObject {
     
-    static let sharedInstance = OrderManager()
+    var contextMOC: NSManagedObjectContext!
     
-    private init() {}
+    init(contextMOC: NSManagedObjectContext!) {
+        self.contextMOC = contextMOC
+    }
     
     enum OrderErrors: Error {
         case DBFail
@@ -29,11 +31,11 @@ class OrderManager {
     }
     
     func getDHLOrderAsync(package: Package) async throws {
-        let _headers : HTTPHeaders = ["Content-Type":"application/json", "DHL-API-Key": "demo-key"]
-        let params : Parameters = [:]
+        let _headers : HTTPHeaders = ["DHL-API-Key": "demo-key"]
+        let params : Parameters = ["trackingNumber" : package.awb!]
         
-        let getRequest = AF.request("https://api-test.dhl.com/track/shipments?trackingNumber=" + package.awb!, method: .get, parameters: params, encoding: JSONEncoding.default, headers: _headers)
-        
+        let getRequest = AF.request("https://api-test.dhl.com/track/shipments", method: .get, parameters: params, encoding: URLEncoding.default, headers: _headers)
+                
         var responseJson: String!
         do {
             responseJson = try await getRequest.serializingString().value
@@ -48,12 +50,34 @@ class OrderManager {
             throw OrderErrors.JSONFail
         }
         
-        print(shipment.status.statusCode.capitalized)
-        print(shipment.status.timestamp.split(separator: "T").first!)
-        print(shipment.status.location.address.addressLocality.lowercased().capitalized)
+        package.lastDate = String(shipment.status.timestamp.split(separator: "T")[0])
+        package.statusText = shipment.status.statusCode.capitalized
+        package.address = shipment.status.location.address.addressLocality.lowercased().capitalized
+    
+        
+        for index in 0...shipment.events.count-2 {
+            let shipmentEvent = shipment.events[index]
+            
+            let newEvent = Events(context: contextMOC)
+            newEvent.text = shipmentEvent.description
+            newEvent.address = shipmentEvent.location?.address.addressLocality.lowercased().capitalized
+            newEvent.timestamp = String(shipmentEvent.timestamp!.split(separator: "T")[0])
+            
+            print(shipmentEvent.description)
+            if shipmentEvent.description.contains("transit") {
+                newEvent.systemImage = "box.truck.fill"
+            } else if shipmentEvent.description.contains("Arrived") {
+                newEvent.systemImage = "building.fill"
+            } else {
+                newEvent.systemImage = "box.fill"
+            }
+            
+            package.addToEvents(newEvent)
+        }
+        
     }
     
-    func getDHLOrder(package : Package) {
+    /*func getDHLOrder(package : Package) {
         var status = ""
         var timestamp = ""
         var address = ""
@@ -99,5 +123,5 @@ class OrderManager {
             }
         })
         dataTask.resume()
-    }
+    }*/
 }

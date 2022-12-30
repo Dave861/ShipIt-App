@@ -15,4 +15,11 @@ extension String {
         return String(self[rangeFrom..<rangeTo])
     }
     
+    func turnToDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter.date(from: self) ?? Date()
+    }
+    
 }

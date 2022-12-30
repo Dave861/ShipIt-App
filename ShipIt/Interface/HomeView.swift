@@ -24,13 +24,13 @@ struct HomeView: View {
                     NavigationLink(destination: PackageDetailView(package: package)) {
                         VStack{
                             HStack{
-                                Image(systemName: package.systemImage!)
+                                Image(systemName: package.systemImage ?? "questionmark")
                                     .foregroundColor(Color("oceanBlue"))
                                     .font(.title2)
                                 Spacer()
                             }
                             HStack{
-                                Text(package.name!)
+                                Text(package.name ?? "ShipIt")
                                     .foregroundColor(Color("oceanBlue"))
                                     .bold()
                                     .font(.title2)
@@ -47,6 +47,14 @@ struct HomeView: View {
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundColor(Color("oceanBlue"))
                             }
+                        }
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            moc.delete(package)
+                            try? moc.save()
+                        } label : {
+                            Image(systemName: "trash.fill")
                         }
                     }
                     .buttonStyle(.plain)

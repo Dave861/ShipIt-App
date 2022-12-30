@@ -33,7 +33,7 @@ extension Package {
         let set = events as? Set<Events> ?? []
         
         return set.sorted {
-            $0.id <= $1.id
+            $0.timestamp!.turnToDate() >= $1.timestamp!.turnToDate()
         }
     }
 

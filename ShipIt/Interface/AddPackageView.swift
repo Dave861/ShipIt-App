@@ -56,7 +56,6 @@ struct AddPackageView: View {
                         .tint(Color("blueNCS"))
                         .focused($focusOnTrackingNumberField)
                         .onSubmit {
-                            //                                    trackingNumberFieldText = trackingNumberFieldText.trimmingCharacters(in: .whitespacesAndNewlines)
                             focusOnPackageNameField = true
                         }
                 }
@@ -85,7 +84,6 @@ struct AddPackageView: View {
                             .tint(Color("blueNCS"))
                             .focused($focusOnPackageNameField)
                             .onSubmit {
-                                //                                    packageNameFieldText = packageNameFieldText.trimmingCharacters(in: .whitespacesAndNewlines)
                                 focusOnOrderLinkField = true
                             }
                     }
@@ -204,47 +202,31 @@ struct AddPackageView: View {
         if trackingNumberFieldText != "" && packageNameFieldText != "" {
             let newPackage = Package(context: moc)
             newPackage.awb = trackingNumberFieldText
-            
-            OrderManager.sharedInstance.getDHLOrder(package: newPackage)
             newPackage.id = UUID()
             newPackage.systemImage = pickedIconName
             newPackage.link = websiteLinkFieldText
             newPackage.name = packageNameFieldText
             newPackage.courier = "DHL"
             
-            DispatchQueue.main.asyncAfter(deadline: .now()+3){
-                let printData = newPackage.codedData
-                let events = printData!.slice(from: "\"events\":[{", to: "}]")
-                let eventsArr = events!.components(separatedBy: "\"},")
-                
-                for index in 0..<eventsArr.count-1 {
-                    let eventsTimestamp = eventsArr[index].slice(from: ":\"", to: "T")
-                    let eventsAddress = eventsArr[index].slice(from: "addressLocality\":\"", to: "\"}}")
-                    let eventsDescription = eventsArr[index].components(separatedBy: "description\":\"")[1]
-                    
-                    let event = Events(context: moc)
-                    event.timestamp = eventsTimestamp
-                    event.address = eventsAddress
-                    event.text = eventsDescription
-                    event.id = UUID()
-                    
-                    if eventsDescription.contains("transit") {
-                        event.systemImage = "box.truck.fill"
-                    } else if eventsDescription.contains("Arrived") {
-                        event.systemImage = "building.fill"
-                    } else {
-                        event.systemImage = "box.fill"
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: moc).getDHLOrderAsync(package: newPackage)
+                    do {
+                        try moc.save()
+                        DispatchQueue.main.async {
+                            self.isPresented.toggle()
+                        }
+                    } catch let err {
+                        print(err)
                     }
-                    
-                    newPackage.addToEvents(event)
+                } catch let err {
+                    print(err)
                 }
-                
-                try? moc.save()
             }
         } else {
-            print("invalid order")
+            //Alert User
         }
-        isPresented.toggle()
+       
     }
 }
 
