@@ -34,21 +34,12 @@ struct PackageDetailView: View {
                 
                 Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
                     MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? accentColor : Color.gray)
-                        
+                    
                 }
-                    .frame(height: UIScreen.main.bounds.height/4)
-                    .navigationTitle(package.name!)
-                    .cornerRadius(20)
-                    .padding([.trailing, .leading])
-                    .onAppear() {
-//                        DispatchQueue.main.asyncAfter(deadline: .now()+1.5){
-//                            region.center.latitude = (minLat + maxLat)/2
-//                            region.center.longitude = (minLong + maxLong)/2
-//
-//                            region.span.latitudeDelta = (maxLat - minLat) * 1.27
-//                            region.span.longitudeDelta = (maxLong - minLong) * 1.37
-//                        }
-                    }
+                .frame(height: UIScreen.main.bounds.height/4)
+                .navigationTitle(package.name!)
+                .cornerRadius(20)
+                .padding([.trailing, .leading])
                 
                 HStack {
                     Text("Delivery Status")
@@ -74,7 +65,7 @@ struct PackageDetailView: View {
                     .listRowBackground(RoundedRectangle(cornerRadius: 16)
                         .padding([.leading, .trailing])
                         .foregroundColor(index%2 == 0 ? Color.gray.opacity(0.2) : Color.clear))
-
+                    
                 }
                 
             }
@@ -97,31 +88,31 @@ struct PackageDetailView: View {
             .font(.system(size: 16))
             .foregroundColor(.gray)
         Spacer()
-        .onAppear() {
-            let geoCoder = CLGeocoder()
-            var lastLocation: CLLocation!
-            Task {
-                do {
-                    let placemarks = try await geoCoder.geocodeAddressString(package.address ?? "")
-                    lastLocation = placemarks.first?.location
-                    DispatchQueue.main.async {
-                        self.region.center.longitude = lastLocation.coordinate.longitude
-                        self.region.center.latitude = lastLocation.coordinate.latitude
+            .onAppear() {
+                let geoCoder = CLGeocoder()
+                var lastLocation: CLLocation!
+                Task {
+                    do {
+                        let placemarks = try await geoCoder.geocodeAddressString(package.address ?? "")
+                        lastLocation = placemarks.first?.location
+                        DispatchQueue.main.async {
+                            self.region.center.longitude = lastLocation.coordinate.longitude
+                            self.region.center.latitude = lastLocation.coordinate.latitude
+                        }
+                    } catch let err {
+                        print(err)
                     }
-                } catch let err {
-                    print(err)
-                }
-                
-                var events = package.eventsArray
-                if package.eventsArray.count > 5 {
-                    events = Array(package.eventsArray[..<5])
-                }
-                
-                for event in events {
-                    let address = event.address?.replacingOccurrences(of: "-", with: "")
-                    let geoCoder = CLGeocoder()
-                    var markerLocation: CLLocation!
                     
+                    var events = package.eventsArray
+                    if package.eventsArray.count > 5 {
+                        events = Array(package.eventsArray[..<5])
+                    }
+                    
+                    for event in events {
+                        let address = event.address?.replacingOccurrences(of: "-", with: "")
+                        let geoCoder = CLGeocoder()
+                        var markerLocation: CLLocation!
+                        
                         do {
                             let placemarks = try await geoCoder.geocodeAddressString(address ?? "")
                             markerLocation = placemarks.first?.location
@@ -138,15 +129,15 @@ struct PackageDetailView: View {
                             print(err)
                         }
                     }
-                DispatchQueue.main.async {
-                    self.region.center.latitude = (minLat + maxLat)/2
-                    self.region.center.longitude = (minLong + maxLong)/2
-                    
-                    self.region.span.latitudeDelta = (maxLat - minLat) * 1.27
-                    self.region.span.longitudeDelta = (maxLong - minLong) * 1.37
+                    DispatchQueue.main.async {
+                        self.region.center.latitude = (minLat + maxLat)/2
+                        self.region.center.longitude = (minLong + maxLong)/2
+                        
+                        self.region.span.latitudeDelta = (maxLat - minLat) * 1.27
+                        self.region.span.longitudeDelta = (maxLong - minLong) * 1.37
+                    }
                 }
+                
             }
-            
-        }
     }
 }
