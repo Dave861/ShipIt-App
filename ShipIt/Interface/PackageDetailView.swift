@@ -56,7 +56,7 @@ struct PackageDetailView: View {
                             .foregroundColor((accentColor))
                         VStack(alignment: .leading, spacing: 3) {
                             Text(event.text!)
-                            Text("\(event.timestamp!) - \(event.address!.replacingOccurrences(of: " - ", with: ", "))")
+                            Text("\(String(event.timestamp!.split(separator: "T")[0])) - \(event.address!.replacingOccurrences(of: " - ", with: ", "))")
                                 .foregroundColor((accentColor))
                                 .font(.system(size: 17))
                         }
@@ -71,20 +71,7 @@ struct PackageDetailView: View {
             }
         }
         .listStyle(.plain)
-        Button {} label: {
-            HStack {
-                Spacer()
-                Label("Open on Website", systemImage: "link")
-                    .foregroundColor(accentColor)
-                    .font(.system(size: 18, weight: .medium))
-                    .padding([.bottom, .top], 12)
-                Spacer()
-            }
-            .background(RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(accentColor.opacity(0.45)))
-            .padding([.top, .leading, .trailing])
-        }
-        Text("Tracking Number 4385722438")
+        Text("Tracking Number \(package.awb!)")
             .font(.system(size: 16))
             .foregroundColor(.gray)
         Spacer()

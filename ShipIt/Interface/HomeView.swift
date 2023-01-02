@@ -59,7 +59,7 @@ struct HomeView: View {
                                     Text(package.statusText ?? "Status unknown")
                                         .foregroundColor(.gray)
                                     Spacer()
-                                    Text(package.lastDate ?? "0")
+                                    Text(String((package.lastDate ?? "0").split(separator: "T")[0]))
                                         .font(.system(size: 16, weight: .medium))
                                         .foregroundColor(decideAccentOnIndex(index: index))
                                 }
@@ -134,6 +134,9 @@ struct HomeView: View {
         }
         .refreshable {
             for package in packages {
+                for _ in 0...package.eventsArray.count-1 {
+                    package.removeFromEvents(package.eventsArray[0])
+                }
                 if package.courier == "DHL" {
                     Task(priority: .high) {
                         do {
@@ -147,18 +150,22 @@ struct HomeView: View {
                             print(err)
                         }
                     }
+                } else if package.courier == "Sameday" {
+                    Task(priority: .high) {
+                        do {
+                            try await OrderManager(contextMOC: moc).getSamedayOrderAsync(package: package)
+                            do {
+                                try moc.save()
+                            } catch let err {
+                                print(err)
+                            }
+                        } catch let err {
+                            print(err)
+                        }
+                    }
                 }
             }
         }
-//        .onAppear {
-//            Task {
-//                do {
-//                    try await OrderManager(contextMOC: moc).getCargusOrderAsync()
-//                } catch let err{
-//                    print(err)
-//                }
-//            }
-//        }
         .tint(Color("oceanBlue"))
     }
 }

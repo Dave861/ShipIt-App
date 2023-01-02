@@ -18,7 +18,7 @@ extension String {
     
     func turnToDate() -> Date {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         
         return dateFormatter.date(from: self) ?? Date()
     }

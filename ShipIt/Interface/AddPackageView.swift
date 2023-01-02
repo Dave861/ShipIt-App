@@ -7,6 +7,12 @@
 
 import SwiftUI
 import UIKit
+import Popovers
+
+enum Courier : String {
+    case DHL = "DHL"
+    case Sameday = "Sameday"
+}
 
 struct AddPackageView: View {
     
@@ -16,7 +22,6 @@ struct AddPackageView: View {
     
     @State var trackingNumberFieldText = ""
     @State var packageNameFieldText = ""
-    @State var websiteLinkFieldText = ""
     
     @FetchRequest(sortDescriptors: []) var orders : FetchedResults<Package>
     @Environment(\.managedObjectContext) var moc
@@ -24,7 +29,9 @@ struct AddPackageView: View {
     
     @FocusState var focusOnTrackingNumberField : Bool
     @FocusState var focusOnPackageNameField : Bool
-    @FocusState var focusOnOrderLinkField : Bool
+    
+    @State private var selectedCourier = Courier.DHL
+
     var body: some View {
         VStack {
             HStack {
@@ -83,9 +90,6 @@ struct AddPackageView: View {
                             .font(.system(size: 17))
                             .tint(Color("blueNCS"))
                             .focused($focusOnPackageNameField)
-                            .onSubmit {
-                                focusOnOrderLinkField = true
-                            }
                     }
                     .padding()
                 }
@@ -158,17 +162,12 @@ struct AddPackageView: View {
                         .foregroundColor(Color.gray.opacity(0.2))
                         .padding([.leading, .trailing])
                         .frame(height: 45)
-                    HStack(spacing: 4) {
-                        Image(systemName: "link")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(Color(uiColor: .systemGray2))
-                            .padding(.leading, 10)
-                        TextField("Order Link (optional)", text: $websiteLinkFieldText)
-                            .font(.system(size: 17))
-                            .tint(Color("blueNCS"))
-                            .focused($focusOnOrderLinkField)
-                            .onSubmit{submitPackage()}
-                        
+                    Templates.Menu {
+                        Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
+                        Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
+                    } label: { fade in
+                        Text(selectedCourier.rawValue)
+                            .opacity(fade ? 0.5 : 1)
                     }
                     .padding()
                 }
@@ -204,29 +203,52 @@ struct AddPackageView: View {
             newPackage.awb = trackingNumberFieldText
             newPackage.id = UUID()
             newPackage.systemImage = pickedIconName
-            newPackage.link = websiteLinkFieldText
             newPackage.name = packageNameFieldText
-            newPackage.courier = "DHL"
+            newPackage.courier = selectedCourier.rawValue
             
-            Task(priority: .high) {
-                do {
-                    try await OrderManager(contextMOC: moc).getDHLOrderAsync(package: newPackage)
-                    do {
-                        try moc.save()
-                        DispatchQueue.main.async {
-                            self.isPresented.toggle()
+            switch selectedCourier {
+                case .DHL:
+                    Task(priority: .high) {
+                        do {
+                            try await OrderManager(contextMOC: moc).getDHLOrderAsync(package: newPackage)
+                            do {
+                                try moc.save()
+                                DispatchQueue.main.async {
+                                    self.isPresented.toggle()
+                                }
+                            } catch let err {
+                                print(err)
+                                print("Core Data Fail")
+                            }
+                        } catch let err {
+                            if err as! OrderManager.OrderErrors == .AWBNotFound {
+                                print("Wrong AWB")
+                            } else {
+                                print("JSON Fail")
+                            }
                         }
-                    } catch let err {
-                        print(err)
-                        print("Core Data Fail")
                     }
-                } catch let err {
-                    if err as! OrderManager.OrderErrors == .AWBNotFound {
-                        print("Wrong AWB")
-                    } else {
-                        print("JSON Fail")
+                case .Sameday:
+                    Task(priority: .high) {
+                        do {
+                            try await OrderManager(contextMOC: moc).getSamedayOrderAsync(package: newPackage)
+                            do {
+                                try moc.save()
+                                DispatchQueue.main.async {
+                                    self.isPresented.toggle()
+                                }
+                            } catch let err {
+                                print(err)
+                                print("Core Data Fail")
+                            }
+                        } catch let err {
+                            if err as! OrderManager.OrderErrors == .AWBNotFound {
+                                print("Wrong AWB")
+                            } else {
+                                print("JSON Fail")
+                            }
+                        }
                     }
-                }
             }
         } else {
             print("Please fill in fields")

@@ -71,6 +71,50 @@ struct CargusShipment: Decodable {
     var lastEvent: String
 }
 
+//MARK: -Sameday Structs-
+struct SamedayError: Decodable {
+    let error: SamedayErrorDetails
+}
+
+struct SamedayErrorDetails: Decodable {
+    let code: Int
+    let message: String
+}
+
+struct SamedayHistory: Decodable {
+    let county: String
+    let country: String
+    let status: String
+    let statusId: Int
+    let statusState: String
+    let statusStateId: Int
+    let transitLocation: String
+    let statusDate: String//Date
+}
+
+struct SamedayParcel: Decodable {
+    let county: String
+    let country: String
+    let status: String
+    let statusId: Int
+    let statusState: String
+    let statusStateId: Int
+    let transitLocation: String
+    let statusDate: String//Date
+    let parcelAwbNumber: String
+    let createdBy: Int
+    let reasonId: String
+    let reason: String
+    let inReturn: Bool
+}
+
+struct SamedayParcelsList: Decodable {
+    let awbNumber: String
+    let awbHistory: [SamedayHistory]
+    let parcelsList: [String: [SamedayParcel]]
+}
+
+
 //MARK: -Class-
 class DecodingManager {
     
@@ -92,10 +136,30 @@ class DecodingManager {
         return shipments.shipments
     }
     
+    func decodeSamedayJson(jsonString: String) throws -> SamedayParcelsList {
+        let jsonData = jsonString.data(using: .utf8)!
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
+        let shipment: SamedayParcelsList
+        do {
+            shipment = try decoder.decode(SamedayParcelsList.self, from: jsonData)
+        } catch let err {
+            print(err.localizedDescription)
+            throw err
+            
+        }
+        
+        return shipment
+    }
+    
     func decodeCargusHTML(htmlString: String) throws -> CargusShipment {
         var shipment = CargusShipment(status: "", date: Date(), location: "", lastEvent: "")
         
         var rows = htmlString.split(separator: "</td>")
+        if rows.count == 1 {
+            throw OrderManager.OrderErrors.AWBNotFound
+        }
         rows.remove(at: 0)
         rows.removeLast()
         
