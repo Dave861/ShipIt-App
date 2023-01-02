@@ -120,8 +120,8 @@ struct PackageDetailView: View {
                         self.region.center.latitude = (minLat + maxLat)/2
                         self.region.center.longitude = (minLong + maxLong)/2
                         
-                        self.region.span.latitudeDelta = (maxLat - minLat) * 1.27
-                        self.region.span.longitudeDelta = (maxLong - minLong) * 1.37
+                        self.region.span.latitudeDelta = 11.25
+                        self.region.span.longitudeDelta = 22.5
                     }
                 }
                 
