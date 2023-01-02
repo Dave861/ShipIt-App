@@ -114,6 +114,54 @@ struct SamedayParcelsList: Decodable {
     let parcelsList: [String: [SamedayParcel]]
 }
 
+//MARK: GLS
+struct PackageStatus: Codable {
+    let tuStatus: [Status]
+}
+
+struct Status: Codable {
+    let references: [Reference]
+    let signature: Signature
+    let history: [History]
+    let owners: [Owner]
+    let infos: [Info]
+}
+
+struct Reference: Codable {
+    let type: String
+    let name: String
+    let value: String
+}
+
+struct Signature: Codable {
+    let validate: Bool
+    let name: String
+    let value: String
+}
+
+struct History: Codable {
+    let date: String
+    let time: String
+    let address: Address
+    let evtDscr: String
+}
+
+struct Address: Codable {
+    let city: String
+    let countryName: String
+    let countryCode: String
+    let name: String?
+}
+
+struct Owner: Codable {
+    let type: String
+    let code: String
+}
+
+struct Info: Codable {
+    let type: String
+    let value: String
+}
 
 //MARK: -Class-
 class DecodingManager {
@@ -125,14 +173,14 @@ class DecodingManager {
     func decodeDHLJson(jsonString: String) throws -> [DHLShipment] {
         let jsonData = jsonString.data(using: .utf8)!
         let decoder = JSONDecoder()
-
+        
         let shipments: DHLShipments
         do {
             shipments = try decoder.decode(DHLShipments.self, from: jsonData)
         } catch let err {
             throw err
         }
-
+        
         return shipments.shipments
     }
     
@@ -186,6 +234,20 @@ class DecodingManager {
             throw OrderManager.OrderErrors.AWBNotFound
         }
         
+        return shipment
+    }
+    
+    func decodeGLSJSON(jsonString: String) throws -> PackageStatus {
+        let jsonData = jsonString.data(using: .utf8)!
+        let decoder = JSONDecoder()
+        
+        let shipment: PackageStatus
+        do {
+            shipment = try decoder.decode(PackageStatus.self, from: jsonData)
+        } catch let err {
+            print(err)
+            throw err
+        }
         return shipment
     }
     

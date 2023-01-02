@@ -142,7 +142,7 @@ class OrderManager: NSObject {
     }
     
     func getCargusOrderAsync(package: Package) async throws {
-        let params : Parameters = ["t" : "1001651153"]//package.awb!]
+        let params : Parameters = ["t" : package.awb!]
         
         let getRequest = AF.request("https://www.cargus.ro/tracking-romanian", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
         
@@ -163,6 +163,58 @@ class OrderManager: NSObject {
         print(cargusShipment.date)
         print(cargusShipment.location)
         print(cargusShipment.lastEvent)
+    }
+    
+    func getGLSOrderAsync(package: Package) async throws {
+        let params : Parameters = ["match" : "1111111111"]
+        
+        let getRequest = AF.request("https://gls-group.com/app/service/open/rest/RO/en/rstt001", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
+        
+        var responseJSON : String!
+        do {
+            responseJSON = try await getRequest.serializingString().value
+        } catch {
+            throw OrderErrors.DBFail
+        }
+        
+        var GLSShipment : PackageStatus
+        do {
+            GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: responseJSON)
+        } catch {
+            throw OrderErrors.AWBNotFound
+        }
+        
+        let shipment = GLSShipment.tuStatus.first
+        package.address = shipment?.history.first?.address.city.lowercased()
+        package.address = package.address?.capitalized
+        package.statusText = String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
+        package.lastDate = "\(String(describing: shipment?.history.first?.date ?? "DATE"))T\(String(describing: shipment?.history.first?.time ?? "DATE"))"
+        
+        
+        for index in 0...(shipment?.history.count)!-1 {
+            let shipmentEvent = shipment?.history[index]
+            
+            let newEvent = Events(context: contextMOC)
+            newEvent.text = shipmentEvent?.evtDscr ?? "DESC"
+            newEvent.address = shipmentEvent?.address.city.lowercased() ?? "CITY"
+            newEvent.address = newEvent.address?.capitalized
+            
+            let timestamp = "\(String(describing: shipment?.history.first?.date ?? "DATE"))T\(String(describing: shipment?.history.first?.time ?? "DATE"))"
+            newEvent.timestamp = String(timestamp.split(separator: "+")[0])
+            
+            if newEvent.text!.contains("left") || newEvent.text!.contains("GLS"){
+                newEvent.systemImage = "box.truck.fill"
+            } else if newEvent.text!.contains("reached") {
+                newEvent.systemImage = "building.fill"
+            } else if newEvent.text!.contains("delivered") {
+                newEvent.systemImage = "figure.wave"
+            } else {
+                newEvent.systemImage = "shippingbox.fill"
+            }
+            
+            package.addToEvents(newEvent)
+        }
+        
     }
     
 }

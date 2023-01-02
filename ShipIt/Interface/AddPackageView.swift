@@ -12,6 +12,7 @@ import Popovers
 enum Courier : String {
     case DHL = "DHL"
     case Sameday = "Sameday"
+    case GLS = "GLS"
 }
 
 struct AddPackageView: View {
@@ -31,6 +32,8 @@ struct AddPackageView: View {
     @FocusState var focusOnPackageNameField : Bool
     
     @State private var selectedCourier = Courier.DHL
+    
+    @State private var hasClipboardContent : Bool = UIPasteboard.general.string != nil
 
     var body: some View {
         VStack {
@@ -48,25 +51,38 @@ struct AddPackageView: View {
                         .foregroundColor(Color("blueNCS"))
                 }
             }
-            ZStack {
-                RoundedRectangle(cornerRadius: 16)
-                    .foregroundColor(Color.gray.opacity(0.2))
-                    .padding([.leading, .trailing])
-                    .frame(height: 45)
-                HStack(spacing: 4) {
-                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(Color(uiColor: .systemGray2))
-                        .padding(.leading, 10)
-                    TextField("Tracking Number", text: $trackingNumberFieldText)
-                        .font(.system(size: 17))
-                        .tint(Color("blueNCS"))
-                        .focused($focusOnTrackingNumberField)
-                        .onSubmit {
-                            focusOnPackageNameField = true
-                        }
+            HStack{
+                ZStack {
+                    RoundedRectangle(cornerRadius: 16)
+                        .foregroundColor(Color.gray.opacity(0.2))
+                        .padding([.leading, .trailing])
+                        .frame(height: 45)
+                    HStack(spacing: 4) {
+                        Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(Color(uiColor: .systemGray2))
+                            .padding(.leading, 10)
+                        TextField("Tracking Number", text: $trackingNumberFieldText)
+                            .font(.system(size: 17))
+                            .tint(Color("blueNCS"))
+                            .focused($focusOnTrackingNumberField)
+                            .onSubmit {
+                                focusOnPackageNameField = true
+                            }
+                    }
+                    .padding()
                 }
-                .padding()
+                if hasClipboardContent {
+                    Button {
+                        if let value = UIPasteboard.general.string {
+                            trackingNumberFieldText = value
+                        }
+                    } label: {
+                        Image(systemName: "doc.on.clipboard")
+                    }
+                    .padding(.trailing)
+                    .frame(width: 30)
+                }
             }
             HStack {
                 Text("Details")
@@ -164,6 +180,7 @@ struct AddPackageView: View {
                         .frame(height: 45)
                     Templates.Menu {
                         Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
+                        Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
                         Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
                     } label: { fade in
                         Text(selectedCourier.rawValue)
@@ -249,6 +266,28 @@ struct AddPackageView: View {
                             }
                         }
                     }
+            case .GLS:
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: moc).getGLSOrderAsync(package: newPackage)
+                        do {
+                            try moc.save()
+                            DispatchQueue.main.async {
+                                self.isPresented.toggle()
+                            }
+                        } catch let err {
+                            print(err)
+                            print("Core Data Fail")
+                        }
+                    } catch let err {
+                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                            print("Wrong AWB")
+                        } else {
+                            print("JSON Fail")
+                        }
+                    }
+                }
+                
             }
         } else {
             print("Please fill in fields")
