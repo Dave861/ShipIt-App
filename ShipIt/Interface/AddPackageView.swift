@@ -273,7 +273,7 @@ struct AddPackageView: View {
                                 }
                             } catch let err {
                                 print(err)
-                                print("Core Data Fail")
+                                moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "Oops! We encountered an error saving your package data."
                                     self.showAlert.toggle()
@@ -281,13 +281,13 @@ struct AddPackageView: View {
                             }
                         } catch let err {
                             if err as! OrderManager.OrderErrors == .AWBNotFound {
-                                print("Wrong AWB")
+                                moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                     self.showAlert.toggle()
                                 }
                             } else {
-                                print("JSON Fail")
+                                moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was a problem with the courier's tracking response."
                                     self.showAlert.toggle()
@@ -306,7 +306,7 @@ struct AddPackageView: View {
                                 }
                             } catch let err {
                                 print(err)
-                                print("Core Data Fail")
+                                moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "Oops! We encountered an error saving your package data."
                                     self.showAlert.toggle()
@@ -314,13 +314,13 @@ struct AddPackageView: View {
                             }
                         } catch let err {
                             if err as! OrderManager.OrderErrors == .AWBNotFound {
-                                print("Wrong AWB")
+                                moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                     self.showAlert.toggle()
                                 }
                             } else {
-                                print("JSON Fail")
+                                moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was a problem with the courier's tracking response."
                                     self.showAlert.toggle()
@@ -339,7 +339,7 @@ struct AddPackageView: View {
                             }
                         } catch let err {
                             print(err)
-                            print("Core Data Fail")
+                            moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "Oops! We encountered an error saving your package data."
                                 self.showAlert.toggle()
@@ -347,13 +347,13 @@ struct AddPackageView: View {
                         }
                     } catch let err {
                         if err as! OrderManager.OrderErrors == .AWBNotFound {
-                            print("Wrong AWB")
+                            moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                 self.showAlert.toggle()
                             }
                         } else {
-                            print("JSON Fail")
+                            moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was a problem with the courier's tracking response."
                                 self.showAlert.toggle()
@@ -372,7 +372,7 @@ struct AddPackageView: View {
                             }
                         } catch let err {
                             print(err)
-                            print("Core Data Fail")
+                            moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "Oops! We encountered an error saving your package data."
                                 self.showAlert.toggle()
@@ -380,13 +380,13 @@ struct AddPackageView: View {
                         }
                     } catch let err {
                         if err as! OrderManager.OrderErrors == .AWBNotFound {
-                            print("Wrong AWB")
+                            moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                 self.showAlert.toggle()
                             }
                         } else {
-                            print("JSON Fail")
+                            moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was a problem with the courier's tracking response."
                                 self.showAlert.toggle()
