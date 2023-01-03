@@ -24,3 +24,7 @@ struct Marker : Identifiable{
     var systemImage: String
     var address : String
 }
+
+let userDefaultsClipboardKey = "com.ShipIt.prefences.detectClipboard"
+let userDefaultsNotificationsBeforeDeliveryKey = "com.ShipIt.prefences.notificationsBeforeDelivery"
+let userdefaultsLiveActivityKey = "com.ShipIt.preferences.showPackagesInLiveActivity"

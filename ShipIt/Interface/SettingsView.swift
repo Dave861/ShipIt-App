@@ -11,9 +11,9 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var detectClipboardSwitch = true
-    @State private var notificationsBeforeSwitch = true
-    @State private var liveActivitySwitch = true
+    @State private var detectClipboardSwitch = UserDefaults.standard.bool(forKey: userDefaultsClipboardKey)
+    @State private var notificationsBeforeSwitch = UserDefaults.standard.bool(forKey: userDefaultsNotificationsBeforeDeliveryKey)
+    @State private var liveActivitySwitch = UserDefaults.standard.bool(forKey: userdefaultsLiveActivityKey)
     
     var body: some View {
         NavigationStack {
@@ -29,6 +29,9 @@ struct SettingsView: View {
                         .background(RoundedRectangle(cornerRadius: 14)
                             .padding([.leading, .trailing])
                             .foregroundColor(Color("W&B")))
+                        .onChange(of: detectClipboardSwitch) { newValue in
+                            UserDefaults.standard.set(newValue, forKey: userDefaultsClipboardKey)
+                        }
                     Toggle("Notifications before Delivery", isOn: $notificationsBeforeSwitch)
                         .tint(Color("blueNCS"))
                         .padding(.all)
@@ -37,6 +40,9 @@ struct SettingsView: View {
                         .background(RoundedRectangle(cornerRadius: 14)
                             .padding([.leading, .trailing])
                             .foregroundColor(Color("W&B")))
+                        .onChange(of: notificationsBeforeSwitch) { newValue in
+                            UserDefaults.standard.set(newValue, forKey: userDefaultsNotificationsBeforeDeliveryKey)
+                        }
                     Toggle("Show packages in Live Activity", isOn: $liveActivitySwitch)
                         .tint(Color("darkBlue"))
                         .padding(.all)
@@ -45,6 +51,9 @@ struct SettingsView: View {
                         .background(RoundedRectangle(cornerRadius: 14)
                             .padding([.leading, .trailing])
                             .foregroundColor(Color("W&B")))
+                        .onChange(of: liveActivitySwitch) { newValue in
+                            UserDefaults.standard.set(newValue, forKey: userdefaultsLiveActivityKey)
+                        }
                     Spacer()
                     Button(action: {}) {
                         HStack {

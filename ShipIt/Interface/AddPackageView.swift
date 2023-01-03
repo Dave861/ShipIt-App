@@ -37,7 +37,7 @@ struct AddPackageView: View {
     
     @State private var selectedCourier = Courier.DHL
     
-    @State private var hasClipboardContent : Bool = UIPasteboard.general.string != nil
+    @State private var hasClipboardContent : Bool = false
 
     var body: some View {
         VStack {
@@ -189,10 +189,10 @@ struct AddPackageView: View {
                         .padding([.leading, .trailing])
                         .frame(height: 45)
                     Templates.Menu {
+                        Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
                         Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
                         Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
                         Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
-                        Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
                     } label: { fade in
                         HStack {
                             Spacer()
@@ -233,6 +233,9 @@ struct AddPackageView: View {
             .shadow(radius: 15))
         .onAppear() {
             focusOnTrackingNumberField = true
+            if UserDefaults.standard.bool(forKey: userDefaultsClipboardKey) {
+                hasClipboardContent = (UIPasteboard.general.string != nil)
+            }
         }
         .popover(
             present: $showAlert,

@@ -115,6 +115,10 @@ struct WelcomeView: View {
                     
             }
         }
+        .onAppear {
+            UserDefaults.standard.set(true, forKey: userDefaultsClipboardKey)
+            UserDefaults.standard.set(true, forKey: userDefaultsNotificationsBeforeDeliveryKey)
+        }
     }
 }
 
