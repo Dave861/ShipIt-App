@@ -93,6 +93,7 @@ struct PackageDetailView: View {
             .font(.footnote)
             .foregroundColor(.gray)
         Spacer()
+            .preferredColorScheme(.light)
             .onAppear() {
                 nameTextField = package.name!
                 

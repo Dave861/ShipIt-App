@@ -240,6 +240,7 @@ struct AddPackageView: View {
                 hasClipboardContent = (UIPasteboard.general.string != nil)
             }
         }
+        .preferredColorScheme(.light)
         .popover(
             present: $showAlert,
             attributes: {

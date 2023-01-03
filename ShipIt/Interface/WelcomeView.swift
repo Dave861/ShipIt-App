@@ -115,6 +115,7 @@ struct WelcomeView: View {
                     
             }
         }
+        .preferredColorScheme(.light)
         .onAppear {
             UserDefaults.standard.set(true, forKey: userDefaultsClipboardKey)
             UserDefaults.standard.set(true, forKey: userDefaultsNotificationsBeforeDeliveryKey)
