@@ -7,7 +7,6 @@
 
 import SwiftUI
 import MapKit
-import UniformTypeIdentifiers
 
 struct PackageDetailView: View {
     
@@ -90,20 +89,9 @@ struct PackageDetailView: View {
         }
         .listStyle(.plain)
         //        .navigationTitle(package.name!)
-        HStack{
-            Text("Tracking Number \(package.awb!)")
-                .font(.footnote)
-                .foregroundColor(.gray)
-            Button {
-                UIPasteboard.general.setValue(package.awb!, forPasteboardType: UTType.plainText.identifier)
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
-            } label: {
-                Image(systemName: "doc.on.clipboard")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-            }
-            
-        }
+        Text("Tracking Number \(package.awb!)")
+            .font(.footnote)
+            .foregroundColor(.gray)
         Spacer()
             .onAppear() {
                 nameTextField = package.name!
