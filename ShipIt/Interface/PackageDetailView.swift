@@ -105,7 +105,6 @@ struct PackageDetailView: View {
             
         }
         Spacer()
-            .preferredColorScheme(.light)
             .onAppear() {
                 nameTextField = package.name!
                 

@@ -94,7 +94,6 @@ struct SettingsView: View {
                             Text("Tracking")
                         }
                         .tint(Color("oceanBlue"))
-                        .preferredColorScheme(.light)
                     }
                 }
             }

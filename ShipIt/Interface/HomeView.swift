@@ -195,7 +195,6 @@ struct HomeView: View {
                 }
             }
         }
-        .preferredColorScheme(.light)
         .tint(Color("oceanBlue"))
     }
 }

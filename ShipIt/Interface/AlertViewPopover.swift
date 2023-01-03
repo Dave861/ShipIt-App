@@ -49,7 +49,6 @@ struct AlertViewPopover: View {
         .scaleEffect(expanding ? 1.05 : 1)
         .scaleEffect(scaled ? 2 : 1)
         .opacity(scaled ? 0 : 1)
-        .preferredColorScheme(.light)
         .onAppear {
             withAnimation(.spring(
                 response: 0.4,
