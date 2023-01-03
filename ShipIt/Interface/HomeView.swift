@@ -44,6 +44,8 @@ struct HomeView: View {
                                         .foregroundColor(decideAccentOnIndex(index: index))
                                         .font(.title2)
                                     Spacer()
+                                    Text(package.courier ?? "")
+                                        .foregroundColor(decideAccentOnIndex(index: index))
                                 }
                                 HStack{
                                     Text(package.name ?? "ShipIt")
@@ -124,6 +126,7 @@ struct HomeView: View {
                 originAnchor: .top,
                 popoverAnchor: .top
             )
+            $0.blocksBackgroundTouches = true
         }) {
             AddPackageView(isPresented: $showAddPackageView)
                 .environment(\.managedObjectContext, self.moc)

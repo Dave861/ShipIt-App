@@ -169,7 +169,11 @@ class OrderManager: NSObject {
         for event in cargusShipment.events {
             let newEvent = Events(context: contextMOC)
             newEvent.text = event.status
-            newEvent.address = event.location
+            if event.location != "Unknown" {
+                newEvent.address = event.location
+            } else {
+                newEvent.address = ""
+            }
             newEvent.timestamp = event.date
             
             if event.status.lowercased().contains("tranzit") {

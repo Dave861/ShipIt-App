@@ -39,6 +39,7 @@
 		9AC08323295AFB8600C0B1E0 /* ShipIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShipIt.entitlements; sourceTree = "<group>"; };
 		9AC08325295AFB8600C0B1E0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AF3469429642E4900215696 /* AlertViewPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewPopover.swift; sourceTree = "<group>"; };
+		D741E09C2964B7060060C84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D74A6271295DE4CB004B6629 /* OrderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderManager.swift; sourceTree = "<group>"; };
 		D74A6273295DF229004B6629 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Package+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 		9AC0831C295AFB8500C0B1E0 /* ShipIt */ = {
 			isa = PBXGroup;
 			children = (
+				D741E09C2964B7060060C84F /* Info.plist */,
 				9AC0831D295AFB8500C0B1E0 /* ShipItApp.swift */,
 				9A8FE4DE295ECD5D00C81E77 /* Interface */,
 				9A8FE4DF295ECD7200C81E77 /* CoreData */,
@@ -356,6 +358,7 @@
 				DEVELOPMENT_TEAM = 55B9GSLMA2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShipIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -394,6 +397,7 @@
 				DEVELOPMENT_TEAM = 55B9GSLMA2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShipIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

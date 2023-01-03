@@ -21,9 +21,27 @@ struct PackageDetailView: View {
     @State private var minLat = 90.0
     @State private var maxLat = 0.0
     
+    @State private var nameTextField = ""
+    
+    @Environment(\.managedObjectContext) var moc
     var body: some View {
         NavigationStack {
             VStack {
+                HStack {
+                    Image(systemName: "pencil")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                        .padding(.leading)
+                    TextField("", text: $nameTextField)
+                        .bold()
+                        .font(.title)
+                        .padding(.trailing)
+                        .onSubmit {
+                            package.name = nameTextField
+                            try? moc.save()
+                        }
+                    Spacer()
+                }
                 if minLong != 180.0 && minLat != 90 {
                     Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
                         MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? accentColor : Color.gray)
@@ -47,9 +65,16 @@ struct PackageDetailView: View {
                             .foregroundColor((accentColor))
                         VStack(alignment: .leading, spacing: 3) {
                             Text(event.text!)
-                            Text("\(String(event.timestamp!.split(separator: "T")[0])) - \(event.address!.replacingOccurrences(of: " - ", with: ", "))")
-                                .foregroundColor((accentColor))
-                                .font(.system(size: 17))
+                            HStack{
+                                Text("\(String(event.timestamp!.split(separator: "T")[0]))")
+                                    .foregroundColor((accentColor))
+                                    .font(.system(size: 17))
+                                Spacer()
+                                Text("\(event.address!.replacingOccurrences(of: " - ", with: ", "))")
+                                    .foregroundColor((accentColor))
+                                    .font(.system(size: 17))
+                                    .padding(.trailing)
+                            }
                         }
                     }
                     .listRowSeparator(.hidden)
@@ -59,19 +84,21 @@ struct PackageDetailView: View {
                     )
                     
                 }
-                
+                Spacer()
             }
         }
         .listStyle(.plain)
-        .navigationTitle(package.name!)
+        //        .navigationTitle(package.name!)
         Text("Tracking Number \(package.awb!)")
-            .font(.system(size: 16))
+            .font(.footnote)
             .foregroundColor(.gray)
         Spacer()
             .onAppear() {
+                nameTextField = package.name!
+                
                 let geoCoder = CLGeocoder()
                 var lastLocation: CLLocation!
-                Task {
+                Task(priority: .high) {
                     do {
                         let placemarks = try await geoCoder.geocodeAddressString(package.address ?? "")
                         lastLocation = placemarks.first?.location
@@ -83,10 +110,10 @@ struct PackageDetailView: View {
                         print(err)
                     }
                     
-                    var events = package.eventsArray
-                    if package.eventsArray.count > 5 {
-                        events = Array(package.eventsArray[..<5])
-                    }
+                    let events = package.eventsArray
+//                    if package.eventsArray.count > 5 {
+//                        events = Array(package.eventsArray[..<5])
+//                    }
                     
                     for event in events {
                         var address = event.address!

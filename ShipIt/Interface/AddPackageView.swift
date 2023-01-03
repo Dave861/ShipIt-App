@@ -35,7 +35,7 @@ struct AddPackageView: View {
     @FocusState var focusOnTrackingNumberField : Bool
     @FocusState var focusOnPackageNameField : Bool
     
-    @State private var selectedCourier = Courier.DHL
+    @State private var selectedCourier = Courier.Cargus
     
     @State private var hasClipboardContent : Bool = false
 
@@ -94,6 +94,28 @@ struct AddPackageView: View {
                     .frame(width: 30)
                 }
             }
+            ZStack {
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundColor(Color.gray.opacity(0.2))
+                    .padding([.leading, .trailing])
+                    .frame(height: 45)
+                Templates.Menu {
+                    Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
+                    Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
+                    Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
+                    Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
+                } label: { fade in
+                    HStack {
+                        Spacer()
+                        Text(selectedCourier.rawValue)
+                            .opacity(fade ? 0.5 : 1)
+                            .foregroundColor(.accentColor)
+                            .fontWeight(.medium)
+                        Spacer()
+                    }
+                }
+                .padding()
+            }
             HStack {
                 Text("Details")
                     .font(.system(size: 20, weight: .medium))
@@ -116,6 +138,9 @@ struct AddPackageView: View {
                             .font(.system(size: 17))
                             .tint(Color("blueNCS"))
                             .focused($focusOnPackageNameField)
+                            .onSubmit {
+                                focusOnPackageNameField = true
+                            }
                     }
                     .padding()
                 }
@@ -182,28 +207,6 @@ struct AddPackageView: View {
                     }
                     .frame(height: 40)
                     
-                }
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .foregroundColor(Color.gray.opacity(0.2))
-                        .padding([.leading, .trailing])
-                        .frame(height: 45)
-                    Templates.Menu {
-                        Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
-                        Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
-                        Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
-                        Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
-                    } label: { fade in
-                        HStack {
-                            Spacer()
-                            Text(selectedCourier.rawValue)
-                                .opacity(fade ? 0.5 : 1)
-                                .foregroundColor(.accentColor)
-                                .fontWeight(.medium)
-                            Spacer()
-                        }
-                    }
-                    .padding()
                 }
                 Button {submitPackage()} label: {
                     HStack {
