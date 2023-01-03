@@ -27,6 +27,9 @@ struct AddPackageView: View {
     @FetchRequest(sortDescriptors: []) var orders : FetchedResults<Package>
     @Environment(\.managedObjectContext) var moc
     
+    @State var showAlert: Bool = false
+    @State var alertText: String = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
+    @State var expanding = false
     
     @FocusState var focusOnTrackingNumberField : Bool
     @FocusState var focusOnPackageNameField : Bool
@@ -203,6 +206,11 @@ struct AddPackageView: View {
                         .padding([.leading, .trailing]))
                 }
                 .disabled(trackingNumberFieldText == "" || packageNameFieldText == "")
+                .alert("Tracking Error", isPresented: $showAlert, actions: {
+                    Button("OK", role: .cancel) { }
+                }, message: {
+                    Text("Please enter a valid tracking number for the selected courier.")
+                })
             }
         }
         .frame(width: UIScreen.main.bounds.width-40, height: 385)
@@ -211,6 +219,34 @@ struct AddPackageView: View {
             .shadow(radius: 15))
         .onAppear() {
             focusOnTrackingNumberField = true
+        }
+        .popover(
+            present: $showAlert,
+            attributes: {
+                $0.blocksBackgroundTouches = true
+                $0.rubberBandingMode = .none
+                $0.position = .relative(
+                    popoverAnchors: [
+                        .center,
+                    ]
+                )
+                $0.presentation.animation = .easeOut(duration: 0.15)
+                $0.dismissal.mode = .none
+                $0.onTapOutside = {
+                    withAnimation(.easeIn(duration: 0.15)) {
+                        expanding = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation(.easeOut(duration: 0.4)) {
+                            expanding = false
+                        }
+                    }
+                }
+            }
+        ) {
+            AlertViewPopover(present: $showAlert, expanding: $expanding, content: $alertText)
+        } background: {
+            Color.black.opacity(0.1)
         }
     }
     
@@ -236,12 +272,24 @@ struct AddPackageView: View {
                             } catch let err {
                                 print(err)
                                 print("Core Data Fail")
+                                DispatchQueue.main.async {
+                                    self.alertText = "Oops! We encountered an error saving your package data."
+                                    self.showAlert.toggle()
+                                }
                             }
                         } catch let err {
                             if err as! OrderManager.OrderErrors == .AWBNotFound {
                                 print("Wrong AWB")
+                                DispatchQueue.main.async {
+                                    self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
+                                    self.showAlert.toggle()
+                                }
                             } else {
                                 print("JSON Fail")
+                                DispatchQueue.main.async {
+                                    self.alertText = "There was a problem with the courier's tracking response."
+                                    self.showAlert.toggle()
+                                }
                             }
                         }
                     }
@@ -257,12 +305,24 @@ struct AddPackageView: View {
                             } catch let err {
                                 print(err)
                                 print("Core Data Fail")
+                                DispatchQueue.main.async {
+                                    self.alertText = "Oops! We encountered an error saving your package data."
+                                    self.showAlert.toggle()
+                                }
                             }
                         } catch let err {
                             if err as! OrderManager.OrderErrors == .AWBNotFound {
                                 print("Wrong AWB")
+                                DispatchQueue.main.async {
+                                    self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
+                                    self.showAlert.toggle()
+                                }
                             } else {
                                 print("JSON Fail")
+                                DispatchQueue.main.async {
+                                    self.alertText = "There was a problem with the courier's tracking response."
+                                    self.showAlert.toggle()
+                                }
                             }
                         }
                     }
@@ -278,19 +338,34 @@ struct AddPackageView: View {
                         } catch let err {
                             print(err)
                             print("Core Data Fail")
+                            DispatchQueue.main.async {
+                                self.alertText = "Oops! We encountered an error saving your package data."
+                                self.showAlert.toggle()
+                            }
                         }
                     } catch let err {
                         if err as! OrderManager.OrderErrors == .AWBNotFound {
                             print("Wrong AWB")
+                            DispatchQueue.main.async {
+                                self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
+                                self.showAlert.toggle()
+                            }
                         } else {
                             print("JSON Fail")
+                            DispatchQueue.main.async {
+                                self.alertText = "There was a problem with the courier's tracking response."
+                                self.showAlert.toggle()
+                            }
                         }
                     }
                 }
                 
             }
         } else {
-            print("Please fill in fields")
+            DispatchQueue.main.async {
+                self.alertText = "Please fill in all required fields."
+                self.showAlert.toggle()
+            }
         }
        
     }

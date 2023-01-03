@@ -114,51 +114,51 @@ struct SamedayParcelsList: Decodable {
     let parcelsList: [String: [SamedayParcel]]
 }
 
-//MARK: GLS
-struct PackageStatus: Codable {
-    let tuStatus: [Status]
+//MARK: -GLS Structs-
+struct GLSPackageStatus: Codable {
+    let tuStatus: [GLSStatus]
 }
 
-struct Status: Codable {
-    let references: [Reference]
-    let signature: Signature
-    let history: [History]
-    let owners: [Owner]
-    let infos: [Info]
+struct GLSStatus: Codable {
+    let references: [GLSReference]
+    let signature: GLSSignature
+    let history: [GLSHistory]
+    let owners: [GLSOwner]
+    let infos: [GLSInfo]
 }
 
-struct Reference: Codable {
+struct GLSReference: Codable {
     let type: String
     let name: String
     let value: String
 }
 
-struct Signature: Codable {
+struct GLSSignature: Codable {
     let validate: Bool
     let name: String
     let value: String
 }
 
-struct History: Codable {
+struct GLSHistory: Codable {
     let date: String
     let time: String
-    let address: Address
+    let address: GLSAddress
     let evtDscr: String
 }
 
-struct Address: Codable {
+struct GLSAddress: Codable {
     let city: String
     let countryName: String
     let countryCode: String
     let name: String?
 }
 
-struct Owner: Codable {
+struct GLSOwner: Codable {
     let type: String
     let code: String
 }
 
-struct Info: Codable {
+struct GLSInfo: Codable {
     let type: String
     let value: String
 }
@@ -237,13 +237,13 @@ class DecodingManager {
         return shipment
     }
     
-    func decodeGLSJSON(jsonString: String) throws -> PackageStatus {
+    func decodeGLSJSON(jsonString: String) throws -> GLSPackageStatus {
         let jsonData = jsonString.data(using: .utf8)!
         let decoder = JSONDecoder()
         
-        let shipment: PackageStatus
+        let shipment: GLSPackageStatus
         do {
-            shipment = try decoder.decode(PackageStatus.self, from: jsonData)
+            shipment = try decoder.decode(GLSPackageStatus.self, from: jsonData)
         } catch let err {
             print(err)
             throw err

@@ -166,7 +166,7 @@ class OrderManager: NSObject {
     }
     
     func getGLSOrderAsync(package: Package) async throws {
-        let params : Parameters = ["match" : "1111111111"]
+        let params : Parameters = ["match" : package.awb!]//"1111111111"]
         
         let getRequest = AF.request("https://gls-group.com/app/service/open/rest/RO/en/rstt001", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
         
@@ -177,7 +177,7 @@ class OrderManager: NSObject {
             throw OrderErrors.DBFail
         }
         
-        var GLSShipment : PackageStatus
+        var GLSShipment : GLSPackageStatus
         do {
             GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: responseJSON)
         } catch {
@@ -190,7 +190,6 @@ class OrderManager: NSObject {
         package.statusText = String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
         package.lastDate = "\(String(describing: shipment?.history.first?.date ?? "DATE"))T\(String(describing: shipment?.history.first?.time ?? "DATE"))"
         
-        
         for index in 0...(shipment?.history.count)!-1 {
             let shipmentEvent = shipment?.history[index]
             
@@ -199,7 +198,7 @@ class OrderManager: NSObject {
             newEvent.address = shipmentEvent?.address.city.lowercased() ?? "CITY"
             newEvent.address = newEvent.address?.capitalized
             
-            let timestamp = "\(String(describing: shipment?.history.first?.date ?? "DATE"))T\(String(describing: shipment?.history.first?.time ?? "DATE"))"
+            let timestamp = "\(String(describing: shipment?.history[index].date ?? "DATE"))T\(String(describing: shipment?.history[index].time ?? "DATE"))"
             newEvent.timestamp = String(timestamp.split(separator: "+")[0])
             
             if newEvent.text!.contains("left") || newEvent.text!.contains("GLS"){
