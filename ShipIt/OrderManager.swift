@@ -75,9 +75,11 @@ class OrderManager: NSObject {
             newEvent.address = newEvent.address?.capitalized
             newEvent.timestamp = String(shipmentEvent.timestamp!.split(separator: "+")[0])
             
-            if shipmentEvent.description.contains("transit") {
+            if shipmentEvent.description.lowercased().contains("transit") {
                 newEvent.systemImage = "box.truck.fill"
-            } else if shipmentEvent.description.contains("Arrived") {
+            } else if shipmentEvent.description.lowercased().contains("delivered") {
+                newEvent.systemImage = "figure.wave"
+            } else if shipmentEvent.description.lowercased().contains("arrived") {
                 newEvent.systemImage = "building.fill"
             } else {
                 newEvent.systemImage = "shippingbox.fill"
@@ -132,7 +134,7 @@ class OrderManager: NSObject {
             if shipmentEvent.status.contains("tranzit") {
                 newEvent.systemImage = "box.truck.fill"
             } else if shipmentEvent.status.contains("delivered") {
-                newEvent.systemImage = "building.fill"
+                newEvent.systemImage = "figure.wave"
             } else {
                 newEvent.systemImage = "shippingbox.fill"
             }
@@ -142,7 +144,7 @@ class OrderManager: NSObject {
     }
     
     func getCargusOrderAsync(package: Package) async throws {
-        let params : Parameters = ["t" : package.awb!]
+        let params : Parameters = ["t" : package.awb!]//"1001651153"]
         
         let getRequest = AF.request("https://www.cargus.ro/tracking-romanian", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
         
@@ -159,10 +161,28 @@ class OrderManager: NSObject {
         } catch {
             throw OrderErrors.AWBNotFound
         }
-        print(cargusShipment.status)
-        print(cargusShipment.date)
-        print(cargusShipment.location)
-        print(cargusShipment.lastEvent)
+        
+        package.lastDate = cargusShipment.events.first!.date
+        package.statusText = cargusShipment.events.first!.status
+        package.address = cargusShipment.events.first!.location
+        
+        for event in cargusShipment.events {
+            let newEvent = Events(context: contextMOC)
+            newEvent.text = event.status
+            newEvent.address = event.location
+            newEvent.timestamp = event.date
+            
+            if event.status.lowercased().contains("tranzit") {
+                newEvent.systemImage = "box.truck.fill"
+            } else if event.status.lowercased().contains("livrare") {
+                newEvent.systemImage = "building.fill"
+            } else if event.status.lowercased().contains("livrat") {
+                newEvent.systemImage = "figure.wave"
+            } else {
+                newEvent.systemImage = "shippingbox.fill"
+            }
+            package.addToEvents(newEvent)
+        }
     }
     
     func getGLSOrderAsync(package: Package) async throws {

@@ -134,8 +134,8 @@ struct HomeView: View {
         }
         .refreshable {
             for package in packages {
-                for _ in 0...package.eventsArray.count-1 {
-                    package.removeFromEvents(package.eventsArray[0])
+                while package.eventsArray.count >= 1 {
+                    package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
                 }
                 if package.courier == "DHL" {
                     Task(priority: .high) {
@@ -176,9 +176,23 @@ struct HomeView: View {
                             print(err)
                         }
                     }
+                } else if package.courier == "Cargus" {
+                    Task(priority: .high) {
+                        do {
+                            try await OrderManager(contextMOC: moc).getCargusOrderAsync(package: package)
+                            do {
+                                try moc.save()
+                            } catch let err {
+                                print(err)
+                            }
+                        } catch let err {
+                            print(err)
+                        }
+                    }
                 }
             }
         }
+        
         .tint(Color("oceanBlue"))
     }
 }

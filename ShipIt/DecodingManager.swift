@@ -65,10 +65,14 @@ struct DHLEvent: Decodable {
 
 //MARK: -Cargus Structs-
 struct CargusShipment: Decodable {
+    var events: [CargusEvent]
+}
+
+struct CargusEvent: Decodable {
     var status: String
-    var date: Date
+    var date: String
     var location: String
-    var lastEvent: String
+    var activity: String
 }
 
 //MARK: -Sameday Structs-
@@ -202,39 +206,49 @@ class DecodingManager {
     }
     
     func decodeCargusHTML(htmlString: String) throws -> CargusShipment {
-        var shipment = CargusShipment(status: "", date: Date(), location: "", lastEvent: "")
+        var events = [CargusEvent]()
         
-        var rows = htmlString.split(separator: "</td>")
-        if rows.count == 1 {
+        var tabel = htmlString.split(separator: "<tbody>")
+        tabel.removeFirst()
+        
+        let rowsUnsplit = String(String(tabel.first!).split(separator: "</tbody>").first!)
+        if !rowsUnsplit.contains("</tr>") {
             throw OrderManager.OrderErrors.AWBNotFound
         }
-        rows.remove(at: 0)
+        
+        var rows = rowsUnsplit.split(separator: "</tr>")
         rows.removeLast()
-        
-        if rows.count == 4 {
-            //Decode Status
-            shipment.status = String(rows[0].split(separator: ">").last ?? "Unknown")
-            if shipment.status.contains("data-column") {
-                shipment.status = "Unknown"
+        for row in rows {
+            var lines = row.split(separator: "</td>")
+            lines.removeFirst()
+            lines.removeLast()
+            var event = CargusEvent(status: "", date: "", location: "", activity: "")
+            if lines.count == 4 {
+                //Decode Status
+                event.status = String(lines[0].split(separator: ">").last ?? "Unknown")
+                if event.status.contains("data-column") {
+                    event.status = "Unknown"
+                }
+                //Decode Date
+                let fullDate = String(lines[1].split(separator: ">").last ?? "Unknown")
+                event.date = fullDate.replacing(" ", with: "T") + ":00"
+                //Decode Location
+                event.location = String(lines[2].split(separator: ">").last ?? "Unknown")
+                if event.location.contains("data-column") {
+                    event.location = "Unknown"
+                }
+                //Decode Activity
+                event.activity = String(lines[3].split(separator: ">").last ?? "Unknown")
+                if event.activity.contains("data-column") {
+                    event.activity = "Unknown"
+                }
+            } else {
+                throw OrderManager.OrderErrors.AWBNotFound
             }
-            //Decode Date
-            let fullDate = String(rows[1].split(separator: ">").last ?? "Unknown")
-            shipment.date = String(fullDate.split(separator: " ").first ?? "1978-30-02").turnToDate()
-            //Decode Location
-            shipment.location = String(rows[2].split(separator: ">").last ?? "Unknown")
-            if shipment.location.contains("data-column") {
-                shipment.location = "Unknown"
-            }
-            //Decode Last Event
-            shipment.lastEvent = String(rows[3].split(separator: ">").last ?? "Unknown")
-            if shipment.lastEvent.contains("data-column") {
-                shipment.lastEvent = "Unknown"
-            }
-        } else {
-            throw OrderManager.OrderErrors.AWBNotFound
+            events.append(event)
         }
         
-        return shipment
+        return CargusShipment(events: events)
     }
     
     func decodeGLSJSON(jsonString: String) throws -> GLSPackageStatus {

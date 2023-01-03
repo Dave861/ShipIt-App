@@ -13,6 +13,7 @@ enum Courier : String {
     case DHL = "DHL"
     case Sameday = "Sameday"
     case GLS = "GLS"
+    case Cargus = "Cargus"
 }
 
 struct AddPackageView: View {
@@ -185,6 +186,7 @@ struct AddPackageView: View {
                         Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
                         Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
                         Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
+                        Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
                     } label: { fade in
                         Text(selectedCourier.rawValue)
                             .opacity(fade ? 0.5 : 1)
@@ -359,7 +361,39 @@ struct AddPackageView: View {
                         }
                     }
                 }
-                
+            case .Cargus:
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: moc).getCargusOrderAsync(package: newPackage)
+                        do {
+                            try moc.save()
+                            DispatchQueue.main.async {
+                                self.isPresented.toggle()
+                            }
+                        } catch let err {
+                            print(err)
+                            print("Core Data Fail")
+                            DispatchQueue.main.async {
+                                self.alertText = "Oops! We encountered an error saving your package data."
+                                self.showAlert.toggle()
+                            }
+                        }
+                    } catch let err {
+                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                            print("Wrong AWB")
+                            DispatchQueue.main.async {
+                                self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
+                                self.showAlert.toggle()
+                            }
+                        } else {
+                            print("JSON Fail")
+                            DispatchQueue.main.async {
+                                self.alertText = "There was a problem with the courier's tracking response."
+                                self.showAlert.toggle()
+                            }
+                        }
+                    }
+                }
             }
         } else {
             DispatchQueue.main.async {
