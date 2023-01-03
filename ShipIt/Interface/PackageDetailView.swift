@@ -10,37 +10,28 @@ import MapKit
 
 struct PackageDetailView: View {
     
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 11.25, longitudeDelta: 22.5))
     @State var package : Package
     @State var accentColor : Color
     
     @State private var markerLocations = [Marker]()
     
-    @State private var minLong = 1000.0
+    @State private var minLong = 180.0
     @State private var maxLong = 0.0
-    @State private var minLat = 1000.0
+    @State private var minLat = 90.0
     @State private var maxLat = 0.0
     
     var body: some View {
         NavigationStack {
             VStack {
-                HStack{
-                    Text("Where is My Package?")
-                        .font(.title3)
-                        .bold()
-                        .padding([.top, .leading, .trailing])
-                    Spacer()
+                if minLong != 180.0 && minLat != 90 {
+                    Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
+                        MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? accentColor : Color.gray)
+                    }
+                    .frame(height: UIScreen.main.bounds.height/4)
+                    .cornerRadius(20)
+                    .padding([.trailing, .leading])
                 }
-                
-                Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
-                    MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? accentColor : Color.gray)
-                    
-                }
-                .frame(height: UIScreen.main.bounds.height/4)
-                .navigationTitle(package.name!)
-                .cornerRadius(20)
-                .padding([.trailing, .leading])
-                
                 HStack {
                     Text("Delivery Status")
                         .font(.title3)
@@ -72,6 +63,7 @@ struct PackageDetailView: View {
             }
         }
         .listStyle(.plain)
+        .navigationTitle(package.name!)
         Text("Tracking Number \(package.awb!)")
             .font(.system(size: 16))
             .foregroundColor(.gray)
@@ -97,17 +89,19 @@ struct PackageDetailView: View {
                     }
                     
                     for event in events {
-                        let address = event.address?.replacingOccurrences(of: "-", with: "")
+                        var address = event.address!
+                        if address.contains("-") {
+                            address = address.replacingOccurrences(of: "-", with: "")
+                        }
                         let geoCoder = CLGeocoder()
                         var markerLocation: CLLocation!
                         
                         do {
-                            let placemarks = try await geoCoder.geocodeAddressString(address ?? "")
+                            let placemarks = try await geoCoder.geocodeAddressString(address)
                             markerLocation = placemarks.first?.location
                             let marker = Marker(latitude: markerLocation.coordinate.latitude, longitude: markerLocation.coordinate.longitude, systemImage: event.systemImage!, address: event.address!)
                             if markerLocations.filter({$0.address == marker.address}).count == 0 {
                                 markerLocations.append(marker)
-                                
                                 minLat = min(minLat, marker.latitude)
                                 minLong = min(minLong, marker.longitude)
                                 maxLong = max(maxLong, marker.longitude)
@@ -118,13 +112,8 @@ struct PackageDetailView: View {
                         }
                     }
                     DispatchQueue.main.async {
-                        if minLat != maxLat {
-                            self.region.center.latitude = (minLat + maxLat)/2
-                            self.region.center.longitude = (minLong + maxLong)/2
-                            
-                            self.region.span.latitudeDelta = 11.25
-                            self.region.span.longitudeDelta = 22.5
-                        }
+                        self.region.center.latitude = (minLat + maxLat)/2
+                        self.region.center.longitude = (minLong + maxLong)/2
                     }
                 }
                 
