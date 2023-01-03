@@ -55,11 +55,12 @@ struct AddPackageView: View {
                         .foregroundColor(Color("blueNCS"))
                 }
             }
-            HStack{
+            HStack(spacing: 12) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
                         .foregroundColor(Color.gray.opacity(0.2))
-                        .padding([.leading, .trailing])
+                        .padding(.leading)
+                        .padding(.trailing, 12)
                         .frame(height: 45)
                     HStack(spacing: 4) {
                         Image(systemName: "rectangle.and.pencil.and.ellipsis")
@@ -83,8 +84,13 @@ struct AddPackageView: View {
                         }
                     } label: {
                         Image(systemName: "doc.on.clipboard")
+                            .foregroundColor(Color("W&B"))
+                            .padding(.all, 7)
                     }
+                    .background(RoundedRectangle(cornerRadius: 10)
+                        .foregroundColor(.accentColor))
                     .padding(.trailing)
+                    .padding(.trailing, 12)
                     .frame(width: 30)
                 }
             }
@@ -188,8 +194,14 @@ struct AddPackageView: View {
                         Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
                         Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
                     } label: { fade in
-                        Text(selectedCourier.rawValue)
-                            .opacity(fade ? 0.5 : 1)
+                        HStack {
+                            Spacer()
+                            Text(selectedCourier.rawValue)
+                                .opacity(fade ? 0.5 : 1)
+                                .foregroundColor(.accentColor)
+                                .fontWeight(.medium)
+                            Spacer()
+                        }
                     }
                     .padding()
                 }
