@@ -35,7 +35,7 @@ struct PackageDetailView: View {
                         .padding(.leading)
                     TextField("", text: $nameTextField)
                         .bold()
-                        .font(.title)
+                        .font(.system(size: 32, weight: .bold))
                         .padding(.trailing)
                         .onSubmit {
                             package.name = nameTextField
@@ -89,7 +89,7 @@ struct PackageDetailView: View {
             }
         }
         .listStyle(.plain)
-        //        .navigationTitle(package.name!)
+        .navigationBarTitleDisplayMode(.inline)
         HStack{
             Text("Tracking Number \(package.awb!)")
                 .font(.footnote)

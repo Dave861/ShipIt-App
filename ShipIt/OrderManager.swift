@@ -240,4 +240,51 @@ class OrderManager: NSObject {
         
     }
     
+    func getDPDOrderAsync(package: Package) async throws {
+        let params : Parameters = ["shipmentNumber" : package.awb!, //"224884151",
+                                   "language" : "en"]
+        
+        let getRequest = AF.request("https://tracking.dpd.ro/", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
+        
+        var responseHTML : String!
+        do {
+            responseHTML = try await getRequest.serializingString().value
+        } catch {
+            throw OrderErrors.DBFail
+        }
+        
+        var shipment : DPDShipment
+        do {
+            shipment = try DecodingManager.sharedInstance.decodeDPDHTML(htmlString: responseHTML)
+        } catch {
+            throw OrderErrors.AWBNotFound
+        }
+        
+        package.lastDate = shipment.events.last!.date
+        package.statusText = shipment.events.last!.status
+        package.address = shipment.events.last!.location
+        
+        for event in shipment.events {
+            let newEvent = Events(context: contextMOC)
+            newEvent.text = event.status
+            if event.location != "Unknown" {
+                newEvent.address = event.location
+            } else {
+                newEvent.address = ""
+            }
+            newEvent.timestamp = event.date
+            
+            if event.status.lowercased().contains("delivery") {
+                newEvent.systemImage = "box.truck.fill"
+            } else if event.status.lowercased().contains("arrival") {
+                newEvent.systemImage = "building.fill"
+            } else if event.status.lowercased().contains("delivered") {
+                newEvent.systemImage = "figure.wave"
+            } else {
+                newEvent.systemImage = "shippingbox.fill"
+            }
+            package.addToEvents(newEvent)
+        }
+    }
+    
 }

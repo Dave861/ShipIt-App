@@ -167,6 +167,17 @@ struct GLSInfo: Codable {
     let value: String
 }
 
+//MARK: -DPD-
+struct DPDShipment: Decodable {
+    var events: [DPDEvent]
+}
+
+struct DPDEvent: Decodable {
+    var status: String
+    var date: String
+    var location: String
+}
+
 //MARK: -Class-
 class DecodingManager {
     
@@ -263,6 +274,49 @@ class DecodingManager {
             throw err
         }
         return shipment
+    }
+    
+    func decodeDPDHTML(htmlString: String) throws -> DPDShipment {
+        var events = [DPDEvent]()
+        
+        var rows = htmlString.split(separator: "</tr>")
+        if rows.count <= 2 {
+            throw OrderManager.OrderErrors.AWBNotFound
+        }
+        
+        rows.removeFirst()
+        rows.removeLast()
+        
+        
+        for row in rows {
+            var event = DPDEvent(status: "", date: "", location: "")
+            var lines = row.split(separator: "<td>")
+            lines.removeFirst()
+            //Decode date
+            var date = String(lines[0].split(separator: "</td>").first!)
+            var dateComponents = date.split(separator: ".")
+            date = String(dateComponents[2] + "-" + dateComponents[1] + "-" + dateComponents[0])
+            let time = String(lines[1].split(separator: "</td>").first!)
+            event.date = date + "T" + time
+            
+            //Decode status
+            var status = String(lines[2].split(separator: "</td>").first!)
+            status = String(status.split(separator: "<br>").first!)
+            event.status = status
+            
+            //Decode Location
+            var location = String(lines[3].split(separator: "</td>").first!)
+            location = String(location.split(separator: "<br>").first!)
+            if location == "\n" || location == "" || location == " " {
+                event.location = "Unknown"
+            } else {
+                location = String(location.split(separator: "OR. ").last!)
+                event.location = location.lowercased().capitalized
+            }
+            events.append(event)
+        }
+        
+        return DPDShipment(events: events)
     }
     
 }

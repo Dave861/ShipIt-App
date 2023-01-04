@@ -14,6 +14,7 @@ enum Courier : String {
     case Sameday = "Sameday"
     case GLS = "GLS"
     case Cargus = "Cargus"
+    case DPD = "DPD"
 }
 
 struct AddPackageView: View {
@@ -104,6 +105,7 @@ struct AddPackageView: View {
                     Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
                     Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
                     Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
+                    Templates.MenuButton(title: "DPD") { selectedCourier = .DPD }
                 } label: { fade in
                     HStack {
                         Spacer()
@@ -383,6 +385,39 @@ struct AddPackageView: View {
                 Task(priority: .high) {
                     do {
                         try await OrderManager(contextMOC: moc).getCargusOrderAsync(package: newPackage)
+                        do {
+                            try moc.save()
+                            DispatchQueue.main.async {
+                                self.isPresented.toggle()
+                            }
+                        } catch let err {
+                            print(err)
+                            moc.delete(newPackage)
+                            DispatchQueue.main.async {
+                                self.alertText = "Oops! We encountered an error saving your package data."
+                                self.showAlert.toggle()
+                            }
+                        }
+                    } catch let err {
+                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                            moc.delete(newPackage)
+                            DispatchQueue.main.async {
+                                self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
+                                self.showAlert.toggle()
+                            }
+                        } else {
+                            moc.delete(newPackage)
+                            DispatchQueue.main.async {
+                                self.alertText = "There was a problem with the courier's tracking response."
+                                self.showAlert.toggle()
+                            }
+                        }
+                    }
+                }
+            case .DPD:
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: moc).getDPDOrderAsync(package: newPackage)
                         do {
                             try moc.save()
                             DispatchQueue.main.async {
