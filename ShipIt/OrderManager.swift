@@ -287,4 +287,50 @@ class OrderManager: NSObject {
         }
     }
     
+    func getFanCourierOrderAsync(package: Package) async throws {
+        let params : Parameters = ["username" : "clienttest",
+                                   "user_pass" : "testing",
+                                   "client_id" : "7032158",
+                                   "AWB" : package.awb!,//"123456789",
+                                   "display_mode" : "5",
+                                   "language" : "en"]
+        let postRequest = AF.request("https://www.selfawb.ro/awb_tracking_integrat.php", method: .post, parameters: params, encoding: URLEncoding.default, headers: .default)
+        
+        var responseJSON : String!
+        do {
+            responseJSON = try await postRequest.serializingString().value
+        } catch {
+            throw OrderErrors.DBFail
+        }
+        
+        var shipment : FanCourierDelivery
+        do {
+            shipment = try DecodingManager.sharedInstance.decodeFanCourierJSON(jsonString: responseJSON)
+        } catch {
+            throw OrderErrors.AWBNotFound
+        }
+
+        package.lastDate = String(shipment.deliverydate.split(separator: ".")[2]) + "-" + String(shipment.deliverydate.split(separator: ".")[1]) + "-" + String(shipment.deliverydate.split(separator: ".")[0]) + "T" + shipment.deliverytime + ":00"
+        package.statusText = shipment.status
+        package.address = shipment.deliverylocation
+        
+        for event in shipment.progressdetail {
+            let newEvent = Events(context: contextMOC)
+            newEvent.text = event.status
+            newEvent.address = event.deliverylocation
+            newEvent.timestamp = String(event.deliverydate.split(separator: ".")[2]) + "-" + String(event.deliverydate.split(separator: ".")[1]) + "-" + String(event.deliverydate.split(separator: ".")[0]) + "T" + event.deliverytime + ":00"
+            
+            if event.status.lowercased().contains("progress") {
+                newEvent.systemImage = "building.fill"
+            } else if event.status.lowercased().contains("delivery") {
+                newEvent.systemImage = "box.truck.fill"
+            } else if event.status.lowercased().contains("delivered") {
+                newEvent.systemImage = "figure.wave"
+            } else {
+                newEvent.systemImage = "shippingbox.fill"
+            }
+            package.addToEvents(newEvent)
+        }
+    }
+    
 }

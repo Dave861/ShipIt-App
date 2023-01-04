@@ -178,6 +178,26 @@ struct DPDEvent: Decodable {
     var location: String
 }
 
+//MARK: -Fan Courier-
+struct FanCourierDelivery: Decodable {
+    let deliverydate: String
+    let deliverytime: String
+    let deliverylocation: String
+    let status: String
+    let activity: String
+    let content: String?
+    let progressdetail: [FanCourierDeliveryEvent]
+}
+
+struct FanCourierDeliveryEvent: Decodable {
+    let deliverydate: String
+    let deliverytime: String
+    let deliverylocation: String
+    let status: String
+    let activity: String
+    let content: String?
+}
+
 //MARK: -Class-
 class DecodingManager {
     
@@ -269,6 +289,20 @@ class DecodingManager {
         let shipment: GLSPackageStatus
         do {
             shipment = try decoder.decode(GLSPackageStatus.self, from: jsonData)
+        } catch let err {
+            print(err)
+            throw err
+        }
+        return shipment
+    }
+    
+    func decodeFanCourierJSON(jsonString: String) throws -> FanCourierDelivery {
+        let jsonData = jsonString.data(using: .utf8)!
+        let decoder = JSONDecoder()
+        
+        let shipment: FanCourierDelivery
+        do {
+            shipment = try decoder.decode(FanCourierDelivery.self, from: jsonData)
         } catch let err {
             print(err)
             throw err

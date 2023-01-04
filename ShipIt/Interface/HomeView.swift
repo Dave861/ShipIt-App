@@ -205,6 +205,19 @@ struct HomeView: View {
                             print(err)
                         }
                     }
+                } else if package.courier == "Fan Courier" {
+                    Task(priority: .high) {
+                        do {
+                            try await OrderManager(contextMOC: moc).getFanCourierOrderAsync(package: package)
+                            do {
+                                try moc.save()
+                            } catch let err {
+                                print(err)
+                            }
+                        } catch let err {
+                            print(err)
+                        }
+                    }
                 }
             }
         }
