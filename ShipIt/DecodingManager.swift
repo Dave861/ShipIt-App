@@ -328,7 +328,7 @@ class DecodingManager {
             lines.removeFirst()
             //Decode date
             var date = String(lines[0].split(separator: "</td>").first!)
-            var dateComponents = date.split(separator: ".")
+            let dateComponents = date.split(separator: ".")
             date = String(dateComponents[2] + "-" + dateComponents[1] + "-" + dateComponents[0])
             let time = String(lines[1].split(separator: "</td>").first!)
             event.date = date + "T" + time

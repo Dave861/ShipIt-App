@@ -15,10 +15,10 @@ struct ShipItApp: App {
         WindowGroup {
             if UserDefaults.standard.bool(forKey: "com.ShipIt.launchToHome") == false {
                 WelcomeView()
-                    .environment(\.managedObjectContext, dataController.container.viewContext)
+                    .environment(\.managedObjectContext, dataController.persistentContainer.viewContext)
             } else {
                 HomeView()
-                    .environment(\.managedObjectContext, dataController.container.viewContext)
+                    .environment(\.managedObjectContext, dataController.persistentContainer.viewContext)
             }
         }
     }
