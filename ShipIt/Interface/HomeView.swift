@@ -15,7 +15,9 @@ struct HomeView: View {
     @State private var showAddPackageView = false
     
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var packages : FetchedResults<Package>
+    @FetchRequest(sortDescriptors: [
+        SortDescriptor(\.name)
+    ]) var packages : FetchedResults<Package>
     
     func decideAccentOnIndex(index: Int) -> Color {
         switch index%3 {
@@ -61,7 +63,7 @@ struct HomeView: View {
                                     Text(package.statusText ?? "Status unknown")
                                         .foregroundColor(.gray)
                                     Spacer()
-                                    Text(String((package.lastDate ?? "0").split(separator: "T")[0]))
+                                    Text((package.lastDate ?? "0").turnToDate().turnToReadableString())
                                         .font(.system(size: 16, weight: .medium))
                                         .foregroundColor(decideAccentOnIndex(index: index))
                                 }

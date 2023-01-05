@@ -57,3 +57,11 @@ extension RandomAccessCollection {
     }
 }
 
+extension Date {
+    func turnToReadableString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, HH:mm"
+        return dateFormatter.string(from: self)
+    }
+}
+

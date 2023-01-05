@@ -27,7 +27,7 @@ extension Events {
         let set = package as? Set<Package> ?? []
         
         return set.sorted {
-            $0.id <= $1.id
+            $0.name! <= $1.name!
         }
     }
 }

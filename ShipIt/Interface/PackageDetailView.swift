@@ -51,6 +51,8 @@ struct PackageDetailView: View {
                     .cornerRadius(20)
                     .padding([.trailing, .leading])
                 }
+                TrackingProgressView(package: $package, accentColor: accentColor)
+                    .padding([.top, .leading, .trailing])
                 HStack {
                     Text("Delivery Status")
                         .font(.title3)
@@ -67,7 +69,7 @@ struct PackageDetailView: View {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(event.text!)
                             HStack{
-                                Text("\(String(event.timestamp!.split(separator: "T")[0]))")
+                                Text((event.timestamp ?? "0").turnToDate().turnToReadableString())
                                     .foregroundColor((accentColor))
                                     .font(.system(size: 17))
                                 Spacer()
@@ -123,12 +125,12 @@ struct PackageDetailView: View {
                     }
                     
                     let events = package.eventsArray
-//                    if package.eventsArray.count > 5 {
-//                        events = Array(package.eventsArray[..<5])
-//                    }
                     
                     for event in events {
                         var address = event.address!
+                        if address == "Destination" {
+                            package.removeFromEvents(event)
+                        }
                         if address.contains("-") {
                             address = address.replacingOccurrences(of: "-", with: "")
                         }

@@ -133,7 +133,7 @@ class OrderManager: NSObject {
             
             if shipmentEvent.status.contains("tranzit") {
                 newEvent.systemImage = "box.truck.fill"
-            } else if shipmentEvent.status.contains("delivered") {
+            } else if shipmentEvent.status.contains("delivered") || shipmentEvent.status.contains("loaded") {
                 newEvent.systemImage = "figure.wave"
             } else {
                 newEvent.systemImage = "shippingbox.fill"
