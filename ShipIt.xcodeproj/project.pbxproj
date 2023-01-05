@@ -15,6 +15,35 @@
 		9AC08322295AFB8600C0B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AC08321295AFB8600C0B1E0 /* Assets.xcassets */; };
 		9AC08326295AFB8600C0B1E0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AC08325295AFB8600C0B1E0 /* Preview Assets.xcassets */; };
 		9AF3469529642E4900215696 /* AlertViewPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3469429642E4900215696 /* AlertViewPopover.swift */; };
+		9AFF5E642966CA4D00580C83 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFF5E632966CA4D00580C83 /* WidgetKit.framework */; };
+		9AFF5E662966CA4D00580C83 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFF5E652966CA4D00580C83 /* SwiftUI.framework */; };
+		9AFF5E692966CA4D00580C83 /* ShiptIt_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E682966CA4D00580C83 /* ShiptIt_WidgetBundle.swift */; };
+		9AFF5E6B2966CA4D00580C83 /* ShiptIt_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6A2966CA4D00580C83 /* ShiptIt_Widget.swift */; };
+		9AFF5E6E2966CA4E00580C83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6D2966CA4E00580C83 /* Assets.xcassets */; };
+		9AFF5E702966CA4E00580C83 /* ShiptIt_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */; };
+		9AFF5E712966CA4E00580C83 /* ShiptIt_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */; };
+		9AFF5E742966CA4E00580C83 /* ShiptIt-WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9AFF5E612966CA4D00580C83 /* ShiptIt-WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFF5E7F2966CBC600580C83 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFF5E7E2966CBC600580C83 /* Intents.framework */; };
+		9AFF5E822966CBC600580C83 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E812966CBC600580C83 /* IntentHandler.swift */; };
+		9AFF5E862966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9AFF5E7D2966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFF5E8A2966CBEA00580C83 /* ShiptIt_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */; };
+		9AFF5E8B2966CC8600580C83 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */; };
+		9AFF5E8C2966CC8700580C83 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */; };
+		9AFF5E8D2966CC8900580C83 /* Events+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6278295E22FB004B6629 /* Events+CoreDataProperties.swift */; };
+		9AFF5E8E2966CC8A00580C83 /* Events+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6278295E22FB004B6629 /* Events+CoreDataProperties.swift */; };
+		9AFF5E8F2966CC8B00580C83 /* Package+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6276295E22FB004B6629 /* Package+CoreDataProperties.swift */; };
+		9AFF5E902966CC8C00580C83 /* Package+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6276295E22FB004B6629 /* Package+CoreDataProperties.swift */; };
+		9AFF5E912966CC8E00580C83 /* Events+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6277295E22FB004B6629 /* Events+CoreDataClass.swift */; };
+		9AFF5E922966CC8E00580C83 /* Events+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6277295E22FB004B6629 /* Events+CoreDataClass.swift */; };
+		9AFF5E932966CC9000580C83 /* Package+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */; };
+		9AFF5E942966CC9100580C83 /* Package+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */; };
+		9AFF5E9C2966D19F00580C83 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9AFF5E9B2966D19F00580C83 /* Alamofire */; };
+		9AFF5E9D2966D25200580C83 /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FE4E0295ECD8500C81E77 /* DecodingManager.swift */; };
+		9AFF5E9E2966D27500580C83 /* WidgetOrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E992966D18200580C83 /* WidgetOrderManager.swift */; };
+		9AFF5EA02966D51900580C83 /* WidgetOrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E992966D18200580C83 /* WidgetOrderManager.swift */; };
+		9AFF5EA12966D58100580C83 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6271295DE4CB004B6629 /* OrderManager.swift */; };
+		9AFF5EA22966D7BB00580C83 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
+		9AFF5EA32966D7BB00580C83 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
 		D74A6272295DE4CB004B6629 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6271295DE4CB004B6629 /* OrderManager.swift */; };
 		D74A6274295DF229004B6629 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
 		D74A6279295E22FB004B6629 /* Package+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */; };
@@ -31,6 +60,38 @@
 		D7FE384B295B243F0034BC25 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FE384A295B243F0034BC25 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9AFF5E722966CA4E00580C83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9AC08312295AFB8500C0B1E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AFF5E602966CA4D00580C83;
+			remoteInfo = "ShiptIt-WidgetExtension";
+		};
+		9AFF5E842966CBC600580C83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9AC08312295AFB8500C0B1E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AFF5E7C2966CBC600580C83;
+			remoteInfo = "ShipIt-WidgetIntentHandler";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9AFF5E752966CA4E00580C83 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9AFF5E862966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex in Embed Foundation Extensions */,
+				9AFF5E742966CA4E00580C83 /* ShiptIt-WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9A8A893D295C2CAC00291C9F /* AddPackageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPackageView.swift; sourceTree = "<group>"; };
 		9A8FE4E0295ECD8500C81E77 /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
@@ -40,6 +101,19 @@
 		9AC08323295AFB8600C0B1E0 /* ShipIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShipIt.entitlements; sourceTree = "<group>"; };
 		9AC08325295AFB8600C0B1E0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AF3469429642E4900215696 /* AlertViewPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewPopover.swift; sourceTree = "<group>"; };
+		9AFF5E612966CA4D00580C83 /* ShiptIt-WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ShiptIt-WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AFF5E632966CA4D00580C83 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		9AFF5E652966CA4D00580C83 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		9AFF5E682966CA4D00580C83 /* ShiptIt_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiptIt_WidgetBundle.swift; sourceTree = "<group>"; };
+		9AFF5E6A2966CA4D00580C83 /* ShiptIt_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiptIt_Widget.swift; sourceTree = "<group>"; };
+		9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = ShiptIt_Widget.intentdefinition; sourceTree = "<group>"; };
+		9AFF5E6D2966CA4E00580C83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9AFF5E6F2966CA4E00580C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9AFF5E7D2966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ShipIt-WidgetIntentHandler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AFF5E7E2966CBC600580C83 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		9AFF5E812966CBC600580C83 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		9AFF5E832966CBC600580C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9AFF5E992966D18200580C83 /* WidgetOrderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetOrderManager.swift; sourceTree = "<group>"; };
 		D741E09C2964B7060060C84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D74A6271295DE4CB004B6629 /* OrderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderManager.swift; sourceTree = "<group>"; };
 		D74A6273295DF229004B6629 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -64,6 +138,24 @@
 			files = (
 				9AA90198295C926800947CF2 /* Popovers in Frameworks */,
 				9A8FE4DD295ECAC900C81E77 /* Alamofire in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AFF5E5E2966CA4D00580C83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AFF5E9C2966D19F00580C83 /* Alamofire in Frameworks */,
+				9AFF5E662966CA4D00580C83 /* SwiftUI.framework in Frameworks */,
+				9AFF5E642966CA4D00580C83 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AFF5E7A2966CBC600580C83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AFF5E7F2966CBC600580C83 /* Intents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +192,9 @@
 			isa = PBXGroup;
 			children = (
 				9AC0831C295AFB8500C0B1E0 /* ShipIt */,
+				9AFF5E672966CA4D00580C83 /* ShiptIt-Widget */,
+				9AFF5E802966CBC600580C83 /* ShipIt-WidgetIntentHandler */,
+				9AFF5E622966CA4D00580C83 /* Frameworks */,
 				9AC0831B295AFB8500C0B1E0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				9AC0831A295AFB8500C0B1E0 /* ShipIt.app */,
+				9AFF5E612966CA4D00580C83 /* ShiptIt-WidgetExtension.appex */,
+				9AFF5E7D2966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,6 +236,38 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		9AFF5E622966CA4D00580C83 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9AFF5E632966CA4D00580C83 /* WidgetKit.framework */,
+				9AFF5E652966CA4D00580C83 /* SwiftUI.framework */,
+				9AFF5E7E2966CBC600580C83 /* Intents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9AFF5E672966CA4D00580C83 /* ShiptIt-Widget */ = {
+			isa = PBXGroup;
+			children = (
+				9AFF5E682966CA4D00580C83 /* ShiptIt_WidgetBundle.swift */,
+				9AFF5E6A2966CA4D00580C83 /* ShiptIt_Widget.swift */,
+				9AFF5E992966D18200580C83 /* WidgetOrderManager.swift */,
+				9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */,
+				9AFF5E6D2966CA4E00580C83 /* Assets.xcassets */,
+				9AFF5E6F2966CA4E00580C83 /* Info.plist */,
+			);
+			path = "ShiptIt-Widget";
+			sourceTree = "<group>";
+		};
+		9AFF5E802966CBC600580C83 /* ShipIt-WidgetIntentHandler */ = {
+			isa = PBXGroup;
+			children = (
+				9AFF5E812966CBC600580C83 /* IntentHandler.swift */,
+				9AFF5E832966CBC600580C83 /* Info.plist */,
+			);
+			path = "ShipIt-WidgetIntentHandler";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -149,10 +278,13 @@
 				9AC08316295AFB8500C0B1E0 /* Sources */,
 				9AC08317295AFB8500C0B1E0 /* Frameworks */,
 				9AC08318295AFB8500C0B1E0 /* Resources */,
+				9AFF5E752966CA4E00580C83 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9AFF5E732966CA4E00580C83 /* PBXTargetDependency */,
+				9AFF5E852966CBC600580C83 /* PBXTargetDependency */,
 			);
 			name = ShipIt;
 			packageProductDependencies = (
@@ -162,6 +294,43 @@
 			productName = ShipIt;
 			productReference = 9AC0831A295AFB8500C0B1E0 /* ShipIt.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9AFF5E602966CA4D00580C83 /* ShiptIt-WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AFF5E782966CA4E00580C83 /* Build configuration list for PBXNativeTarget "ShiptIt-WidgetExtension" */;
+			buildPhases = (
+				9AFF5E5D2966CA4D00580C83 /* Sources */,
+				9AFF5E5E2966CA4D00580C83 /* Frameworks */,
+				9AFF5E5F2966CA4D00580C83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ShiptIt-WidgetExtension";
+			packageProductDependencies = (
+				9AFF5E9B2966D19F00580C83 /* Alamofire */,
+			);
+			productName = "ShiptIt-WidgetExtension";
+			productReference = 9AFF5E612966CA4D00580C83 /* ShiptIt-WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		9AFF5E7C2966CBC600580C83 /* ShipIt-WidgetIntentHandler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AFF5E872966CBC600580C83 /* Build configuration list for PBXNativeTarget "ShipIt-WidgetIntentHandler" */;
+			buildPhases = (
+				9AFF5E792966CBC600580C83 /* Sources */,
+				9AFF5E7A2966CBC600580C83 /* Frameworks */,
+				9AFF5E7B2966CBC600580C83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ShipIt-WidgetIntentHandler";
+			productName = "ShipIt-WidgetIntentHandler";
+			productReference = 9AFF5E7D2966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -174,6 +343,12 @@
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					9AC08319295AFB8500C0B1E0 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+					9AFF5E602966CA4D00580C83 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+					9AFF5E7C2966CBC600580C83 = {
 						CreatedOnToolsVersion = 14.1;
 					};
 				};
@@ -196,6 +371,8 @@
 			projectRoot = "";
 			targets = (
 				9AC08319295AFB8500C0B1E0 /* ShipIt */,
+				9AFF5E602966CA4D00580C83 /* ShiptIt-WidgetExtension */,
+				9AFF5E7C2966CBC600580C83 /* ShipIt-WidgetIntentHandler */,
 			);
 		};
 /* End PBXProject section */
@@ -207,6 +384,21 @@
 			files = (
 				9AC08326295AFB8600C0B1E0 /* Preview Assets.xcassets in Resources */,
 				9AC08322295AFB8600C0B1E0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AFF5E5F2966CA4D00580C83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AFF5E6E2966CA4E00580C83 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AFF5E7B2966CBC600580C83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +416,7 @@
 				D7CB4C27295C9AB7002E2032 /* Model.xcdatamodeld in Sources */,
 				D74A6272295DE4CB004B6629 /* OrderManager.swift in Sources */,
 				D74A627B295E22FB004B6629 /* Events+CoreDataClass.swift in Sources */,
+				9AFF5E712966CA4E00580C83 /* ShiptIt_Widget.intentdefinition in Sources */,
 				D7D5CB23295B8A6D00FBDA44 /* PackageDetailView.swift in Sources */,
 				9A8FE4E1295ECD8500C81E77 /* DecodingManager.swift in Sources */,
 				D7FE384B295B243F0034BC25 /* SettingsView.swift in Sources */,
@@ -234,11 +427,59 @@
 				D76300072965705C00DAB7F3 /* TrackingProgressView.swift in Sources */,
 				9AF3469529642E4900215696 /* AlertViewPopover.swift in Sources */,
 				9AC0831E295AFB8500C0B1E0 /* ShipItApp.swift in Sources */,
+				9AFF5E9E2966D27500580C83 /* WidgetOrderManager.swift in Sources */,
 				D74A627C295E22FB004B6629 /* Events+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AFF5E5D2966CA4D00580C83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AFF5EA12966D58100580C83 /* OrderManager.swift in Sources */,
+				9AFF5E8F2966CC8B00580C83 /* Package+CoreDataProperties.swift in Sources */,
+				9AFF5E702966CA4E00580C83 /* ShiptIt_Widget.intentdefinition in Sources */,
+				9AFF5E692966CA4D00580C83 /* ShiptIt_WidgetBundle.swift in Sources */,
+				9AFF5E9D2966D25200580C83 /* DecodingManager.swift in Sources */,
+				9AFF5E6B2966CA4D00580C83 /* ShiptIt_Widget.swift in Sources */,
+				9AFF5E8C2966CC8700580C83 /* Model.xcdatamodeld in Sources */,
+				9AFF5EA22966D7BB00580C83 /* Extensions.swift in Sources */,
+				9AFF5E8D2966CC8900580C83 /* Events+CoreDataProperties.swift in Sources */,
+				9AFF5E932966CC9000580C83 /* Package+CoreDataClass.swift in Sources */,
+				9AFF5EA02966D51900580C83 /* WidgetOrderManager.swift in Sources */,
+				9AFF5E912966CC8E00580C83 /* Events+CoreDataClass.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AFF5E792966CBC600580C83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AFF5E922966CC8E00580C83 /* Events+CoreDataClass.swift in Sources */,
+				9AFF5EA32966D7BB00580C83 /* Extensions.swift in Sources */,
+				9AFF5E8A2966CBEA00580C83 /* ShiptIt_Widget.intentdefinition in Sources */,
+				9AFF5E942966CC9100580C83 /* Package+CoreDataClass.swift in Sources */,
+				9AFF5E822966CBC600580C83 /* IntentHandler.swift in Sources */,
+				9AFF5E8E2966CC8A00580C83 /* Events+CoreDataProperties.swift in Sources */,
+				9AFF5E902966CC8C00580C83 /* Package+CoreDataProperties.swift in Sources */,
+				9AFF5E8B2966CC8600580C83 /* Model.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9AFF5E732966CA4E00580C83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AFF5E602966CA4D00580C83 /* ShiptIt-WidgetExtension */;
+			targetProxy = 9AFF5E722966CA4E00580C83 /* PBXContainerItemProxy */;
+		};
+		9AFF5E852966CBC600580C83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AFF5E7C2966CBC600580C83 /* ShipIt-WidgetIntentHandler */;
+			targetProxy = 9AFF5E842966CBC600580C83 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9AC08327295AFB8600C0B1E0 /* Debug */ = {
@@ -353,6 +594,7 @@
 		9AC0832A295AFB8600C0B1E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShipIt/ShipIt.entitlements;
@@ -392,6 +634,7 @@
 		9AC0832B295AFB8600C0B1E0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShipIt/ShipIt.entitlements;
@@ -428,6 +671,120 @@
 			};
 			name = Release;
 		};
+		9AFF5E762966CA4E00580C83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ShiptIt-Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ShiptIt-Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cb.ShipIt.ShiptIt-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9AFF5E772966CA4E00580C83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ShiptIt-Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ShiptIt-Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cb.ShipIt.ShiptIt-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9AFF5E882966CBC600580C83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ShipIt-WidgetIntentHandler/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ShipIt-WidgetIntentHandler";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cb.ShipIt.ShipIt-WidgetIntentHandler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9AFF5E892966CBC600580C83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ShipIt-WidgetIntentHandler/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ShipIt-WidgetIntentHandler";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cb.ShipIt.ShipIt-WidgetIntentHandler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -445,6 +802,24 @@
 			buildConfigurations = (
 				9AC0832A295AFB8600C0B1E0 /* Debug */,
 				9AC0832B295AFB8600C0B1E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AFF5E782966CA4E00580C83 /* Build configuration list for PBXNativeTarget "ShiptIt-WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AFF5E762966CA4E00580C83 /* Debug */,
+				9AFF5E772966CA4E00580C83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AFF5E872966CBC600580C83 /* Build configuration list for PBXNativeTarget "ShipIt-WidgetIntentHandler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AFF5E882966CBC600580C83 /* Debug */,
+				9AFF5E892966CBC600580C83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -480,6 +855,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AA90196295C926800947CF2 /* XCRemoteSwiftPackageReference "Popovers" */;
 			productName = Popovers;
+		};
+		9AFF5E9B2966D19F00580C83 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A8FE4DB295ECAC900C81E77 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 
