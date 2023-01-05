@@ -13,7 +13,7 @@ struct SharePackageView: View {
         ZStack(alignment: .topLeading) {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("oceanBlue"), Color("blueNCS")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/3)
+                .frame(width: UIScreen.main.bounds.width+40, height: UIScreen.main.bounds.height/3)
             VStack{
                 HStack{
                     Image(systemName: package.systemImage!)

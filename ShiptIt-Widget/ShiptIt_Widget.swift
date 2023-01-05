@@ -128,8 +128,7 @@ struct ShiptIt_WidgetEntryView : View {
                             Text((entry.configuration.trackedPackage ?? placeholder).statusDate ?? "Jan 4, 12:28")
                                 .foregroundColor(Color("russianViolet"))
                         }
-                        .padding([.top, .bottom], 8)
-                        .padding([.trailing, .leading], 8)
+                        .padding(.all)
                         .background(RoundedRectangle(cornerRadius: 14.0).foregroundColor(Color("W&B")))
                         Spacer()
                     }
@@ -145,8 +144,7 @@ struct ShiptIt_WidgetEntryView : View {
                             Text((entry.configuration.trackedPackageM ?? placeholder).statusDate ?? "Jan 4, 12:28")
                                 .foregroundColor(Color("russianViolet"))
                         }
-                        .padding([.top, .bottom], 8)
-                        .padding([.trailing, .leading], 8)
+                        .padding(.all)
                         .background(RoundedRectangle(cornerRadius: 14.0).foregroundColor(Color("W&B")))
                         Spacer()
                     }

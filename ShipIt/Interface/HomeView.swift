@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Popovers
+import WidgetKit
 
 struct HomeView: View {
     
@@ -224,6 +225,9 @@ struct HomeView: View {
             }
         }
         .tint(Color("oceanBlue"))
+        .onAppear() {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 }
 

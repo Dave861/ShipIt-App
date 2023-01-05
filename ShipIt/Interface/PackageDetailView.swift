@@ -25,6 +25,7 @@ struct PackageDetailView: View {
     @State private var nameTextField = ""
     
     @State private var shareableImageString = UIImage()
+    @State private var showMap = false
     
     @Environment(\.managedObjectContext) var moc
     var body: some View {
@@ -39,13 +40,14 @@ struct PackageDetailView: View {
                         .bold()
                         .font(.system(size: 32, weight: .bold))
                         .padding(.trailing)
+                        .padding(.bottom, 6)
                         .onSubmit {
                             package.name = nameTextField
                             try? moc.save()
                         }
                     Spacer()
                 }
-                if minLong != 180.0 && minLat != 90 {
+                if showMap {
                     Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: markerLocations) { item in
                         MapMarker(coordinate: .init(latitude: item.latitude, longitude: item.longitude), tint: item.address == package.eventsArray.first?.address ? accentColor : Color.gray)
                     }
@@ -165,9 +167,12 @@ struct PackageDetailView: View {
                             print(err)
                         }
                     }
-                    DispatchQueue.main.async {
-                        self.region.center.latitude = (minLat + maxLat)/2
-                        self.region.center.longitude = (minLong + maxLong)/2
+                    withAnimation(.spring(blendDuration: 0.4)) {
+                        DispatchQueue.main.async {
+                            self.region.center.latitude = (minLat + maxLat)/2
+                            self.region.center.longitude = (minLong + maxLong)/2
+                        }
+                        showMap = minLong != 180.0 && minLat != 90
                     }
                 }
                 

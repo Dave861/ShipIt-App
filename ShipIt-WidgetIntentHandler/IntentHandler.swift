@@ -11,27 +11,6 @@ import CoreData
 class IntentHandler: INExtension, ConfigurationIntentHandling {
     
     func provideTrackedPackageOptionsCollection(for intent: ConfigurationIntent) async throws -> INObjectCollection<WidgetPackage> {
-        //        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        //        let fetchRequest = NSFetchRequest<Package>(entityName: "Package")
-        //
-        //        do {
-        //            let results = try managedObjectContext.fetch(fetchRequest)
-        //            var widgetPackages = [WidgetPackage]()
-        //            for result in results {
-        //                let widgetPackage = WidgetPackage(identifier: result.id?.description, display: result.name!)
-        //                widgetPackage.awb = result.awb
-        //                widgetPackage.packageName = result.name!
-        //                widgetPackage.statusDate = result.lastDate!.turnToDate().turnToReadableString()
-        //                widgetPackage.packageStatus = result.statusText!
-        //                widgetPackage.packageCourier = result.courier!
-        //                widgetPackages.append(widgetPackage)
-        //            }
-        //            let collection = INObjectCollection(items: widgetPackages)
-        //            return collection
-        //        } catch let err {
-        //            throw err
-        //        }
-        
         let results =  DataController.shared.getStoredDataFromCoreData() as! [Package]
         var widgetPackages = [WidgetPackage]()
         for result in results {
@@ -48,27 +27,6 @@ class IntentHandler: INExtension, ConfigurationIntentHandling {
     }
     
     func provideTrackedPackageMOptionsCollection(for intent: ConfigurationIntent) async throws -> INObjectCollection<WidgetPackage> {
-//        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-//        let fetchRequest = NSFetchRequest<Package>(entityName: "Package")
-//
-//        do {
-//            let results = try managedObjectContext.fetch(fetchRequest)
-//            var widgetPackages = [WidgetPackage]()
-//            for result in results {
-//                let widgetPackage = WidgetPackage(identifier: result.id?.description, display: result.name!)
-//                widgetPackage.awb = result.awb
-//                widgetPackage.packageName = result.name!
-//                widgetPackage.statusDate = result.lastDate!.turnToDate().turnToReadableString()
-//                widgetPackage.packageStatus = result.statusText!
-//                widgetPackage.packageCourier = result.courier!
-//                widgetPackages.append(widgetPackage)
-//            }
-//            let collection = INObjectCollection(items: widgetPackages)
-//            return collection
-//        } catch let err {
-//            throw err
-//        }
-        
         let results =  DataController.shared.getStoredDataFromCoreData() as! [Package]
         var widgetPackages = [WidgetPackage]()
         for result in results {
