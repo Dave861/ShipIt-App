@@ -7,18 +7,16 @@
 
 import SwiftUI
 
-struct TrackingProgressView: View {
+struct ShareTrackingProgressView: View {
     @Binding var package: Package
     
     @State var accentColor : Color
     
-    @State private var registerCondition = false
-    @State private var transitCondition = false
-    @State private var deliveryCondition = false
+    @State private var registerCondition = true
     var body: some View {
         HStack(spacing: 2) {
             Image(systemName: "shippingbox.fill")
-                .foregroundColor(registerCondition ? Color("W&B") : accentColor)
+                .foregroundColor(Color("oceanBlue"))
                 .frame(width: 18, height: 18)
                 .font(.system(size: 20))
                 .padding()
@@ -33,46 +31,29 @@ struct TrackingProgressView: View {
                 .foregroundColor(registerCondition == true ? accentColor : Color("W&B"))
             
             Image(systemName: "box.truck.fill")
-                .foregroundColor(transitCondition == true ? Color("W&B") : accentColor)
+                .foregroundColor(package.eventsArray.first?.systemImage == "box.truck.fill" || package.eventsArray.first?.systemImage == "figure.wave" ? Color("oceanBlue") : .white)
                 .frame(width: 18, height: 18)
                 .font(.system(size: 20))
                 .padding()
                 .background {
                     Circle()
                         .stroke(accentColor, lineWidth: 4)
-                        .background(Circle().foregroundColor(transitCondition ? accentColor : Color("W&B")))
+                        .background(Circle().foregroundColor(package.eventsArray.first?.systemImage == "box.truck.fill" || package.eventsArray.first?.systemImage == "figure.wave" ? accentColor : .clear))
                 }
             Rectangle()
                 .frame(width: 75, height: 10)
-                .foregroundColor(transitCondition ? accentColor : Color.gray.opacity(0.4))
+                .foregroundColor(package.eventsArray.first?.systemImage == "box.truck.fill" || package.eventsArray.first?.systemImage == "figure.wave" ? accentColor : Color.gray.opacity(0.4))
             
             Image(systemName: "figure.wave")
-                .foregroundColor(deliveryCondition ? Color("W&B") : accentColor)
+                .foregroundColor(package.eventsArray.first?.systemImage == "figure.wave" ? Color("oceanBlue") : .white)
                 .frame(width: 18, height: 18)
                 .font(.system(size: 24))
                 .padding()
                 .background {
                     Circle()
                         .stroke(accentColor, lineWidth: 4)
-                        .background(Circle().foregroundColor(deliveryCondition ? accentColor : Color("W&B")))
+                        .background(Circle().foregroundColor(package.eventsArray.first?.systemImage == "figure.wave" ? accentColor : .clear))
                 }
-        }
-        .onAppear() {
-            withAnimation(.linear(duration: 1)) {
-                registerCondition = true
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+1){
-                withAnimation(.linear(duration: 1)){
-                    transitCondition = package.eventsArray.first?.systemImage == "box.truck.fill" || package.eventsArray.first?.systemImage == "figure.wave"
-                }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+2){
-                withAnimation(.linear(duration: 1)){
-                    deliveryCondition = package.eventsArray.first?.systemImage == "figure.wave"
-                }
-            }
         }
     }
 }

@@ -24,6 +24,8 @@ struct PackageDetailView: View {
     
     @State private var nameTextField = ""
     
+    @State private var shareableImageString = UIImage()
+    
     @Environment(\.managedObjectContext) var moc
     var body: some View {
         NavigationStack {
@@ -107,7 +109,18 @@ struct PackageDetailView: View {
             
         }
         Spacer()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ShareLink(item: Image(uiImage: shareableImageString), preview: SharePreview("Share package", image: Image(uiImage: shareableImageString)))
+                        .tint(accentColor)
+                }
+            }
             .onAppear() {
+                let render = ImageRenderer(content: SharePackageView(package: package))
+                if let image = render.uiImage {
+                    shareableImageString = image
+                }
+                
                 nameTextField = package.name!
                 
                 let geoCoder = CLGeocoder()
@@ -128,7 +141,7 @@ struct PackageDetailView: View {
                     
                     for event in events {
                         var address = event.address!
-                        if address == "Destination" {
+                        if address == "Destination" || address == "Predict" {
                             package.removeFromEvents(event)
                         }
                         if address.contains("-") {

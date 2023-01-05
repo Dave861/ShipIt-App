@@ -50,6 +50,8 @@
 		D74A627A295E22FB004B6629 /* Package+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6276295E22FB004B6629 /* Package+CoreDataProperties.swift */; };
 		D74A627B295E22FB004B6629 /* Events+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6277295E22FB004B6629 /* Events+CoreDataClass.swift */; };
 		D74A627C295E22FB004B6629 /* Events+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6278295E22FB004B6629 /* Events+CoreDataProperties.swift */; };
+		D7614BDC2966E79D0099DE60 /* SharePackageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7614BDB2966E79D0099DE60 /* SharePackageView.swift */; };
+		D7614BDE2966E7AE0099DE60 /* ShareTrackingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7614BDD2966E7AE0099DE60 /* ShareTrackingProgressView.swift */; };
 		D76300072965705C00DAB7F3 /* TrackingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76300062965705C00DAB7F3 /* TrackingProgressView.swift */; };
 		D7AF5CD9295B038C00F2364E /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF5CD8295B038C00F2364E /* WelcomeView.swift */; };
 		D7AF5CDB295B17A200F2364E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF5CDA295B17A200F2364E /* HomeView.swift */; };
@@ -121,6 +123,8 @@
 		D74A6276295E22FB004B6629 /* Package+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Package+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D74A6277295E22FB004B6629 /* Events+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Events+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D74A6278295E22FB004B6629 /* Events+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Events+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D7614BDB2966E79D0099DE60 /* SharePackageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePackageView.swift; sourceTree = "<group>"; };
+		D7614BDD2966E7AE0099DE60 /* ShareTrackingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTrackingProgressView.swift; sourceTree = "<group>"; };
 		D76300062965705C00DAB7F3 /* TrackingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingProgressView.swift; sourceTree = "<group>"; };
 		D7AF5CD8295B038C00F2364E /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D7AF5CDA295B17A200F2364E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 		9A8FE4DE295ECD5D00C81E77 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				D7614BDA2966E78B0099DE60 /* Share sheet */,
 				D7AF5CDA295B17A200F2364E /* HomeView.swift */,
 				9A8A893D295C2CAC00291C9F /* AddPackageView.swift */,
 				9AF3469429642E4900215696 /* AlertViewPopover.swift */,
@@ -266,6 +271,15 @@
 				9AFF5E832966CBC600580C83 /* Info.plist */,
 			);
 			path = "ShipIt-WidgetIntentHandler";
+			sourceTree = "<group>";
+		};
+		D7614BDA2966E78B0099DE60 /* Share sheet */ = {
+			isa = PBXGroup;
+			children = (
+				D7614BDB2966E79D0099DE60 /* SharePackageView.swift */,
+				D7614BDD2966E7AE0099DE60 /* ShareTrackingProgressView.swift */,
+			);
+			path = "Share sheet";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,8 +423,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7614BDE2966E7AE0099DE60 /* ShareTrackingProgressView.swift in Sources */,
 				D7AF5CDB295B17A200F2364E /* HomeView.swift in Sources */,
 				D74A627A295E22FB004B6629 /* Package+CoreDataProperties.swift in Sources */,
+				D7614BDC2966E79D0099DE60 /* SharePackageView.swift in Sources */,
 				D7CB4C24295C9602002E2032 /* Declarations.swift in Sources */,
 				9A8A893E295C2CAC00291C9F /* AddPackageView.swift in Sources */,
 				D7CB4C27295C9AB7002E2032 /* Model.xcdatamodeld in Sources */,
@@ -606,6 +622,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save the shared packages";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -646,6 +663,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save the shared packages";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
