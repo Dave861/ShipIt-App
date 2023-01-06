@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Messages View Controller-->
+        <scene sceneID="7MM-of-jgj">
+            <objects>
+                <viewController id="ObA-dk-sSI" customClass="MessagesViewController" customModule="ShipIt_iMessage" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zMn-AG-sqS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="1pe-mg-gAR">
+                                <rect key="frame" x="8" y="75" width="304" height="453"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SharePackageCell" rowHeight="80" id="0BJ-EQ-ALa" customClass="SharePackageCell" customModule="ShipIt_iMessage" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="304" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0BJ-EQ-ALa" id="dSz-5A-Xrh">
+                                            <rect key="frame" x="0.0" y="0.0" width="304" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RRt-6k-wrr">
+                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="70"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shippingbox.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Pvv-Mg-YOr">
+                                                            <rect key="frame" x="8" y="8.3333333333333357" width="22" height="22"/>
+                                                            <color key="tintColor" name="oceanBlue"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="22" id="4AJ-8s-Tkm"/>
+                                                                <constraint firstAttribute="width" constant="22" id="y3J-GG-EhI"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPU-vK-5Hz">
+                                                            <rect key="frame" x="8" y="34" width="288" height="28"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Package Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5O7-oL-oR1">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="219.66666666666666" height="28"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                                    <color key="textColor" name="oceanBlue"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MK3-WN-h7j">
+                                                                    <rect key="frame" x="219.66666666666666" y="0.0" width="68.333333333333343" height="28"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <color key="textColor" systemColor="systemGrayColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="bPU-vK-5Hz" secondAttribute="bottom" constant="8" id="5Qk-TK-9Dy"/>
+                                                        <constraint firstAttribute="trailing" secondItem="bPU-vK-5Hz" secondAttribute="trailing" constant="8" id="FPG-xG-ZES"/>
+                                                        <constraint firstItem="bPU-vK-5Hz" firstAttribute="leading" secondItem="RRt-6k-wrr" secondAttribute="leading" constant="8" id="MwC-S3-XBD"/>
+                                                        <constraint firstItem="Pvv-Mg-YOr" firstAttribute="top" secondItem="RRt-6k-wrr" secondAttribute="top" constant="8" id="VEb-x6-VGT"/>
+                                                        <constraint firstItem="Pvv-Mg-YOr" firstAttribute="leading" secondItem="RRt-6k-wrr" secondAttribute="leading" constant="8" id="Wn8-ai-i2k"/>
+                                                        <constraint firstItem="bPU-vK-5Hz" firstAttribute="top" secondItem="Pvv-Mg-YOr" secondAttribute="bottom" constant="4" id="wAi-Q5-bSL"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="RRt-6k-wrr" firstAttribute="leading" secondItem="dSz-5A-Xrh" secondAttribute="leading" id="CyB-ky-92M"/>
+                                                <constraint firstItem="RRt-6k-wrr" firstAttribute="top" secondItem="dSz-5A-Xrh" secondAttribute="top" id="Dbd-E3-fBS"/>
+                                                <constraint firstAttribute="bottom" secondItem="RRt-6k-wrr" secondAttribute="bottom" constant="10" id="GrX-vn-asG"/>
+                                                <constraint firstAttribute="trailing" secondItem="RRt-6k-wrr" secondAttribute="trailing" id="msQ-GX-fO5"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cardView" destination="RRt-6k-wrr" id="ctw-14-ab1"/>
+                                            <outlet property="packageIcon" destination="Pvv-Mg-YOr" id="HGO-kH-LQx"/>
+                                            <outlet property="statusLbl" destination="MK3-WN-h7j" id="XY0-D6-Jer"/>
+                                            <outlet property="titleLbl" destination="5O7-oL-oR1" id="Oo4-2u-HGU"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LDy-ih-0nr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="LDy-ih-0nr" firstAttribute="trailing" secondItem="1pe-mg-gAR" secondAttribute="trailing" constant="8" id="B4E-9j-4SD"/>
+                            <constraint firstItem="1pe-mg-gAR" firstAttribute="bottom" secondItem="LDy-ih-0nr" secondAttribute="bottom" id="Nu6-Kg-cSD"/>
+                            <constraint firstItem="1pe-mg-gAR" firstAttribute="top" secondItem="LDy-ih-0nr" secondAttribute="top" constant="16" id="VVg-rr-QgN"/>
+                            <constraint firstItem="1pe-mg-gAR" firstAttribute="leading" secondItem="LDy-ih-0nr" secondAttribute="leading" constant="8" id="orB-N7-hhn"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="528"/>
+                    <connections>
+                        <outlet property="tableView" destination="1pe-mg-gAR" id="wFJ-ci-Yfg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="103.81679389312977" y="3.5211267605633805"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="shippingbox.fill" catalog="system" width="128" height="123"/>
+        <namedColor name="oceanBlue">
+            <color red="0.29800000786781311" green="0.2630000114440918" blue="0.67100000381469727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

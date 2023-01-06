@@ -27,9 +27,9 @@ struct ShipItWidgetProvider: IntentTimelineProvider {
     
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<ShipItWidgetEntry>) -> Void) {
         let entry = Entry(configuration: configuration)
-        let failedUpdates = ["Unknown", "Unknown status"]
-        let trackedPackage = entry.configuration.trackedPackage ?? WidgetPackage(identifier: "ph", display: "Placeholder")
-        let trackedPackageM = entry.configuration.trackedPackageM ?? WidgetPackage(identifier: "ph", display: "Placeholder")
+        let failedUpdates = ["Unknown date", "No status"]
+        let trackedPackage = entry.configuration.trackedPackage ?? WidgetPackage(identifier: "placeholder", display: "Placeholder")
+        let trackedPackageM = entry.configuration.trackedPackageM ?? WidgetPackage(identifier: "placeholder", display: "Placeholder")
         
         Task(priority: .high) {
             switch entry.configuration.trackedPackage?.packageCourier {
@@ -58,11 +58,11 @@ struct ShipItWidgetProvider: IntentTimelineProvider {
                 trackedPackage.statusDate = (updates ?? failedUpdates)[0]
                 trackedPackage.packageStatus = (updates ?? failedUpdates)[1]
             default:
-                trackedPackage.statusDate = "Unknown"
-                trackedPackage.packageStatus = "Unknown status"
+                trackedPackage.statusDate = "Unknown date"
+                trackedPackage.packageStatus = "No status"
             }
         }
-        if trackedPackageM != WidgetPackage(identifier: "ph", display: "Placeholder") {
+        if trackedPackageM != WidgetPackage(identifier: "placeholder", display: "Placeholder") {
             Task(priority: .high) {
                 switch entry.configuration.trackedPackage?.packageCourier {
                 case "DHL":
@@ -90,8 +90,8 @@ struct ShipItWidgetProvider: IntentTimelineProvider {
                     trackedPackage.statusDate = (updates ?? failedUpdates)[0]
                     trackedPackage.packageStatus = (updates ?? failedUpdates)[1]
                 default:
-                    trackedPackage.statusDate = "Unknown"
-                    trackedPackage.packageStatus = "Unknown status"
+                    trackedPackage.statusDate = "Unknown date"
+                    trackedPackage.packageStatus = "No status"
                 }
             }
         }
@@ -107,7 +107,7 @@ struct ShiptIt_WidgetEntryView : View {
     var entry: ShipItWidgetProvider.Entry
 
     @Environment(\.widgetFamily) var family
-    let placeholder = WidgetPackage(identifier: "placeholder", display: "TEST_@")
+    let placeholder = WidgetPackage(identifier: "placeholder", display: "Select Package")
     
     var body: some View {
         switch family {
@@ -124,8 +124,8 @@ struct ShiptIt_WidgetEntryView : View {
                             Text((entry.configuration.trackedPackage ?? placeholder).displayString)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color("oceanBlue"))
-                            Text((entry.configuration.trackedPackage ?? placeholder).packageStatus ?? "Unknown Status")
-                            Text((entry.configuration.trackedPackage ?? placeholder).statusDate ?? "Jan 4, 12:28")
+                            Text((entry.configuration.trackedPackage ?? placeholder).packageStatus ?? "No Status")
+                            Text((entry.configuration.trackedPackage ?? placeholder).statusDate ?? "Unknown date")
                                 .foregroundColor(Color("russianViolet"))
                         }
                         .padding(.all)
@@ -140,8 +140,8 @@ struct ShiptIt_WidgetEntryView : View {
                             Text((entry.configuration.trackedPackageM ?? placeholder).displayString)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color("oceanBlue"))
-                            Text((entry.configuration.trackedPackageM ?? placeholder).packageStatus ?? "Unknown Status")
-                            Text((entry.configuration.trackedPackageM ?? placeholder).statusDate ?? "Jan 4, 12:28")
+                            Text((entry.configuration.trackedPackageM ?? placeholder).packageStatus ?? "No Status")
+                            Text((entry.configuration.trackedPackageM ?? placeholder).statusDate ?? "Unknown date")
                                 .foregroundColor(Color("russianViolet"))
                         }
                         .padding(.all)
@@ -164,8 +164,8 @@ struct ShiptIt_WidgetEntryView : View {
                         Text((entry.configuration.trackedPackage ?? placeholder).displayString)
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color("oceanBlue"))
-                        Text((entry.configuration.trackedPackage ?? placeholder).packageStatus ?? "Unknown Status")
-                        Text((entry.configuration.trackedPackage ?? placeholder).statusDate ?? "Jan 4, 12:28")
+                        Text((entry.configuration.trackedPackage ?? placeholder).packageStatus ?? "No Status")
+                        Text((entry.configuration.trackedPackage ?? placeholder).statusDate ?? "Unknown date")
                             .foregroundColor(Color("russianViolet"))
                     }
                     .padding([.top, .bottom], 8)
