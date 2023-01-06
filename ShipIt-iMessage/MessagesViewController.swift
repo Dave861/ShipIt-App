@@ -7,6 +7,7 @@
 
 import UIKit
 import Messages
+import SwiftUI
 
 class MessagesViewController: MSMessagesAppViewController {
     
@@ -44,21 +45,37 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLbl.text = packages[indexPath.row].name!
         cell.packageIcon.image = UIImage(systemName: packages[indexPath.row].systemImage!)
         cell.statusLbl.text = packages[indexPath.row].statusText!
-        
+        switch indexPath.row%3 {
+                case 0:
+                    cell.packageIcon.tintColor = UIColor(named: "oceanBlue")
+                    cell.titleLbl.textColor = UIColor(named: "oceanBlue")
+                case 1:
+                    cell.packageIcon.tintColor = UIColor(named: "blueNCS")
+                    cell.titleLbl.textColor = UIColor(named: "blueNCS")
+                case 2:
+                    cell.packageIcon.tintColor = UIColor(named: "darkBlue")
+                    cell.titleLbl.textColor = UIColor(named: "darkBlue")
+                default:
+                    cell.packageIcon.tintColor = UIColor(named: "oceanBlue")
+                    cell.titleLbl.textColor = UIColor(named: "oceanBlue")
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let image = UIImage(named: "TEST")
-        // Create a new message with the generated image
-        let message = MSMessage()
-        let layout = MSMessageTemplateLayout()
-        layout.image = image
-        message.summaryText = "Tracked with ShipIt"
-        message.layout = layout
-        
-        // Add the message to the active conversation
-        activeConversation?.insert(message)
+        let render = ImageRenderer(content: SharePackageView(package: packages[indexPath.row]))
+        render.scale = 3
+        if let imageData = render.uiImage?.pngData() {
+            // Create a new message with the generated image
+            let message = MSMessage()
+            let layout = MSMessageTemplateLayout()
+            layout.image = UIImage(data: imageData)
+            message.summaryText = "Tracked with ShipIt"
+            message.layout = layout
+            
+            // Add the message to the active conversation
+            activeConversation?.insert(message)
+        }
     }
     
 }

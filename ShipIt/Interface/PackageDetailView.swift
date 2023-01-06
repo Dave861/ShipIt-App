@@ -119,6 +119,7 @@ struct PackageDetailView: View {
             }
             .onAppear() {
                 let render = ImageRenderer(content: SharePackageView(package: package))
+                render.scale = 3
                 if let image = render.uiImage {
                     shareableImageString = image
                 }

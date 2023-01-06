@@ -14,7 +14,7 @@ struct ShipItApp: App {
     var body: some Scene {
         WindowGroup {
             if UserDefaults.standard.bool(forKey: "com.ShipIt.launchToHome") == false {
-                WelcomeView()
+                WelcomeView() 
                     .environment(\.managedObjectContext, dataController.persistentContainer.viewContext)
             } else {
                 HomeView()
