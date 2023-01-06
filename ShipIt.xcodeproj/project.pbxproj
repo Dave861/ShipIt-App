@@ -22,10 +22,10 @@
 		9AFF5E6E2966CA4E00580C83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6D2966CA4E00580C83 /* Assets.xcassets */; };
 		9AFF5E702966CA4E00580C83 /* ShiptIt_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */; };
 		9AFF5E712966CA4E00580C83 /* ShiptIt_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */; };
-		9AFF5E742966CA4E00580C83 /* ShiptIt-WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9AFF5E612966CA4D00580C83 /* ShiptIt-WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFF5E742966CA4E00580C83 /* ShiptIt-WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9AFF5E612966CA4D00580C83 /* ShiptIt-WidgetExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9AFF5E7F2966CBC600580C83 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFF5E7E2966CBC600580C83 /* Intents.framework */; };
 		9AFF5E822966CBC600580C83 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E812966CBC600580C83 /* IntentHandler.swift */; };
-		9AFF5E862966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9AFF5E7D2966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AFF5E862966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9AFF5E7D2966CBC600580C83 /* ShipIt-WidgetIntentHandler.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9AFF5E8A2966CBEA00580C83 /* ShiptIt_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9AFF5E6C2966CA4D00580C83 /* ShiptIt_Widget.intentdefinition */; };
 		9AFF5E8B2966CC8600580C83 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */; };
 		9AFF5E8C2966CC8700580C83 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */; };
@@ -495,11 +495,13 @@
 /* Begin PBXTargetDependency section */
 		9AFF5E732966CA4E00580C83 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 9AFF5E602966CA4D00580C83 /* ShiptIt-WidgetExtension */;
 			targetProxy = 9AFF5E722966CA4E00580C83 /* PBXContainerItemProxy */;
 		};
 		9AFF5E852966CBC600580C83 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 9AFF5E7C2966CBC600580C83 /* ShipIt-WidgetIntentHandler */;
 			targetProxy = 9AFF5E842966CBC600580C83 /* PBXContainerItemProxy */;
 		};
@@ -639,8 +641,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -649,7 +651,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cb.ShipIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -680,8 +684,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -690,7 +694,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cb.ShipIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

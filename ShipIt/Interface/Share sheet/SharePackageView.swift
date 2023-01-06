@@ -21,10 +21,10 @@ struct SharePackageView: View {
                         .font(.title2)
                         .foregroundColor(.white)
                     Spacer()
-                    Text("Tracked with ShiptIt")
-                        .font(.footnote)
-                        .padding()
-                        .foregroundColor(.white)
+                    Text("Tracked with ShiptIt - \(package.courier!)")
+                            .font(.footnote)
+                            .padding()
+                            .foregroundColor(.white)
                 }
                 HStack{
                     Text(package.name!)
