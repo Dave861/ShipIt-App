@@ -21,6 +21,10 @@ struct SharePackageView: View {
                         .font(.title2)
                         .foregroundColor(.white)
                     Spacer()
+                    Text("Tracked with ShiptIt")
+                        .font(.footnote)
+                        .padding()
+                        .foregroundColor(.white)
                 }
                 HStack{
                     Text(package.name!)
@@ -34,7 +38,7 @@ struct SharePackageView: View {
                 ShareTrackingProgressView(package: $package, accentColor: .white)
                 Text(" ")
                 Text(" ")
-                    .font(.title)
+                    .font(.title2)
                 HStack{
                     Image(systemName: "shippingbox.fill")
                         .foregroundColor(.white)
