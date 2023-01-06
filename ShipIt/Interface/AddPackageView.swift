@@ -104,10 +104,10 @@ struct AddPackageView: View {
                 Templates.Menu {
                     Templates.MenuButton(title: "Cargus") { selectedCourier = .Cargus }
                     Templates.MenuButton(title: "DHL") { selectedCourier = .DHL }
-                    Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
-                    Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
                     Templates.MenuButton(title: "DPD") { selectedCourier = .DPD }
                     Templates.MenuButton(title: "Fan Courier") { selectedCourier = .FanCourier }
+                    Templates.MenuButton(title: "GLS") { selectedCourier = .GLS }
+                    Templates.MenuButton(title: "Sameday") { selectedCourier = .Sameday }
                 } label: { fade in
                     HStack {
                         Spacer()
@@ -176,12 +176,12 @@ struct AddPackageView: View {
                                     .foregroundColor($pickedIconName.wrappedValue == "dumbbell.fill" ? Color("blueNCS") : Color.gray)
                             }
                             Button {
-                                pickedIconName = "cart.fill"
+                                pickedIconName = "tshirt.fill"
                             } label: {
-                                Image(systemName: "cart.fill")
+                                Image(systemName: "tshirt.fill")
                                     .font(.system(size: 22))
                                     .padding(.leading, 6)
-                                    .foregroundColor($pickedIconName.wrappedValue == "cart.fill" ? Color("blueNCS") : Color.gray)
+                                    .foregroundColor($pickedIconName.wrappedValue == "tshirt.fill" ? Color("blueNCS") : Color.gray)
                             }
                             Button {
                                 pickedIconName = "wrench.adjustable.fill"
