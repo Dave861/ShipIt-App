@@ -315,21 +315,23 @@ class OrderManager: NSObject {
         package.address = shipment.deliverylocation
         
         for event in shipment.progressdetail {
-            let newEvent = Events(context: contextMOC)
-            newEvent.text = event.status
-            newEvent.address = event.deliverylocation
-            newEvent.timestamp = String(event.deliverydate.split(separator: ".")[2]) + "-" + String(event.deliverydate.split(separator: ".")[1]) + "-" + String(event.deliverydate.split(separator: ".")[0]) + "T" + event.deliverytime + ":00"
-            
-            if event.status.lowercased().contains("progress") {
-                newEvent.systemImage = "building.fill"
-            } else if event.status.lowercased().contains("delivery") {
-                newEvent.systemImage = "box.truck.fill"
-            } else if event.status.lowercased().contains("delivered") {
-                newEvent.systemImage = "figure.wave"
-            } else {
-                newEvent.systemImage = "shippingbox.fill"
+            if event.deliverylocation != "Destination" {
+                let newEvent = Events(context: contextMOC)
+                newEvent.text = event.status
+                newEvent.address = event.deliverylocation
+                newEvent.timestamp = String(event.deliverydate.split(separator: ".")[2]) + "-" + String(event.deliverydate.split(separator: ".")[1]) + "-" + String(event.deliverydate.split(separator: ".")[0]) + "T" + event.deliverytime + ":00"
+                
+                if event.status.lowercased().contains("process") {
+                    newEvent.systemImage = "building.fill"
+                } else if event.status.lowercased().contains("delivery") {
+                    newEvent.systemImage = "box.truck.fill"
+                } else if event.status.lowercased().contains("delivered") {
+                    newEvent.systemImage = "figure.wave"
+                } else {
+                    newEvent.systemImage = "shippingbox.fill"
+                }
+                package.addToEvents(newEvent)
             }
-            package.addToEvents(newEvent)
         }
     }
     

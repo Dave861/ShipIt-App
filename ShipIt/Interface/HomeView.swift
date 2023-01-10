@@ -227,6 +227,7 @@ struct HomeView: View {
         .tint(Color("oceanBlue"))
         .onAppear() {
             WidgetCenter.shared.reloadAllTimelines()
+            NotificationsManager().requestPermisions()
         }
     }
 }

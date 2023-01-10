@@ -60,6 +60,7 @@
 		9AFF5EA12966D58100580C83 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6271295DE4CB004B6629 /* OrderManager.swift */; };
 		9AFF5EA22966D7BB00580C83 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
 		9AFF5EA32966D7BB00580C83 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
+		D71FB30F296ADAB30002F6F2 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71FB30E296AD8900002F6F2 /* NotificationsManager.swift */; };
 		D74A6272295DE4CB004B6629 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6271295DE4CB004B6629 /* OrderManager.swift */; };
 		D74A6274295DF229004B6629 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
 		D74A6279295E22FB004B6629 /* Package+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6275295E22FB004B6629 /* Package+CoreDataClass.swift */; };
@@ -150,6 +151,7 @@
 		9AFF5E812966CBC600580C83 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		9AFF5E832966CBC600580C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AFF5E992966D18200580C83 /* WidgetOrderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetOrderManager.swift; sourceTree = "<group>"; };
+		D71FB30E296AD8900002F6F2 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		D741E09C2964B7060060C84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D74A6271295DE4CB004B6629 /* OrderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderManager.swift; sourceTree = "<group>"; };
 		D74A6273295DF229004B6629 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				9A8FE4DF295ECD7200C81E77 /* CoreData */,
 				D74A6271295DE4CB004B6629 /* OrderManager.swift */,
 				9A8FE4E0295ECD8500C81E77 /* DecodingManager.swift */,
+				D71FB30E296AD8900002F6F2 /* NotificationsManager.swift */,
 				D74A6273295DF229004B6629 /* Extensions.swift */,
 				D7CB4C23295C9602002E2032 /* Declarations.swift */,
 				D7CB4C28295C9D1D002E2032 /* DataController.swift */,
@@ -542,6 +545,7 @@
 				D7AF5CDB295B17A200F2364E /* HomeView.swift in Sources */,
 				D74A627A295E22FB004B6629 /* Package+CoreDataProperties.swift in Sources */,
 				D7614BDC2966E79D0099DE60 /* SharePackageView.swift in Sources */,
+				D71FB30F296ADAB30002F6F2 /* NotificationsManager.swift in Sources */,
 				D7CB4C24295C9602002E2032 /* Declarations.swift in Sources */,
 				9A8A893E295C2CAC00291C9F /* AddPackageView.swift in Sources */,
 				D7CB4C27295C9AB7002E2032 /* Model.xcdatamodeld in Sources */,

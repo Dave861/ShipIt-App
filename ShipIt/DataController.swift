@@ -4,7 +4,7 @@ import CoreData
 class DataController : ObservableObject {
     static let shared = DataController()
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    lazy public var persistentContainer: NSPersistentContainer = {
         let storeURL = URL.storeURL(for: "group.ShipIt.savedPackages", databaseName: "Model")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         let container = NSPersistentContainer(name: "Model")
