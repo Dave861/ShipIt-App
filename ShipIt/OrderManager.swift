@@ -200,7 +200,6 @@ class OrderManager: NSObject {
         } catch {
             throw OrderErrors.DBFail
         }
-        
         var GLSShipment : GLSPackageStatus
         do {
             GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: responseJSON)

@@ -125,10 +125,10 @@ struct GLSPackageStatus: Codable {
 
 struct GLSStatus: Codable {
     let references: [GLSReference]
-    let signature: GLSSignature
+    let signature: GLSSignature?
     let history: [GLSHistory]
     let owners: [GLSOwner]
-    let infos: [GLSInfo]
+    let infos: [GLSInfo]?
 }
 
 struct GLSReference: Codable {
@@ -152,8 +152,8 @@ struct GLSHistory: Codable {
 
 struct GLSAddress: Codable {
     let city: String
-    let countryName: String
-    let countryCode: String
+    let countryName: String?
+    let countryCode: String?
     let name: String?
 }
 
