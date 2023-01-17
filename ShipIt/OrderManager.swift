@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import UIKit
 import Alamofire
+import Combine
 
 struct OrderProcessingResults {
     let status : String
@@ -342,3 +343,26 @@ class OrderManager: NSObject {
     
 }
 
+class BackgroundOrderManager {
+    
+    static let sharedInstance = BackgroundOrderManager()
+    
+    private init() {}
+
+    func getGLSInBG(package: Package) async throws -> String {
+        let session = URLSession(configuration: .background(withIdentifier: "com.ShipIt.backgroundFetch"))
+        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let parameters: [String: Any] = ["match" : package.awb!]
+        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+        request.httpBody = jsonData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let (data, _) = try await session.data(for: request)
+        
+        return data.description
+    }    
+}

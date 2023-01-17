@@ -45,7 +45,7 @@ struct ShipItApp: App {
         var packages : [Package]!
         do {
             packages = try DataController().getStoredDataFromCoreDataFromBackground() as? [Package]
-        } catch let err{
+        } catch let err {
             print(err)
         }
         
@@ -55,89 +55,95 @@ struct ShipItApp: App {
                 package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
             }
             if package.courier == "DHL" {
-                Task(priority: .high) {
-                    do {
-                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getDHLOrderAsync(package: package)
-                        do {
-                            try DataController.persistentContainer.viewContext.save()
-                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
-                        } catch let err {
-                            print(err)
-                        }
-                    } catch let err {
-                        print(err)
-                    }
-                }
+//                Task(priority: .high) {
+//                    do {
+//                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getDHLOrderAsync(package: package)
+//                        do {
+//                            try DataController.persistentContainer.viewContext.save()
+//                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
+//                        } catch let err {
+//                            print(err)
+//                        }
+//                    } catch let err {
+//                        print(err)
+//                    }
+//                }
             } else if package.courier == "Sameday" {
-                Task(priority: .high) {
-                    do {
-                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getSamedayOrderAsync(package: package)
-                        do {
-                            try DataController.persistentContainer.viewContext.save()
-                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
-                        } catch let err {
-                            print(err)
-                        }
-                    } catch let err {
-                        print(err)
-                    }
-                }
+//                Task(priority: .high) {
+//                    do {
+//                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getSamedayOrderAsync(package: package)
+//                        do {
+//                            try DataController.persistentContainer.viewContext.save()
+//                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
+//                        } catch let err {
+//                            print(err)
+//                        }
+//                    } catch let err {
+//                        print(err)
+//                    }
+//                }
             } else if package.courier == "GLS" {
+//                Task(priority: .high) {
+//                    do {
+//                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getGLSOrderAsync(package: package, isBackgroundThread: true)
+//                        do {
+//                            try DataController.persistentContainer.viewContext.save()
+//                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
+//                        } catch let err {
+//                            print(err)
+//                        }
+//                    } catch let err {
+//                        print(err)
+//                    }
+//                }
                 Task(priority: .high) {
                     do {
-                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getGLSOrderAsync(package: package, isBackgroundThread: true)
-                        do {
-                            try DataController.persistentContainer.viewContext.save()
-                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
-                        } catch let err {
-                            print(err)
-                        }
-                    } catch let err {
-                        print(err)
+                        let resp = try await BackgroundOrderManager.sharedInstance.getGLSInBG(package: package)
+                        NotificationsManager().backgroundFetchTestingNotificationWContent(contentBody: resp)
                     }
                 }
             } else if package.courier == "Cargus" {
-                Task(priority: .high) {
-                    do {
-                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getCargusOrderAsync(package: package)
-                        do {
-                            try DataController.persistentContainer.viewContext.save()
-                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
-                        } catch let err {
-                            print(err)
-                        }
-                    } catch let err {
-                        print(err)
-                    }
-                }
+//                Task(priority: .high) {
+//                    do {
+//                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getCargusOrderAsync(package: package)
+//                        do {
+//                            try DataController.persistentContainer.viewContext.save()
+//                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
+//                        } catch let err {
+//                            print(err)
+//                        }
+//                    } catch let err {
+//                        print(err)
+//                    }
+//                }
             } else if package.courier == "DPD" {
-                Task(priority: .high) {
-                    do {
-                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getDPDOrderAsync(package: package, isBackgroundThread: true)
-                        do {
-                            try DataController.persistentContainer.viewContext.save()
-                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
-                        } catch let err {
-                            print(err)
-                        }
-                    } catch let err {
-                        print(err)
-                    }
-                }
+//                Task(priority: .high) {
+//                    do {
+//                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getDPDOrderAsync(package: package, isBackgroundThread: true)
+//                        do {
+//                            try DataController.persistentContainer.viewContext.save()
+//                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
+//                        } catch let err {
+//                            print(err)
+//                        }
+//                    } catch let err {
+//                        print(err)
+//                    }
+//                }
             } else if package.courier == "Fan Courier" {
-                Task(priority: .high) {
-                    do {
-                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getFanCourierOrderAsync(package: package)
-                        do {
-                            try DataController.persistentContainer.viewContext.save()
-                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
-                        } catch let err {
-                            print(err)
-                        }
-                    } catch let err {
-                        print(err)
-                    }
-                }
+//                Task(priority: .high) {
+//                    do {
+//                        try await OrderManager(contextMOC: DataController.persistentContainer.viewContext).getFanCourierOrderAsync(package: package)
+//                        do {
+//                            try DataController.persistentContainer.viewContext.save()
+//                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
+//                        } catch let err {
+//                            print(err)
+//                        }
+//                    } catch let err {
+//                        print(err)
+//                    }
+//                }
             }
             if lastStatus != package.statusText {
                 NotificationsManager().backgroundFetchNotificationScheduler(package: package)
