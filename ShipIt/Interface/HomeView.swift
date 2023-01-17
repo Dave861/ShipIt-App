@@ -198,7 +198,7 @@ struct HomeView: View {
                 } else if package.courier == "DPD" {
                     Task(priority: .high) {
                         do {
-                            try await OrderManager(contextMOC: moc).getDPDOrderAsync(package: package)
+                            try await OrderManager(contextMOC: moc).getDPDOrderAsync(package: package, isBackgroundThread: false)
                             do {
                                 try moc.save()
                             } catch let err {

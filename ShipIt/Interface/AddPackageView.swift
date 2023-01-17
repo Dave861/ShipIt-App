@@ -419,7 +419,7 @@ struct AddPackageView: View {
             case .DPD:
                 Task(priority: .high) {
                     do {
-                        try await OrderManager(contextMOC: moc).getDPDOrderAsync(package: newPackage)
+                        try await OrderManager(contextMOC: moc).getDPDOrderAsync(package: newPackage, isBackgroundThread: false)
                         do {
                             try moc.save()
                             DispatchQueue.main.async {

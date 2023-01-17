@@ -4,7 +4,7 @@ import CoreData
 class DataController : ObservableObject {
     static let shared = DataController()
     
-    lazy public var persistentContainer: NSPersistentContainer = {
+    public static var persistentContainer: NSPersistentContainer = {
         let storeURL = URL.storeURL(for: "group.ShipIt.savedPackages", databaseName: "Model")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         let container = NSPersistentContainer(name: "Model")
@@ -17,8 +17,20 @@ class DataController : ObservableObject {
         return container
     }()
     
+    func getStoredDataFromCoreDataFromBackground() throws -> [NSManagedObject] {
+        let managedContext = DataController.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Package")
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            return result
+        } catch let error {
+            throw error
+        }
+    }
+    
     func getStoredDataFromCoreData() -> [NSManagedObject] {
-        let managedContext = persistentContainer.viewContext
+        let managedContext = DataController.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Package")
         do {
@@ -35,7 +47,7 @@ class DataController : ObservableObject {
     }
     
     func saveContext() {
-        let context = persistentContainer.viewContext
+        let context = DataController.persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
@@ -45,6 +57,15 @@ class DataController : ObservableObject {
                 let nserror = error as NSError
                 print("Unresolved error \(nserror), \(nserror.userInfo)")
             }
+        }
+    }
+    
+    func returnPackageOnBackgroundThread(managedObject: NSManagedObjectID) throws -> Package {
+        do {
+            let context = DataController.persistentContainer.viewContext
+            return try context.existingObject(with: managedObject) as! Package
+        } catch let err {
+            throw err
         }
     }
 }
