@@ -98,8 +98,9 @@ struct ShipItApp: App {
 //                }
                 Task(priority: .high) {
                     do {
-                        let resp = try await BackgroundOrderManager.sharedInstance.getGLSInBG(package: package)
-                        NotificationsManager().backgroundFetchTestingNotificationWContent(contentBody: resp)
+                        BackgroundOrderManager.sharedInstance.getGLSInBG(package: package) { resp in
+                            NotificationsManager().backgroundFetchTestingNotificationWContent(contentBody: resp ?? "Well fuck this shit")
+                        }
                     }
                 }
             } else if package.courier == "Cargus" {

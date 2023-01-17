@@ -343,16 +343,15 @@ class OrderManager: NSObject {
     
 }
 
-class BackgroundOrderManager {
-    
+class BackgroundOrderManager: NSObject {
     static let sharedInstance = BackgroundOrderManager()
+    private override init() {}
     
-    private init() {}
-
-    func getGLSInBG(package: Package) async throws -> String {
-        let session = URLSession(configuration: .background(withIdentifier: "com.ShipIt.backgroundFetch"))
-        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001")!
+    func getGLSInBG(package: Package, completionHandler: @escaping (String?) -> Void) {
+        let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         
+        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -360,9 +359,26 @@ class BackgroundOrderManager {
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
         request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let (data, _) = try await session.data(for: request)
         
-        return data.description
-    }    
+        let task = session.dataTask(with: request)
+        task.resume()
+        
+        self.completionHandler = completionHandler
+    }
+    
+    private var completionHandler: ((String?) -> Void)?
+}
+
+extension BackgroundOrderManager: URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        let responseString = data.description
+        completionHandler?(responseString)
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            print("Error: \(error.localizedDescription)")
+            completionHandler?(nil)
+        }
+    }
 }
