@@ -351,14 +351,9 @@ class BackgroundOrderManager: NSObject {
         let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         
-        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001")!
+        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001?match=\(package.awb!)")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        
-        let parameters: [String: Any] = ["match" : package.awb!]
-        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = session.dataTask(with: request)
         task.resume()
