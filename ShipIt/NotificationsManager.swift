@@ -22,6 +22,19 @@ public class NotificationsManager {
         }
     }
     
+    public func backgroundFetchTestingNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Background fetch"
+        content.body = "Background fetch initiated with succes"
+        content.sound = UNNotificationSound.default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request)
+    }
+    
     public func backgroundFetchNotificationScheduler(package: Package) {
         let content = UNMutableNotificationContent()
         content.title = package.name!

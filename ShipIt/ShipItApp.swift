@@ -30,6 +30,7 @@ struct ShipItApp: App {
         }
         .backgroundTask(.appRefresh("com.ShipIt.backgroundFetch")) {
             await scheduleAppRefresh()
+            NotificationsManager().backgroundFetchTestingNotification()
             await backgroundAppFetching()
         }
         
@@ -53,6 +54,7 @@ struct ShipItApp: App {
                         try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getDHLOrderAsync(package: package)
                         do {
                             try DataController().persistentContainer.viewContext.save()
+                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
                         } catch let err {
                             print(err)
                         }
@@ -66,6 +68,7 @@ struct ShipItApp: App {
                         try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getSamedayOrderAsync(package: package)
                         do {
                             try DataController().persistentContainer.viewContext.save()
+                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
                         } catch let err {
                             print(err)
                         }
@@ -79,6 +82,7 @@ struct ShipItApp: App {
                         try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getGLSOrderAsync(package: package)
                         do {
                             try DataController().persistentContainer.viewContext.save()
+                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
                         } catch let err {
                             print(err)
                         }
@@ -92,6 +96,7 @@ struct ShipItApp: App {
                         try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getCargusOrderAsync(package: package)
                         do {
                             try DataController().persistentContainer.viewContext.save()
+                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
                         } catch let err {
                             print(err)
                         }
@@ -105,6 +110,7 @@ struct ShipItApp: App {
                         try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getDPDOrderAsync(package: package)
                         do {
                             try DataController().persistentContainer.viewContext.save()
+                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
                         } catch let err {
                             print(err)
                         }
@@ -118,6 +124,7 @@ struct ShipItApp: App {
                         try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getFanCourierOrderAsync(package: package)
                         do {
                             try DataController().persistentContainer.viewContext.save()
+                            NotificationsManager().backgroundFetchNotificationScheduler(package: package)
                         } catch let err {
                             print(err)
                         }
