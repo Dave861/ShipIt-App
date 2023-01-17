@@ -302,7 +302,7 @@ struct AddPackageView: View {
                                 }
                             }
                         } catch let err {
-                            if err as! OrderManager.OrderErrors == .AWBNotFound {
+                            if err as! OrderErrors == .AWBNotFound {
                                 moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
@@ -335,7 +335,7 @@ struct AddPackageView: View {
                                 }
                             }
                         } catch let err {
-                            if err as! OrderManager.OrderErrors == .AWBNotFound {
+                            if err as! OrderErrors == .AWBNotFound {
                                 moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
@@ -353,7 +353,7 @@ struct AddPackageView: View {
             case .GLS:
                 Task(priority: .high) {
                     do {
-                        try await OrderManager(contextMOC: moc).getGLSOrderAsync(package: newPackage)
+                        try await OrderManager(contextMOC: moc).getGLSOrderAsync(package: newPackage, isBackgroundThread: false)
                         do {
                             try moc.save()
                             DispatchQueue.main.async {
@@ -368,7 +368,7 @@ struct AddPackageView: View {
                             }
                         }
                     } catch let err {
-                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                        if err as! OrderErrors == .AWBNotFound {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
@@ -401,7 +401,7 @@ struct AddPackageView: View {
                             }
                         }
                     } catch let err {
-                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                        if err as! OrderErrors == .AWBNotFound {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
@@ -434,7 +434,7 @@ struct AddPackageView: View {
                             }
                         }
                     } catch let err {
-                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                        if err as! OrderErrors == .AWBNotFound {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
@@ -467,7 +467,7 @@ struct AddPackageView: View {
                             }
                         }
                     } catch let err {
-                        if err as! OrderManager.OrderErrors == .AWBNotFound {
+                        if err as! OrderErrors == .AWBNotFound {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."

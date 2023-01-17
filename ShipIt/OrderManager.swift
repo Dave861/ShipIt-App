@@ -16,19 +16,19 @@ struct OrderProcessingResults {
     let address : String
 }
 
+enum OrderErrors: Error {
+    case DBFail
+    case JSONFail
+    case UnknownFail
+    case AWBNotFound
+}
+
 class OrderManager: NSObject {
     
     var contextMOC: NSManagedObjectContext!
     
     init(contextMOC: NSManagedObjectContext!) {
         self.contextMOC = contextMOC
-    }
-    
-    enum OrderErrors: Error {
-        case DBFail
-        case JSONFail
-        case UnknownFail
-        case AWBNotFound
     }
     
     func getDHLOrderAsync(package: Package) async throws {
@@ -189,10 +189,16 @@ class OrderManager: NSObject {
         }
     }
     
-    func getGLSOrderAsync(package: Package) async throws {
+    func getGLSOrderAsync(package: Package, isBackgroundThread: Bool) async throws {
         let params : Parameters = ["match" : package.awb!]//"1111111111"]
         
-        let getRequest = AF.request("https://gls-group.com/app/service/open/rest/RO/en/rstt001", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
+        var getRequest: DataRequest!
+        if isBackgroundThread {
+            let AF_bg = Alamofire.Session(session: URLSession(configuration: .background(withIdentifier: "com.ShipIt.backgroundFetch")), delegate: AF.delegate, rootQueue: AF.rootQueue)
+            getRequest = AF_bg.request("https://gls-group.com/app/service/open/rest/RO/en/rstt001", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
+        } else {
+            getRequest = AF.request("https://gls-group.com/app/service/open/rest/RO/en/rstt001", method: .get, parameters: params, encoding: URLEncoding.default, headers: .default)
+        }
         
         var responseJSON : String!
         do {
@@ -239,7 +245,7 @@ class OrderManager: NSObject {
         
     }
     
-    func getDPDOrderAsync(package: Package) async throws {
+    func getDPDOrderAsync(package: Package, isBackgroundThread: Bool) async throws {
         let params : Parameters = ["shipmentNumber" : package.awb!, //"224884151",
                                    "language" : "en"]
         
@@ -335,3 +341,4 @@ class OrderManager: NSObject {
     }
     
 }
+

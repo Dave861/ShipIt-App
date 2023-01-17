@@ -244,7 +244,7 @@ class DecodingManager {
         
         let rowsUnsplit = String(String(tabel.first!).split(separator: "</tbody>").first!)
         if !rowsUnsplit.contains("</tr>") {
-            throw OrderManager.OrderErrors.AWBNotFound
+            throw OrderErrors.AWBNotFound
         }
         
         var rows = rowsUnsplit.split(separator: "</tr>")
@@ -274,7 +274,7 @@ class DecodingManager {
                     event.activity = "Unknown"
                 }
             } else {
-                throw OrderManager.OrderErrors.AWBNotFound
+                throw OrderErrors.AWBNotFound
             }
             events.append(event)
         }
@@ -315,7 +315,7 @@ class DecodingManager {
         
         var rows = htmlString.split(separator: "</tr>")
         if rows.count <= 2 {
-            throw OrderManager.OrderErrors.AWBNotFound
+            throw OrderErrors.AWBNotFound
         }
         
         rows.removeFirst()

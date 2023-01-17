@@ -172,7 +172,7 @@ struct HomeView: View {
                 } else if package.courier == "GLS" {
                     Task(priority: .high) {
                         do {
-                            try await OrderManager(contextMOC: moc).getGLSOrderAsync(package: package)
+                            try await OrderManager(contextMOC: moc).getGLSOrderAsync(package: package, isBackgroundThread: false)
                             do {
                                 try moc.save()
                             } catch let err {

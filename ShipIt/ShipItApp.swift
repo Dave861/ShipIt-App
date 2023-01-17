@@ -30,8 +30,8 @@ struct ShipItApp: App {
         }
         .backgroundTask(.appRefresh("com.ShipIt.backgroundFetch")) {
             await scheduleAppRefresh()
-            NotificationsManager().backgroundFetchTestingNotification()
             await backgroundAppFetching()
+            NotificationsManager().backgroundFetchTestingNotification()
         }
         
     }
@@ -79,7 +79,7 @@ struct ShipItApp: App {
             } else if package.courier == "GLS" {
                 Task(priority: .high) {
                     do {
-                        try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getGLSOrderAsync(package: package)
+                        try await OrderManager(contextMOC: DataController().persistentContainer.viewContext).getGLSOrderAsync(package: package, isBackgroundThread: true)
                         do {
                             try DataController().persistentContainer.viewContext.save()
                             NotificationsManager().backgroundFetchNotificationScheduler(package: package)
