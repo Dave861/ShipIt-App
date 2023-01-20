@@ -282,8 +282,13 @@ class DecodingManager {
         return CargusShipment(events: events)
     }
     
-    func decodeGLSJSON(jsonString: String) throws -> GLSPackageStatus {
-        let jsonData = jsonString.data(using: .utf8)!
+    func decodeGLSJSON(jsonString: String, data: Data? = nil) throws -> GLSPackageStatus {
+        var jsonData: Data!
+        if data != nil {
+            jsonData = data
+        } else {
+            jsonData = jsonString.data(using: .utf8)!
+        }
         let decoder = JSONDecoder()
         
         let shipment: GLSPackageStatus
