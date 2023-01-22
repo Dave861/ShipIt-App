@@ -396,7 +396,11 @@ class BackgroundOrderManager: NSObject {
     static let sharedInstance = BackgroundOrderManager()
     private override init() {}
     
-    func getGLSInBG(package: Package, completionHandler: @escaping (String?) -> Void) {
+    private var completionHandler: ((Data?) -> Void)?
+    private var buffer = Data()
+    
+    func getGLSInBG(package: Package, completionHandler: @escaping (Data?) -> Void) {
+        self.buffer = Data()
         let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
 
@@ -409,27 +413,18 @@ class BackgroundOrderManager: NSObject {
 
         self.completionHandler = completionHandler
     }
-    
-    private var completionHandler: ((String?) -> Void)?
 }
 extension BackgroundOrderManager: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        let responseString = data.description
-        var GLSShipment : GLSPackageStatus
-        do {
-            GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: data)
-            let shipment = GLSShipment.tuStatus.first
-            print(String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!))
-        } catch {
-            print("Error decoding response: \(error.localizedDescription)")
-        }
-        completionHandler?(responseString)
+        self.buffer.append(data)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let error = error {
             print("Error: \(error.localizedDescription)")
             completionHandler?(nil)
+        } else {
+            completionHandler?(buffer)
         }
     }
 }

@@ -48,7 +48,7 @@ public class NotificationsManager {
         UNUserNotificationCenter.current().add(request)
     }
     
-    public func backgroundFetchNotificationScheduler(package: Package, newStatus: String) async {
+    public func backgroundFetchNotificationScheduler(package: Package, newStatus: String) {
         let content = UNMutableNotificationContent()
         content.title = package.name!
         content.body = "Status changed to \(newStatus)"
@@ -57,10 +57,6 @@ public class NotificationsManager {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        do {
-            try await UNUserNotificationCenter.current().add(request)
-        } catch {
-            print("Failed to schedule notification")
-        }
+        UNUserNotificationCenter.current().add(request)
     }
 }

@@ -60,17 +60,28 @@ struct ShipItApp: App {
             } else if package.courier == "Sameday" {
 
             } else if package.courier == "GLS" {
-                newStatus = await BackgroundOrderManager.sharedInstance.getStatusGLS(awb: package.awb!)
-                //Save new status for package
+                BackgroundOrderManager.sharedInstance.getGLSInBG(package: package) { data in
+                    var GLSShipment : GLSPackageStatus
+                    do {
+                        GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: data)
+                        let shipment = GLSShipment.tuStatus.first
+                        print(String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!))
+                        newStatus = String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
+                        //Save new status for package
+                    } catch {
+                        print("Error decoding response: \(error.localizedDescription)")
+                        newStatus = error.localizedDescription
+                    }
+                    if lastStatus != newStatus {
+                        NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
+                    }
+                }
             } else if package.courier == "Cargus" {
 
             } else if package.courier == "DPD" {
 
             } else if package.courier == "Fan Courier" {
 
-            }
-            if lastStatus != newStatus {
-                await NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
             }
         }
     }
