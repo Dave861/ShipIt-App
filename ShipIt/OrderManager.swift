@@ -356,12 +356,28 @@ class BackgroundOrderManager: NSObject {
         let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001?match=\(awb)")!
         let request = URLRequest(url: url)
         
-        let response = await withTaskCancellationHandler(operation: {
-            try? await session.data(for: request)
-        }, onCancel: {
+        
+        var response: (Data, URLResponse)?
+        
+        do {
+            response = try await session.data(for: request)
+        } catch {
+            print(String(describing: error))
             let task = session.downloadTask(with: request)
             task.resume()
-        })
+            do {
+                response = try await session.data(for: request)
+            } catch {
+                print("Second error: \(String(describing: error))")
+            }
+        }
+        
+//        response = await withTaskCancellationHandler(operation: {
+//            try? await session.data(for: request)
+//        }, onCancel: {
+//            let task = session.downloadTask(with: request)
+//            task.resume()
+//        })
         guard response != nil else { return "Failed" }
         
         var GLSShipment : GLSPackageStatus
