@@ -118,6 +118,8 @@ struct PackageDetailView: View {
                             Button {
                                 package.notifications.toggle()
                                 try? moc.save()
+                                let generator = UIImpactFeedbackGenerator(style: .light)
+                                generator.impactOccurred()
                             } label: {
                                 Label(package.notifications ? "Notifications enabled" : "Notifications disabled", systemImage: package.notifications ? "bell" : "bell.slash")
                             }
