@@ -28,6 +28,7 @@ extension Package {
     @NSManaged public var httpResponse: Int64
     @NSManaged public var codedData: String?
     @NSManaged public var events: NSSet?
+    @NSManaged public var notifications : Bool
     
     public var eventsArray : [Events] {
         let set = events as? Set<Events> ?? []

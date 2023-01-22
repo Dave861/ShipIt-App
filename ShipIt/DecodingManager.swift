@@ -205,8 +205,13 @@ class DecodingManager {
     
     private init() {}
     
-    func decodeDHLJson(jsonString: String) throws -> [DHLShipment] {
-        let jsonData = jsonString.data(using: .utf8)!
+    func decodeDHLJson(jsonString: String, data: Data? = nil) throws -> [DHLShipment] {
+        var jsonData: Data!
+        if data != nil {
+            jsonData = data
+        } else {
+            jsonData = jsonString.data(using: .utf8)!
+        }
         let decoder = JSONDecoder()
         
         let shipments: DHLShipments
@@ -219,8 +224,13 @@ class DecodingManager {
         return shipments.shipments
     }
     
-    func decodeSamedayJson(jsonString: String) throws -> SamedayParcelsList {
-        let jsonData = jsonString.data(using: .utf8)!
+    func decodeSamedayJson(jsonString: String, data: Data? = nil) throws -> SamedayParcelsList {
+        var jsonData: Data!
+        if data != nil {
+            jsonData = data
+        } else {
+            jsonData = jsonString.data(using: .utf8)!
+        }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         
@@ -301,8 +311,13 @@ class DecodingManager {
         return shipment
     }
     
-    func decodeFanCourierJSON(jsonString: String) throws -> FanCourierDelivery {
-        let jsonData = jsonString.data(using: .utf8)!
+    func decodeFanCourierJSON(jsonString: String, data: Data? = nil) throws -> FanCourierDelivery {
+        var jsonData: Data!
+        if data != nil {
+            jsonData = data
+        } else {
+            jsonData = jsonString.data(using: .utf8)!
+        }
         let decoder = JSONDecoder()
         
         let shipment: FanCourierDelivery

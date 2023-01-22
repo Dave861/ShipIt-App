@@ -123,6 +123,7 @@ class OrderManager: NSObject {
         package.lastDate = String(shipment.awbHistory.first!.statusDate.split(separator: "+")[0])
         package.statusText = shipment.awbHistory.first!.statusState
         package.address = shipment.awbHistory.first!.county
+        package.notifications = true
         
         for index in 0...shipment.awbHistory.count-1 {
             let shipmentEvent = shipment.awbHistory[index]
@@ -413,6 +414,36 @@ class BackgroundOrderManager: NSObject {
 
         self.completionHandler = completionHandler
     }
+    
+    func getSamedayInBG(package: Package, completionHandler: @escaping (Data?) -> Void) {
+        self.buffer = Data()
+        let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+
+        let url = URL(string: "https://api.sameday.ro/api/public/awb/\(package.awb!)/awb-history")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = session.dataTask(with: request)
+        task.resume()
+
+        self.completionHandler = completionHandler
+    }
+    
+    func getFanCourierInBG(package: Package, completionHandler: @escaping (Data?) -> Void) {
+        self.buffer = Data()
+        let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+
+        let url = URL(string: "https://www.selfawb.ro/awb_tracking_integrat.php?username=clienttest&user_pass=testing&client_id=7032158&AWB=\(package.awb!)&display_mode=5&language=en")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = session.dataTask(with: request)
+        task.resume()
+
+        self.completionHandler = completionHandler
+    }
 }
 extension BackgroundOrderManager: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
@@ -422,7 +453,7 @@ extension BackgroundOrderManager: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let error = error {
             print("Error: \(error.localizedDescription)")
-            completionHandler?(nil)
+            completionHandler?(Data(error.localizedDescription.utf8))
         } else {
             completionHandler?(buffer)
         }

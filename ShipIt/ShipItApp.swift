@@ -15,7 +15,7 @@ struct ShipItApp: App {
     var body: some Scene {
         WindowGroup {
             if UserDefaults.standard.bool(forKey: "com.ShipIt.launchToHome") == false {
-                WelcomeView() 
+                WelcomeView()
                     .environment(\.managedObjectContext, DataController.persistentContainer.viewContext)
             } else {
                 HomeView()
@@ -50,38 +50,85 @@ struct ShipItApp: App {
         }
         
         for package in packages {
-            let lastStatus = package.statusText!
-            var newStatus = "Unattributed"
-            while package.eventsArray.count >= 1 {
-                package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
-            }
-            if package.courier == "DHL" {
-
-            } else if package.courier == "Sameday" {
-
-            } else if package.courier == "GLS" {
-                BackgroundOrderManager.sharedInstance.getGLSInBG(package: package) { data in
-                    var GLSShipment : GLSPackageStatus
-                    do {
-                        GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: data)
-                        let shipment = GLSShipment.tuStatus.first
-                        print(String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!))
-                        newStatus = String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
-                        //Save new status for package
-                    } catch {
-                        print("Error decoding response: \(error.localizedDescription)")
-                        newStatus = error.localizedDescription
-                    }
-                    if lastStatus != newStatus {
-                        NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
-                    }
+            if package.notifications{
+                let lastStatus = package.statusText!
+                var newStatus = "Unattributed"
+                while package.eventsArray.count >= 1 {
+                    package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
                 }
-            } else if package.courier == "Cargus" {
-
-            } else if package.courier == "DPD" {
-
-            } else if package.courier == "Fan Courier" {
-
+                if package.courier == "DHL" {
+                    
+                } else if package.courier == "Sameday" {
+                    await withCheckedContinuation({ continuation in
+                        BackgroundOrderManager.sharedInstance.getSamedayInBG(package: package) { data in
+                            var shipment: SamedayParcelsList!
+                            do {
+                                try shipment = DecodingManager.sharedInstance.decodeSamedayJson(jsonString: "", data: data)
+                                newStatus = shipment.awbHistory.first!.statusState
+                                print(newStatus)
+                                
+                                package.statusText = newStatus
+                                package.lastDate = String(shipment.awbHistory.first!.statusDate.split(separator: "+")[0])
+                                DataController().saveContext()
+                            } catch {
+                                print("Error decoding response: \(error.localizedDescription)")
+                                newStatus = lastStatus
+                            }
+                            if lastStatus != newStatus {
+                                NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
+                            }
+                            continuation.resume()
+                        }
+                    })
+                } else if package.courier == "GLS" {
+                    await withCheckedContinuation({ continuation in
+                        BackgroundOrderManager.sharedInstance.getGLSInBG(package: package) { data in
+                            var GLSShipment : GLSPackageStatus
+                            do {
+                                GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: data)
+                                let shipment = GLSShipment.tuStatus.first
+                                print(String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!))
+                                newStatus = String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
+                                
+                                package.statusText = newStatus
+                                package.lastDate = "\(String(describing: shipment?.history.first?.date ?? "DATE"))T\(String(describing: shipment?.history.first?.time ?? "DATE"))"
+                                DataController().saveContext()
+                            } catch {
+                                print("Error decoding response: \(error.localizedDescription)")
+                                newStatus = error.localizedDescription
+                            }
+                            if lastStatus != newStatus {
+                                NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
+                            }
+                            continuation.resume()
+                        }
+                    })
+                } else if package.courier == "Cargus" {
+                    
+                } else if package.courier == "DPD" {
+                    
+                } else if package.courier == "Fan Courier" {
+                    await withCheckedContinuation({ continuation in
+                        BackgroundOrderManager.sharedInstance.getFanCourierInBG(package: package) { data in
+                            var shipment : FanCourierDelivery
+                            do {
+                                shipment = try DecodingManager.sharedInstance.decodeFanCourierJSON(jsonString: "", data: data)
+                                newStatus = shipment.status
+                                
+                                package.statusText = newStatus
+                                package.lastDate = String(shipment.deliverydate.split(separator: ".")[2]) + "-" + String(shipment.deliverydate.split(separator: ".")[1]) + "-" + String(shipment.deliverydate.split(separator: ".")[0]) + "T" + shipment.deliverytime + ":00"
+                                DataController().saveContext()
+                            } catch {
+                                print("Error decoding response: \(error.localizedDescription)")
+                                newStatus = error.localizedDescription
+                            }
+                            if lastStatus != newStatus {
+                                NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
+                            }
+                            continuation.resume()
+                        }
+                    })
+                }
             }
         }
     }

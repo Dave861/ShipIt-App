@@ -51,10 +51,10 @@ public class NotificationsManager {
     public func backgroundFetchNotificationScheduler(package: Package, newStatus: String) {
         let content = UNMutableNotificationContent()
         content.title = package.name!
-        content.body = "Status changed to \(newStatus)"
+        content.body = newStatus
         content.sound = UNNotificationSound.default
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 7, repeats: false)
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)

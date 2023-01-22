@@ -18,6 +18,7 @@
         <attribute name="lastDate" optional="YES" attributeType="String"/>
         <attribute name="link" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notifications" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="statusText" optional="YES" attributeType="String"/>
         <attribute name="systemImage" optional="YES" attributeType="String"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Events" inverseName="package" inverseEntity="Events"/>

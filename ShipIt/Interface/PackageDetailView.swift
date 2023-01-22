@@ -113,8 +113,20 @@ struct PackageDetailView: View {
         Spacer()
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ShareLink(item: Image(uiImage: shareableImageString), preview: SharePreview("Share package", image: Image(uiImage: shareableImageString)))
-                        .tint(accentColor)
+                    Menu {
+                        if UserDefaults.standard.bool(forKey: userDefaultsNotificationsBeforeDeliveryKey) {
+                            Button {
+                                package.notifications.toggle()
+                                try? moc.save()
+                            } label: {
+                                Label(package.notifications ? "Notifications enabled" : "Notifications disabled", systemImage: package.notifications ? "bell" : "bell.slash")
+                            }
+                        }
+                        ShareLink(item: Image(uiImage: shareableImageString), preview: SharePreview("Share package", image: Image(uiImage: shareableImageString)))
+                            .tint(accentColor)
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
                 }
             }
             .onAppear() {
