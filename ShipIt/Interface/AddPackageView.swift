@@ -24,7 +24,7 @@ struct AddPackageView: View {
     
     @State var pickedIconName = "shippingbox.fill"
     
-    @State var trackingNumberFieldText = ""
+    @State var trackingNumberFieldText : String
     @State var packageNameFieldText = ""
     
     @FetchRequest(sortDescriptors: []) var orders : FetchedResults<Package>

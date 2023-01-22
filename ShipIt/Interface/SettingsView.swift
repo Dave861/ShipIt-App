@@ -50,11 +50,11 @@ struct SettingsView: View {
                         .onChange(of: notificationsBeforeSwitch) { newValue in
                             UserDefaults.standard.set(newValue, forKey: userDefaultsNotificationsBeforeDeliveryKey)
                         }
-                        Link("For notifications to work best, make sure background app refresh for ShipIt is turned on inside **Settings**.", destination: URL(string: UIApplication.openSettingsURLString)!)
-                            .padding([.leading, .trailing])
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.leading)
+                    Link("For notifications to work, make sure background app refresh for ShipIt is on in **Settings**. (tap to go Settings)", destination: URL(string: UIApplication.openSettingsURLString)!)
+                        .padding([.leading, .trailing])
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.leading)
                     Toggle("Show packages in Live Activity", isOn: $liveActivitySwitch)
                         .tint(Color("darkBlue"))
                         .padding(.all)

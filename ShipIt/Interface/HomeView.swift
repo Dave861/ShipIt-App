@@ -14,6 +14,8 @@ struct HomeView: View {
     @State private var searchText = String()
     @State private var showSettingsView = false
     @State private var showAddPackageView = false
+    @State private var targetDetailPage : String?
+    @State private var trackingNumberFieldText = ""
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [
@@ -32,7 +34,6 @@ struct HomeView: View {
                 return Color("oceanBlue")
         }
     }
-    
     var body: some View {
         NavigationStack {
             List {
@@ -40,7 +41,7 @@ struct HomeView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 18)
                             .foregroundColor(Color.gray.opacity(0.2))
-                        NavigationLink(destination: PackageDetailView(package: package, accentColor: decideAccentOnIndex(index: index))) {
+                        NavigationLink(destination: PackageDetailView(package: package, accentColor: decideAccentOnIndex(index: index)), tag: package.awb!, selection: $targetDetailPage) {
                             VStack {
                                 HStack {
                                     Image(systemName: package.systemImage ?? "questionmark")
@@ -131,7 +132,7 @@ struct HomeView: View {
             )
             $0.blocksBackgroundTouches = true
         }) {
-            AddPackageView(isPresented: $showAddPackageView)
+            AddPackageView(isPresented: $showAddPackageView, trackingNumberFieldText: trackingNumberFieldText)
                 .environment(\.managedObjectContext, self.moc)
         }
         .searchable(text: $searchText, prompt: "Search or Add Package")
@@ -230,6 +231,17 @@ struct HomeView: View {
             NotificationsManager().requestPermisions()
         }
         .blur(radius: showAddPackageView ? 2 : 0)
+        .onOpenURL { url in
+            let awb = String(url.description.utf8).replacingOccurrences(of: "shipit://", with: "")
+            
+            if packages.contains(where: {$0.awb == awb}) {
+                targetDetailPage = awb
+            } else {
+                trackingNumberFieldText = awb
+                showAddPackageView.toggle()
+                
+            }
+        }
     }
 }
 

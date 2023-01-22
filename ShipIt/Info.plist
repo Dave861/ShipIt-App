@@ -6,6 +6,19 @@
 	<array>
 		<string>com.ShipIt.backgroundFetch</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>com.ShipIt.shareLink</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>shipit</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ConfigurationIntent</string>

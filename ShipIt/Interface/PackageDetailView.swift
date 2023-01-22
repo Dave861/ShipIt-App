@@ -10,7 +10,6 @@ import MapKit
 import UniformTypeIdentifiers
 
 struct PackageDetailView: View {
-    
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 11.25, longitudeDelta: 22.5))
     @State var package : Package
     @State var accentColor : Color
@@ -113,7 +112,6 @@ struct PackageDetailView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
             }
-            
         }
         Spacer()
             .toolbar {
@@ -129,11 +127,18 @@ struct PackageDetailView: View {
                                 Label(package.notifications ? "Notifications enabled" : "Notifications disabled", systemImage: package.notifications ? "bell" : "bell.slash")
                             }
                         }
-                        ShareLink(item: Image(uiImage: shareableImageString), preview: SharePreview("Share package", image: Image(uiImage: shareableImageString)))
+                        ShareLink(item: Image(uiImage: shareableImageString), preview: SharePreview("Share package", image: Image(uiImage: shareableImageString)), label: {
+                            Label("Share status", systemImage: "photo")
+                        })
                             .tint(accentColor)
+                        ShareLink(item: URL(string: "shipit://\(package.awb!)")!, label: {
+                            Label("Share package link", systemImage: "square.and.arrow.up")
+                        })
+                        
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     }
+                    
                 }
             }
             .onAppear() {
