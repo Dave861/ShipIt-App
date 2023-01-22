@@ -343,52 +343,93 @@ class OrderManager: NSObject {
     
 }
 
-class BackgroundOrderManager: NSObject {
-    
-    static let sharedInstance = BackgroundOrderManager()
-    private override init() {}
-    
-    func getStatusGLS(awb: String) async -> String {
-        let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
-        config.sessionSendsLaunchEvents = true
-        let session = URLSession(configuration: config)
-        
-        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001?match=\(awb)")!
-        let request = URLRequest(url: url)
-        
-        
-        var response: (Data, URLResponse)?
-        
-        do {
-            response = try await session.data(for: request)
-        } catch {
-            print(String(describing: error))
-            let task = session.downloadTask(with: request)
-            task.resume()
-            do {
-                response = try await session.data(for: request)
-            } catch {
-                print("Second error: \(String(describing: error))")
-            }
-        }
-        
+//class BackgroundOrderManager: NSObject {
+//
+//    static let sharedInstance = BackgroundOrderManager()
+//    private override init() {}
+//
+//    func getStatusGLS(awb: String) async -> String {
+//        let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
+//        config.sessionSendsLaunchEvents = true
+//        let session = URLSession(configuration: config)
+//
+//        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001?match=\(awb)")!
+//        let request = URLRequest(url: url)
+//
+//
+//        var response: (Data, URLResponse)?
+//
+//        do {
+//            response = try await session.data(for: request)
+//        } catch {
+//            print(String(describing: error))
+//            let task = session.downloadTask(with: request)
+//            task.resume()
+//            do {
+//                response = try await session.data(for: request)
+//            } catch {
+//                print("Second error: \(String(describing: error))")
+//            }
+//        }
+//
 //        response = await withTaskCancellationHandler(operation: {
 //            try? await session.data(for: request)
 //        }, onCancel: {
 //            let task = session.downloadTask(with: request)
 //            task.resume()
 //        })
-        guard response != nil else { return "Failed" }
-        
+//        guard response != nil else { return "Failed" }
+//
+//        var GLSShipment : GLSPackageStatus
+//        do {
+//            GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: response?.0)
+//            let shipment = GLSShipment.tuStatus.first
+//            return String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
+//        } catch {
+//            print("Error decoding response: \(error.localizedDescription)")
+//        }
+//        return "Unknown"
+//    }
+//
+//}
+class BackgroundOrderManager: NSObject {
+    static let sharedInstance = BackgroundOrderManager()
+    private override init() {}
+    
+    func getGLSInBG(package: Package, completionHandler: @escaping (String?) -> Void) {
+        let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+
+        let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001?match=\(package.awb!)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = session.dataTask(with: request)
+        task.resume()
+
+        self.completionHandler = completionHandler
+    }
+    
+    private var completionHandler: ((String?) -> Void)?
+}
+extension BackgroundOrderManager: URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        let responseString = data.description
         var GLSShipment : GLSPackageStatus
         do {
-            GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: response?.0)
+            GLSShipment = try DecodingManager.sharedInstance.decodeGLSJSON(jsonString: "", data: data)
             let shipment = GLSShipment.tuStatus.first
-            return String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!)
+            print(String((shipment?.history.first?.evtDscr.split(separator: "(").first!)!))
         } catch {
             print("Error decoding response: \(error.localizedDescription)")
         }
-        return "Unknown"
+        completionHandler?(responseString)
     }
     
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            print("Error: \(error.localizedDescription)")
+            completionHandler?(nil)
+        }
+    }
 }
