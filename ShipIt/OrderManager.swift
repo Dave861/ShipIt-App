@@ -420,7 +420,7 @@ class BackgroundOrderManager: NSObject {
         let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
 
-        let url = URL(string: "https://api.sameday.ro/api/public/awb/\(package.awb!)/awb-history")!
+        let url = URL(string: "https://api.sameday.ro/api/public/awb/\(package.awb!)/awb-history?_locale=en")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
 

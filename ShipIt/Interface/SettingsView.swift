@@ -15,6 +15,13 @@ struct SettingsView: View {
     @State private var notificationsBeforeSwitch = UserDefaults.standard.bool(forKey: userDefaultsNotificationsBeforeDeliveryKey)
     @State private var liveActivitySwitch = UserDefaults.standard.bool(forKey: userdefaultsLiveActivityKey)
     
+    @Environment(\.openURL) var openURL
+    
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: [
+        SortDescriptor(\.name)
+    ]) var packages : FetchedResults<Package>
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -43,6 +50,11 @@ struct SettingsView: View {
                         .onChange(of: notificationsBeforeSwitch) { newValue in
                             UserDefaults.standard.set(newValue, forKey: userDefaultsNotificationsBeforeDeliveryKey)
                         }
+                        Link("For notifications to work best, make sure background app refresh for ShipIt is turned on inside **Settings**.", destination: URL(string: UIApplication.openSettingsURLString)!)
+                            .padding([.leading, .trailing])
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.leading)
                     Toggle("Show packages in Live Activity", isOn: $liveActivitySwitch)
                         .tint(Color("darkBlue"))
                         .padding(.all)
@@ -55,7 +67,9 @@ struct SettingsView: View {
                             UserDefaults.standard.set(newValue, forKey: userdefaultsLiveActivityKey)
                         }
                     Spacer()
-                    Button(action: {}) {
+                    Button(action: {
+                        
+                    }) {
                         HStack {
                             Spacer()
                             Text("Delete all my data")
@@ -68,7 +82,13 @@ struct SettingsView: View {
                             .foregroundColor(Color.red.opacity(0.4))
                                     .padding([.leading, .trailing]))
                     }
-                    Button(action: {}) {
+                    Button(action: {
+                        for package in packages {
+                            moc.delete(package)
+                        }
+                        try? moc.save()
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
                         HStack {
                             Spacer()
                             Text("Privacy Policy & Legal")

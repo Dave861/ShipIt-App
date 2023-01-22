@@ -55,6 +55,11 @@ struct PackageDetailView: View {
                     .cornerRadius(20)
                     .padding([.trailing, .leading])
                 }
+                Link("For notifications to work, make sure background app refresh for ShipIt is on in **Settings**. (tap to go Settings)", destination: URL(string: UIApplication.openSettingsURLString)!)
+                    .padding([.leading, .trailing])
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.leading)
                 TrackingProgressView(package: $package, accentColor: accentColor)
                     .padding([.top, .leading, .trailing])
                 HStack {
