@@ -31,7 +31,7 @@ struct ShipItApp: App {
         .backgroundTask(.appRefresh("com.ShipIt.backgroundFetch")) {
             await scheduleAppRefresh()
             await backgroundAppFetching()
-            NotificationsManager().backgroundFetchTestingNotification()
+//            NotificationsManager().backgroundFetchTestingNotification()
         }
         
     }

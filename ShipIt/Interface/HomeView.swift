@@ -229,6 +229,7 @@ struct HomeView: View {
             WidgetCenter.shared.reloadAllTimelines()
             NotificationsManager().requestPermisions()
         }
+        .blur(radius: showAddPackageView ? 2 : 0)
     }
 }
 

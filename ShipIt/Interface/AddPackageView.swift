@@ -40,6 +40,8 @@ struct AddPackageView: View {
     @State private var selectedCourier = Courier.Cargus
     
     @State private var hasClipboardContent : Bool = false
+    
+    @State private var addButtonTapped = false
 
     var body: some View {
         VStack {
@@ -212,11 +214,20 @@ struct AddPackageView: View {
                     .frame(height: 40)
                     
                 }
-                Button {submitPackage()} label: {
+                Button {
+                    submitPackage()
+                    addButtonTapped = true
+                } label: {
                     HStack {
                         Spacer()
-                        Text("Add")
-                            .disabled(trackingNumberFieldText == "" || packageNameFieldText == "")
+                        ZStack{
+                            Text("Add")
+                                .disabled(trackingNumberFieldText == "" || packageNameFieldText == "")
+                                .opacity(addButtonTapped ? 0 : 1)
+                            ProgressView()
+                                .opacity(addButtonTapped ? 1 : 0)
+                                .tint(.white)
+                        }
                         Spacer()
                     }
                     .foregroundColor(Color("W&B"))
@@ -299,6 +310,7 @@ struct AddPackageView: View {
                                 DispatchQueue.main.async {
                                     self.alertText = "Oops! We encountered an error saving your package data."
                                     self.showAlert.toggle()
+                                    self.addButtonTapped = false
                                 }
                             }
                         } catch let err {
@@ -307,12 +319,14 @@ struct AddPackageView: View {
                                 DispatchQueue.main.async {
                                     self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                     self.showAlert.toggle()
+                                    self.addButtonTapped = false
                                 }
                             } else {
                                 moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was a problem with the courier's tracking response."
                                     self.showAlert.toggle()
+                                    self.addButtonTapped = false
                                 }
                             }
                         }
@@ -332,6 +346,7 @@ struct AddPackageView: View {
                                 DispatchQueue.main.async {
                                     self.alertText = "Oops! We encountered an error saving your package data."
                                     self.showAlert.toggle()
+                                    self.addButtonTapped = false
                                 }
                             }
                         } catch let err {
@@ -340,12 +355,14 @@ struct AddPackageView: View {
                                 DispatchQueue.main.async {
                                     self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                     self.showAlert.toggle()
+                                    self.addButtonTapped = false
                                 }
                             } else {
                                 moc.delete(newPackage)
                                 DispatchQueue.main.async {
                                     self.alertText = "There was a problem with the courier's tracking response."
                                     self.showAlert.toggle()
+                                    self.addButtonTapped = false
                                 }
                             }
                         }
@@ -365,6 +382,7 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "Oops! We encountered an error saving your package data."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     } catch let err {
@@ -373,12 +391,14 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         } else {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was a problem with the courier's tracking response."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     }
@@ -398,6 +418,7 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "Oops! We encountered an error saving your package data."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     } catch let err {
@@ -406,12 +427,14 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         } else {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was a problem with the courier's tracking response."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     }
@@ -431,6 +454,7 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "Oops! We encountered an error saving your package data."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     } catch let err {
@@ -439,12 +463,14 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         } else {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was a problem with the courier's tracking response."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     }
@@ -464,6 +490,7 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "Oops! We encountered an error saving your package data."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     } catch let err {
@@ -472,12 +499,14 @@ struct AddPackageView: View {
                             DispatchQueue.main.async {
                                 self.alertText = "There was an error tracking this AWB. Please enter a valid AWB or check the courier."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         } else {
                             moc.delete(newPackage)
                             DispatchQueue.main.async {
                                 self.alertText = "There was a problem with the courier's tracking response."
                                 self.showAlert.toggle()
+                                self.addButtonTapped = false
                             }
                         }
                     }
@@ -487,6 +516,7 @@ struct AddPackageView: View {
             DispatchQueue.main.async {
                 self.alertText = "Please fill in all required fields."
                 self.showAlert.toggle()
+                self.addButtonTapped = false
             }
         }
        
