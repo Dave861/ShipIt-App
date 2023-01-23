@@ -31,7 +31,6 @@ struct ShipItApp: App {
         .backgroundTask(.appRefresh("com.ShipIt.backgroundFetch")) {
             await scheduleAppRefresh()
             await backgroundAppFetching()
-//            NotificationsManager().backgroundFetchTestingNotification()
         }
         
     }
@@ -53,9 +52,6 @@ struct ShipItApp: App {
             if package.notifications{
                 let lastStatus = package.statusText!
                 var newStatus = "Unattributed"
-                while package.eventsArray.count >= 1 {
-                    package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
-                }
                 if package.courier == "DHL" {
                     
                 } else if package.courier == "Sameday" {
@@ -95,7 +91,7 @@ struct ShipItApp: App {
                                 DataController().saveContext()
                             } catch {
                                 print("Error decoding response: \(error.localizedDescription)")
-                                newStatus = error.localizedDescription
+                                newStatus = lastStatus
                             }
                             if lastStatus != newStatus {
                                 NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)
@@ -120,7 +116,7 @@ struct ShipItApp: App {
                                 DataController().saveContext()
                             } catch {
                                 print("Error decoding response: \(error.localizedDescription)")
-                                newStatus = error.localizedDescription
+                                newStatus = lastStatus
                             }
                             if lastStatus != newStatus {
                                 NotificationsManager().backgroundFetchNotificationScheduler(package: package, newStatus: newStatus)

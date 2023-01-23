@@ -10,6 +10,7 @@ import CoreData
 import UIKit
 import Alamofire
 import Combine
+import SwiftUI
 
 struct OrderProcessingResults {
     let status : String
@@ -342,6 +343,177 @@ class OrderManager: NSObject {
         }
     }
     
+    public func refresh(packages : FetchedResults<Package>) {
+        for package in packages {
+            while package.eventsArray.count >= 1 {
+                package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
+            }
+            if package.courier == "DHL" {
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: contextMOC).getDHLOrderAsync(package: package)
+                        do {
+                            try contextMOC.save()
+                        } catch let err {
+                            print(err)
+                        }
+                    } catch let err {
+                        print(err)
+                    }
+                }
+            } else if package.courier == "Sameday" {
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: contextMOC).getSamedayOrderAsync(package: package)
+                        do {
+                            try contextMOC.save()
+                        } catch let err {
+                            print(err)
+                        }
+                    } catch let err {
+                        print(err)
+                    }
+                }
+            } else if package.courier == "GLS" {
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: contextMOC).getGLSOrderAsync(package: package, isBackgroundThread: false)
+                        do {
+                            try contextMOC.save()
+                        } catch let err {
+                            print(err)
+                        }
+                    } catch let err {
+                        print(err)
+                    }
+                }
+            } else if package.courier == "Cargus" {
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: contextMOC).getCargusOrderAsync(package: package)
+                        do {
+                            try contextMOC.save()
+                        } catch let err {
+                            print(err)
+                        }
+                    } catch let err {
+                        print(err)
+                    }
+                }
+            } else if package.courier == "DPD" {
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: contextMOC).getDPDOrderAsync(package: package, isBackgroundThread: false)
+                        do {
+                            try contextMOC.save()
+                        } catch let err {
+                            print(err)
+                        }
+                    } catch let err {
+                        print(err)
+                    }
+                }
+            } else if package.courier == "Fan Courier" {
+                Task(priority: .high) {
+                    do {
+                        try await OrderManager(contextMOC: contextMOC).getFanCourierOrderAsync(package: package)
+                        do {
+                            try contextMOC.save()
+                        } catch let err {
+                            print(err)
+                        }
+                    } catch let err {
+                        print(err)
+                    }
+                }
+            }
+        }
+    }
+    
+    public func refreshOnePackage(package: Package, completion: @escaping () -> Void) {
+        while package.eventsArray.count >= 1 {
+            package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
+        }
+        if package.courier == "DHL" {
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: contextMOC).getDHLOrderAsync(package: package)
+                    do {
+                        try contextMOC.save()
+                    } catch let err {
+                        print(err)
+                    }
+                } catch let err {
+                    print(err)
+                }
+            }
+        } else if package.courier == "Sameday" {
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: contextMOC).getSamedayOrderAsync(package: package)
+                    do {
+                        try contextMOC.save()
+                    } catch let err {
+                        print(err)
+                    }
+                } catch let err {
+                    print(err)
+                }
+            }
+        } else if package.courier == "GLS" {
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: contextMOC).getGLSOrderAsync(package: package, isBackgroundThread: false)
+                    do {
+                        try contextMOC.save()
+                    } catch let err {
+                        print(err)
+                    }
+                } catch let err {
+                    print(err)
+                }
+            }
+        } else if package.courier == "Cargus" {
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: contextMOC).getCargusOrderAsync(package: package)
+                    do {
+                        try contextMOC.save()
+                    } catch let err {
+                        print(err)
+                    }
+                } catch let err {
+                    print(err)
+                }
+            }
+        } else if package.courier == "DPD" {
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: contextMOC).getDPDOrderAsync(package: package, isBackgroundThread: false)
+                    do {
+                        try contextMOC.save()
+                    } catch let err {
+                        print(err)
+                    }
+                } catch let err {
+                    print(err)
+                }
+            }
+        } else if package.courier == "Fan Courier" {
+            Task(priority: .high) {
+                do {
+                    try await OrderManager(contextMOC: contextMOC).getFanCourierOrderAsync(package: package)
+                    do {
+                        try contextMOC.save()
+                    } catch let err {
+                        print(err)
+                    }
+                } catch let err {
+                    print(err)
+                }
+            }
+        }
+    }
 }
 
 //class BackgroundOrderManager: NSObject {

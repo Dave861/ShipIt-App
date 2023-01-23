@@ -59,14 +59,19 @@ struct PackageDetailView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.leading)
-                TrackingProgressView(package: $package, accentColor: accentColor)
-                    .padding([.top, .leading, .trailing])
+                if(!package.eventsArray.isEmpty) {
+                    TrackingProgressView(package: $package, accentColor: accentColor)
+                        .padding([.top, .leading, .trailing])
+                }
                 HStack {
                     Text("Delivery Status")
                         .font(.title3)
                         .bold()
                         .padding([.top, .leading, .trailing])
                     Spacer()
+                }
+                if(package.eventsArray.isEmpty) {
+                    ProgressView()
                 }
                 List(package.eventsArray.indexed(), id: \.1.self) { index, event in
                     HStack {
@@ -130,7 +135,7 @@ struct PackageDetailView: View {
                         ShareLink(item: Image(uiImage: shareableImageString), preview: SharePreview("Share package", image: Image(uiImage: shareableImageString)), label: {
                             Label("Share status", systemImage: "photo")
                         })
-                            .tint(accentColor)
+                        .tint(accentColor)
                         ShareLink(item: URL(string: "shipit://\(package.awb!)")!, label: {
                             Label("Share package link", systemImage: "square.and.arrow.up")
                         })
@@ -142,65 +147,66 @@ struct PackageDetailView: View {
                 }
             }
             .onAppear() {
-                let render = ImageRenderer(content: SharePackageView(package: package))
-                render.scale = 3
-                if let image = render.uiImage {
-                    shareableImageString = image
-                }
-                
                 nameTextField = package.name!
-                
-                let geoCoder = CLGeocoder()
-                var lastLocation: CLLocation!
-                Task(priority: .high) {
-                    do {
-                        let placemarks = try await geoCoder.geocodeAddressString(package.address ?? "")
-                        lastLocation = placemarks.first?.location
-                        DispatchQueue.main.async {
-                            self.region.center.longitude = lastLocation.coordinate.longitude
-                            self.region.center.latitude = lastLocation.coordinate.latitude
-                        }
-                    } catch let err {
-                        print(err)
+                OrderManager(contextMOC: moc).refreshOnePackage(package: package) {
+                    print(package.eventsArray)
+                    let render = ImageRenderer(content: SharePackageView(package: package))
+                    render.scale = 3
+                    if let image = render.uiImage {
+                        shareableImageString = image
                     }
                     
-                    let events = package.eventsArray
-                    
-                    for event in events {
-                        var address = event.address!
-                        if address == "Destination" || address == "Predict" {
-                            package.removeFromEvents(event)
-                        }
-                        if address.contains("-") {
-                            address = address.replacingOccurrences(of: "-", with: "")
-                        }
-                        let geoCoder = CLGeocoder()
-                        var markerLocation: CLLocation!
-                        
+                    let geoCoder = CLGeocoder()
+                    var lastLocation: CLLocation!
+                    Task(priority: .high) {
                         do {
-                            let placemarks = try await geoCoder.geocodeAddressString(address)
-                            markerLocation = placemarks.first?.location
-                            let marker = Marker(latitude: markerLocation.coordinate.latitude, longitude: markerLocation.coordinate.longitude, systemImage: event.systemImage!, address: event.address!)
-                            if markerLocations.filter({$0.address == marker.address}).count == 0 {
-                                markerLocations.append(marker)
-                                minLat = min(minLat, marker.latitude)
-                                minLong = min(minLong, marker.longitude)
-                                maxLong = max(maxLong, marker.longitude)
-                                maxLat = max(maxLat, marker.latitude)
+                            let placemarks = try await geoCoder.geocodeAddressString(package.address ?? "")
+                            lastLocation = placemarks.first?.location
+                            DispatchQueue.main.async {
+                                self.region.center.longitude = lastLocation.coordinate.longitude
+                                self.region.center.latitude = lastLocation.coordinate.latitude
                             }
                         } catch let err {
                             print(err)
                         }
-                    }
-                    withAnimation(.spring(blendDuration: 0.4)) {
-                        DispatchQueue.main.async {
-                            self.region.center.latitude = (minLat + maxLat)/2
-                            self.region.center.longitude = (minLong + maxLong)/2
+                        
+                        let events = package.eventsArray
+                        
+                        for event in events {
+                            var address = event.address!
+                            if address == "Destination" || address == "Predict" {
+                                package.removeFromEvents(event)
+                            }
+                            if address.contains("-") {
+                                address = address.replacingOccurrences(of: "-", with: "")
+                            }
+                            let geoCoder = CLGeocoder()
+                            var markerLocation: CLLocation!
+                            
+                            do {
+                                let placemarks = try await geoCoder.geocodeAddressString(address)
+                                markerLocation = placemarks.first?.location
+                                let marker = Marker(latitude: markerLocation.coordinate.latitude, longitude: markerLocation.coordinate.longitude, systemImage: event.systemImage!, address: event.address!)
+                                if markerLocations.filter({$0.address == marker.address}).count == 0 {
+                                    markerLocations.append(marker)
+                                    minLat = min(minLat, marker.latitude)
+                                    minLong = min(minLong, marker.longitude)
+                                    maxLong = max(maxLong, marker.longitude)
+                                    maxLat = max(maxLat, marker.latitude)
+                                }
+                            } catch let err {
+                                print(err)
+                            }
                         }
-                        showMap = minLong != 180.0 && minLat != 90
+                        withAnimation(.spring(blendDuration: 0.4)) {
+                            DispatchQueue.main.async {
+                                self.region.center.latitude = (minLat + maxLat)/2
+                                self.region.center.longitude = (minLong + maxLong)/2
+                            }
+                            showMap = minLong != 180.0 && minLat != 90
+                        }
                     }
                 }
-                
             }
     }
 }
