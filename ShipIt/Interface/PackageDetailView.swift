@@ -225,13 +225,16 @@ struct PackageDetailView: View {
                             self.showMap = minLong != 180.0 && minLat != 90
                             
                             if self.showMap {
-                                let firstLocation = LocationManager().calculateDistance(address: CLLocation(latitude: markerLocations.last!.latitude, longitude: markerLocations.last!.longitude))/1000
-                                try? DeliveryDayPrediction().calculateDeliveryDate(distance: firstLocation, completion: { distance in
-                                    if(distance > 0) {
-                                        deliveryDate = Int(round(distance))
-                                        deliveryDateAvailable = true
-                                    }
-                                })
+                                let location = LocationManager().calculateDistance(address: CLLocation(latitude: markerLocations.first!.latitude, longitude: markerLocations.first!.longitude))/1000
+                                
+                                if(location > 20) {
+                                    try? DeliveryDayPrediction().calculateDeliveryDate(distance: location, completion: { date in
+                                        if(date > 0) {
+                                            deliveryDate = Int(round(date))
+                                            deliveryDateAvailable = true
+                                        }
+                                    })
+                                }
                             }
                         }
                     }
