@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var showAddPackageView = false
     @State private var targetDetailPage : String?
     @State private var trackingNumberFieldText = ""
+    @State private var selectedCourier = Courier.Cargus
+    
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [
@@ -100,7 +102,7 @@ struct HomeView: View {
                 }
                 .listRowSeparator(.hidden)
                 .listRowBackground(RoundedRectangle(cornerRadius: 25)
-                    .foregroundColor(Color("oceanBlue").opacity(0.45))
+                    .foregroundColor(Color("oceanBlue").opacity(0.35))
                     .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: 50))
                 .padding(.bottom, 5)
             }
@@ -132,7 +134,7 @@ struct HomeView: View {
             )
             $0.blocksBackgroundTouches = true
         }) {
-            AddPackageView(isPresented: $showAddPackageView, trackingNumberFieldText: trackingNumberFieldText)
+            AddPackageView(isPresented: $showAddPackageView, trackingNumberFieldText: trackingNumberFieldText, selectedCourier: selectedCourier)
                 .environment(\.managedObjectContext, self.moc)
         }
         .searchable(text: $searchText, prompt: "Search or Add Package")
@@ -146,15 +148,18 @@ struct HomeView: View {
         .onAppear() {
             WidgetCenter.shared.reloadAllTimelines()
             NotificationsManager().requestPermisions()
+            LocationManager().requestLocation()
         }
         .blur(radius: showAddPackageView ? 2 : 0)
         .onOpenURL { url in
-            let awb = String(url.description.utf8).replacingOccurrences(of: "shipit://", with: "")
-            
-            if packages.contains(where: {$0.awb == awb}) {
-                targetDetailPage = awb
+            let joinedComponents = String(url.description.utf8).replacingOccurrences(of: "shipit://", with: "")
+            let components = joinedComponents.split(separator: "&")
+            print(String(components[0]).trimmingCharacters(in: .whitespacesAndNewlines))
+            if packages.contains(where: {$0.awb!.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) == String(components[0]).lowercased().trimmingCharacters(in: .whitespacesAndNewlines)}) {
+                targetDetailPage = String(components[0]).trimmingCharacters(in: .whitespacesAndNewlines)
             } else {
-                trackingNumberFieldText = awb
+                trackingNumberFieldText = String(components[0])
+                selectedCourier = Courier(rawValue: String(components[1]).replacingOccurrences(of: "_", with: " ").capitalized)! // shipit://awb&Fan Courier
                 showAddPackageView.toggle()
                 
             }

@@ -38,7 +38,7 @@ class OrderManager: NSObject {
         let params : Parameters = ["trackingNumber" : package.awb!]
         
         let getRequest = AF.request("https://api-test.dhl.com/track/shipments", method: .get, parameters: params, encoding: URLEncoding.default, headers: _headers)
-                
+        
         var responseJson: String!
         do {
             responseJson = try await getRequest.serializingString().value
@@ -66,7 +66,7 @@ class OrderManager: NSObject {
         package.lastDate = String(shipment.status.timestamp.split(separator: "+")[0])
         package.statusText = shipment.status.statusCode.capitalized
         package.address = shipment.status.location.address.addressLocality.lowercased().capitalized
-    
+        
         
         for index in 0...shipment.events.count-2 {
             let shipmentEvent = shipment.events[index]
@@ -317,7 +317,7 @@ class OrderManager: NSObject {
         } catch {
             throw OrderErrors.AWBNotFound
         }
-
+        
         package.lastDate = String(shipment.deliverydate.split(separator: ".")[2]) + "-" + String(shipment.deliverydate.split(separator: ".")[1]) + "-" + String(shipment.deliverydate.split(separator: ".")[0]) + "T" + shipment.deliverytime + ":00"
         package.statusText = shipment.status
         package.address = shipment.deliverylocation
@@ -430,87 +430,86 @@ class OrderManager: NSObject {
         }
     }
     
-    public func refreshOnePackage(package: Package, completion: @escaping () -> Void) {
+    public func refreshOnePackage(package: Package) async throws{
         while package.eventsArray.count >= 1 {
             package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
         }
         if package.courier == "DHL" {
-            Task(priority: .high) {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getDHLOrderAsync(package: package)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getDHLOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
+            } catch let err {
+                print(err)
+                
             }
         } else if package.courier == "Sameday" {
-            Task(priority: .high) {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getSamedayOrderAsync(package: package)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getSamedayOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
+            } catch let err {
+                print(err)
+                
             }
         } else if package.courier == "GLS" {
-            Task(priority: .high) {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getGLSOrderAsync(package: package, isBackgroundThread: false)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getGLSOrderAsync(package: package, isBackgroundThread: false)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
+            } catch let err {
+                print(err)
             }
         } else if package.courier == "Cargus" {
-            Task(priority: .high) {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getCargusOrderAsync(package: package)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getCargusOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
+            } catch let err {
+                print(err)
+                
             }
         } else if package.courier == "DPD" {
-            Task(priority: .high) {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getDPDOrderAsync(package: package, isBackgroundThread: false)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getDPDOrderAsync(package: package, isBackgroundThread: false)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
+            } catch let err {
+                print(err)
+                
             }
         } else if package.courier == "Fan Courier" {
-            Task(priority: .high) {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getFanCourierOrderAsync(package: package)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getFanCourierOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
+            } catch let err {
+                print(err)
+                
             }
         }
     }
@@ -576,14 +575,14 @@ class BackgroundOrderManager: NSObject {
         self.buffer = Data()
         let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
-
+        
         let url = URL(string: "https://gls-group.com/app/service/open/rest/RO/en/rstt001?match=\(package.awb!)")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-
+        
         let task = session.dataTask(with: request)
         task.resume()
-
+        
         self.completionHandler = completionHandler
     }
     
@@ -591,14 +590,14 @@ class BackgroundOrderManager: NSObject {
         self.buffer = Data()
         let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
-
+        
         let url = URL(string: "https://api.sameday.ro/api/public/awb/\(package.awb!)/awb-history?_locale=en")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-
+        
         let task = session.dataTask(with: request)
         task.resume()
-
+        
         self.completionHandler = completionHandler
     }
     
@@ -606,14 +605,14 @@ class BackgroundOrderManager: NSObject {
         self.buffer = Data()
         let config = URLSessionConfiguration.background(withIdentifier: "com.ShipIt.backgroundFetch")
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
-
+        
         let url = URL(string: "https://www.selfawb.ro/awb_tracking_integrat.php?username=clienttest&user_pass=testing&client_id=7032158&AWB=\(package.awb!)&display_mode=5&language=en")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-
+        
         let task = session.dataTask(with: request)
         task.resume()
-
+        
         self.completionHandler = completionHandler
     }
 }

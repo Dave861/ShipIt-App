@@ -37,7 +37,7 @@ struct AddPackageView: View {
     @FocusState var focusOnTrackingNumberField : Bool
     @FocusState var focusOnPackageNameField : Bool
     
-    @State private var selectedCourier = Courier.Cargus
+    @State var selectedCourier : Courier
     
     @State private var hasClipboardContent : Bool = false
     
@@ -72,6 +72,11 @@ struct AddPackageView: View {
                             .foregroundColor(Color(uiColor: .systemGray2))
                             .padding(.leading, 10)
                         TextField("Tracking Number", text: $trackingNumberFieldText)
+                            .onChange(of: trackingNumberFieldText) {newVal in
+                                if newVal.lowercased().contains("emgln") {
+                                    selectedCourier = .Sameday
+                                }
+                            }
                             .font(.system(size: 17))
                             .tint(Color("blueNCS"))
                             .focused($focusOnTrackingNumberField)
@@ -288,7 +293,7 @@ struct AddPackageView: View {
     private func submitPackage() {
         if trackingNumberFieldText != "" && packageNameFieldText != "" {
             let newPackage = Package(context: moc)
-            newPackage.awb = trackingNumberFieldText
+            newPackage.awb = trackingNumberFieldText.lowercased()
             newPackage.id = UUID()
             newPackage.systemImage = pickedIconName
             newPackage.name = packageNameFieldText
