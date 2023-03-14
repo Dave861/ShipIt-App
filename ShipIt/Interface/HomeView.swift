@@ -147,8 +147,6 @@ struct HomeView: View {
         .tint(Color("oceanBlue"))
         .onAppear() {
             WidgetCenter.shared.reloadAllTimelines()
-            NotificationsManager().requestPermisions()
-            LocationManager().requestLocation()
         }
         .blur(radius: showAddPackageView ? 2 : 0)
         .onOpenURL { url in

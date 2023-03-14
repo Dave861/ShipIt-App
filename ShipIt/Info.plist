@@ -19,8 +19,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>NSLocationDefaultAccuracyReduced</key>
-	<true/>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ConfigurationIntent</string>

@@ -60,6 +60,7 @@
 		9AFF5EA12966D58100580C83 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6271295DE4CB004B6629 /* OrderManager.swift */; };
 		9AFF5EA22966D7BB00580C83 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
 		9AFF5EA32966D7BB00580C83 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
+		D70B62BB298EDB36009415B8 /* Declarations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C23295C9602002E2032 /* Declarations.swift */; };
 		D71FB30F296ADAB30002F6F2 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71FB30E296AD8900002F6F2 /* NotificationsManager.swift */; };
 		D74A6272295DE4CB004B6629 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6271295DE4CB004B6629 /* OrderManager.swift */; };
 		D74A6274295DF229004B6629 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6273295DF229004B6629 /* Extensions.swift */; };
@@ -74,8 +75,6 @@
 		D76300072965705C00DAB7F3 /* TrackingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76300062965705C00DAB7F3 /* TrackingProgressView.swift */; };
 		D7AF5CD9295B038C00F2364E /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF5CD8295B038C00F2364E /* WelcomeView.swift */; };
 		D7AF5CDB295B17A200F2364E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF5CDA295B17A200F2364E /* HomeView.swift */; };
-		D7C69D7529803E6A00D35BE9 /* DeliveryDayPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C69D7429803E6A00D35BE9 /* DeliveryDayPrediction.swift */; };
-		D7C69D7B298046BD00D35BE9 /* DeliveryDayPredict.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D7C69D7A298046BD00D35BE9 /* DeliveryDayPredict.mlmodel */; };
 		D7C69D7D2980486C00D35BE9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C69D7C2980486C00D35BE9 /* LocationManager.swift */; };
 		D7CB4C24295C9602002E2032 /* Declarations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C23295C9602002E2032 /* Declarations.swift */; };
 		D7CB4C27295C9AB7002E2032 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7CB4C25295C9AB6002E2032 /* Model.xcdatamodeld */; };
@@ -169,8 +168,6 @@
 		D76300062965705C00DAB7F3 /* TrackingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingProgressView.swift; sourceTree = "<group>"; };
 		D7AF5CD8295B038C00F2364E /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D7AF5CDA295B17A200F2364E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		D7C69D7429803E6A00D35BE9 /* DeliveryDayPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryDayPrediction.swift; sourceTree = "<group>"; };
-		D7C69D7A298046BD00D35BE9 /* DeliveryDayPredict.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = DeliveryDayPredict.mlmodel; path = ../../../../../Desktop/DeliveryDayPredict.mlmodel; sourceTree = "<group>"; };
 		D7C69D7C2980486C00D35BE9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D7CB4C23295C9602002E2032 /* Declarations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarations.swift; sourceTree = "<group>"; };
 		D7CB4C26295C9AB7002E2032 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -287,7 +284,6 @@
 		9AC0831C295AFB8500C0B1E0 /* ShipIt */ = {
 			isa = PBXGroup;
 			children = (
-				D7C69D7129803E3000D35BE9 /* Core ML */,
 				D741E09C2964B7060060C84F /* Info.plist */,
 				9AC0831D295AFB8500C0B1E0 /* ShipItApp.swift */,
 				9A8FE4DE295ECD5D00C81E77 /* Interface */,
@@ -354,15 +350,6 @@
 				D7614BDD2966E7AE0099DE60 /* ShareTrackingProgressView.swift */,
 			);
 			path = "Share sheet";
-			sourceTree = "<group>";
-		};
-		D7C69D7129803E3000D35BE9 /* Core ML */ = {
-			isa = PBXGroup;
-			children = (
-				D7C69D7A298046BD00D35BE9 /* DeliveryDayPredict.mlmodel */,
-				D7C69D7429803E6A00D35BE9 /* DeliveryDayPrediction.swift */,
-			);
-			path = "Core ML";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -572,12 +559,10 @@
 				D7D5CB23295B8A6D00FBDA44 /* PackageDetailView.swift in Sources */,
 				D7C69D7D2980486C00D35BE9 /* LocationManager.swift in Sources */,
 				9A8FE4E1295ECD8500C81E77 /* DecodingManager.swift in Sources */,
-				D7C69D7B298046BD00D35BE9 /* DeliveryDayPredict.mlmodel in Sources */,
 				D7FE384B295B243F0034BC25 /* SettingsView.swift in Sources */,
 				D7AF5CD9295B038C00F2364E /* WelcomeView.swift in Sources */,
 				D7CB4C29295C9D1D002E2032 /* DataController.swift in Sources */,
 				D74A6274295DF229004B6629 /* Extensions.swift in Sources */,
-				D7C69D7529803E6A00D35BE9 /* DeliveryDayPrediction.swift in Sources */,
 				D74A6279295E22FB004B6629 /* Package+CoreDataClass.swift in Sources */,
 				D76300072965705C00DAB7F3 /* TrackingProgressView.swift in Sources */,
 				9AF3469529642E4900215696 /* AlertViewPopover.swift in Sources */,
@@ -599,6 +584,7 @@
 				9AFF5E6B2966CA4D00580C83 /* ShiptIt_Widget.swift in Sources */,
 				9AFF5E8C2966CC8700580C83 /* Model.xcdatamodeld in Sources */,
 				9AFF5EA22966D7BB00580C83 /* Extensions.swift in Sources */,
+				D70B62BB298EDB36009415B8 /* Declarations.swift in Sources */,
 				9AFF5E8D2966CC8900580C83 /* Events+CoreDataProperties.swift in Sources */,
 				9AFF5E932966CC9000580C83 /* Package+CoreDataClass.swift in Sources */,
 				9AFF5EA02966D51900580C83 /* WidgetOrderManager.swift in Sources */,
@@ -838,7 +824,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Predict delivery day";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save the shared packages";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -882,7 +867,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Predict delivery day";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save the shared packages";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

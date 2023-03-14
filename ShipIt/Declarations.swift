@@ -28,3 +28,4 @@ struct Marker : Identifiable{
 let userDefaultsClipboardKey = "com.ShipIt.prefences.detectClipboard"
 let userDefaultsNotificationsBeforeDeliveryKey = "com.ShipIt.prefences.notificationsBeforeDelivery"
 let userdefaultsLiveActivityKey = "com.ShipIt.preferences.showPackagesInLiveActivity"
+let userDefaultsLastRefreshKey = "come.ShipIt.lastRefresh"
