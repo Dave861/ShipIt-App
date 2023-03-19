@@ -21,7 +21,7 @@ struct HomeView: View {
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [
-        SortDescriptor(\.name)
+        SortDescriptor(\.lastDate)
     ]) var packages : FetchedResults<Package>
     
     func decideAccentOnIndex(index: Int) -> Color {
@@ -60,6 +60,11 @@ struct HomeView: View {
                                         .font(.title2)
                                         .padding([.top, .bottom], 0.2)
                                     Spacer()
+                                    if package.eventsArray.first?.systemImage == "figure.wave" {
+                                        Image(systemName: "checkmark.circle")
+                                            .foregroundColor(decideAccentOnIndex(index: index))
+                                            .padding()
+                                    }
                                 }
                                 HStack{
                                     Image(systemName: "shippingbox.fill")

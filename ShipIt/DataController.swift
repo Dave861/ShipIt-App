@@ -5,7 +5,7 @@ class DataController : ObservableObject {
     static let shared = DataController()
     
     public static var persistentContainer: NSPersistentContainer = {
-        let storeURL = URL.storeURL(for: "group.ShipIt.savedPackages", databaseName: "Model")
+        let storeURL = URL.storeURL(for: "group.ShipIt-dev.savedPackages", databaseName: "Model")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         let container = NSPersistentContainer(name: "Model")
         container.persistentStoreDescriptions = [storeDescription]

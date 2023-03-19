@@ -648,7 +648,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ShipIt-iMessage/ShipIt-iMessage.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ShipIt-iMessage/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
@@ -677,7 +677,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ShipIt-iMessage/ShipIt-iMessage.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ShipIt-iMessage/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ShipIt;
@@ -819,7 +819,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShipIt/Preview Content\"";
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipIt/Info.plist;
@@ -862,7 +862,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShipIt/Preview Content\"";
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipIt/Info.plist;
@@ -903,7 +903,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ShiptIt-WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ShiptIt-Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ShiptIt;
@@ -933,7 +933,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ShiptIt-WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ShiptIt-Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ShiptIt;
@@ -962,7 +962,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ShipIt-WidgetIntentHandler/ShipIt-WidgetIntentHandler.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ShipIt-WidgetIntentHandler/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "ShipIt-WidgetIntentHandler";
@@ -990,7 +990,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ShipIt-WidgetIntentHandler/ShipIt-WidgetIntentHandler.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55B9GSLMA2;
+				DEVELOPMENT_TEAM = GPQZ4K88YL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ShipIt-WidgetIntentHandler/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "ShipIt-WidgetIntentHandler";
