@@ -431,88 +431,85 @@ class OrderManager: NSObject {
     }
     
     public func refreshOnePackage(package: Package) async throws{
-        if shouldRefreshAutomatically(package: package) {
-            print("Refreshing automatically...")
-            while package.eventsArray.count >= 1 {
-                package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
+        while package.eventsArray.count >= 1 {
+            package.removeFromEvents(package.eventsArray[package.eventsArray.count-1])
+        }
+        if package.courier == "DHL" {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getDHLOrderAsync(package: package)
+                do {
+                    try contextMOC.save()
+                } catch let err {
+                    print(err)
+                }
+            } catch let err {
+                print(err)
+                
             }
-            if package.courier == "DHL" {
-                
+        } else if package.courier == "Sameday" {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getSamedayOrderAsync(package: package)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getDHLOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
-                } catch let err {
-                    print(err)
-                    
-                }
-            } else if package.courier == "Sameday" {
-                
-                do {
-                    try await OrderManager(contextMOC: contextMOC).getSamedayOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
-                } catch let err {
-                    print(err)
-                    
-                }
-            } else if package.courier == "GLS" {
-                
-                do {
-                    try await OrderManager(contextMOC: contextMOC).getGLSOrderAsync(package: package, isBackgroundThread: false)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
                 }
-            } else if package.courier == "Cargus" {
+            } catch let err {
+                print(err)
                 
+            }
+        } else if package.courier == "GLS" {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getGLSOrderAsync(package: package, isBackgroundThread: false)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getCargusOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
-                    
                 }
-            } else if package.courier == "DPD" {
-                
+            } catch let err {
+                print(err)
+            }
+        } else if package.courier == "Cargus" {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getCargusOrderAsync(package: package)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getDPDOrderAsync(package: package, isBackgroundThread: false)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
-                    
                 }
-            } else if package.courier == "Fan Courier" {
+            } catch let err {
+                print(err)
                 
+            }
+        } else if package.courier == "DPD" {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getDPDOrderAsync(package: package, isBackgroundThread: false)
                 do {
-                    try await OrderManager(contextMOC: contextMOC).getFanCourierOrderAsync(package: package)
-                    do {
-                        try contextMOC.save()
-                    } catch let err {
-                        print(err)
-                    }
+                    try contextMOC.save()
                 } catch let err {
                     print(err)
-                    
                 }
+            } catch let err {
+                print(err)
+                
+            }
+        } else if package.courier == "Fan Courier" {
+            
+            do {
+                try await OrderManager(contextMOC: contextMOC).getFanCourierOrderAsync(package: package)
+                do {
+                    try contextMOC.save()
+                } catch let err {
+                    print(err)
+                }
+            } catch let err {
+                print(err)
+                
             }
         }
     }
